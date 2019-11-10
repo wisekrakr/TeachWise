@@ -1,0 +1,24 @@
+{
+  "name": "wise_study_list",
+  "version": "1.0.0",
+  "description": "Study list built with the MERN stack",
+  "main": "server.js",
+  "scripts": {
+    "postinstall": "npm install --prefix client",
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "author": "wisekrakr",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^5.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.8"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
