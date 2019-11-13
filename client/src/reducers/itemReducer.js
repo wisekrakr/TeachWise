@@ -8,7 +8,7 @@ import {
   ITEM_ERROR,
   CLEAR_ITEMS,
   LOADING_ITEMS
-} from "../actions/types";
+} from "../actions/itemTypes";
 
 export default (state, action) => {
   switch (action.type) {

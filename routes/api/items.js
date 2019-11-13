@@ -16,6 +16,19 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route GET /:id
+// @desc  GET One Items
+// @access Public
+router.get("/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    res.json(item);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route POST api/items
 // @desc  Create an Item
 // @access Public

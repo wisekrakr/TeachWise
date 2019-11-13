@@ -1,10 +1,13 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import ItemState from "./contexts/ItemState";
-import HeaderNavbar from "./components/layouts/HeaderNavbar";
-import StudyList from "./components/items/StudyList";
-import ItemModal from "./components/items/ItemModal";
+import ItemState from "./contexts/items/ItemState";
+import LogState from "./contexts/logs/LogState";
+import HeaderNavbar from "./layouts/HeaderNavbar";
+import StudyPage from "./pages/StudyPage";
+import Index from "./layouts/Index";
+import ScrollToTop from "./background/ScrollToTop";
+import LogEntryPage from "./pages/LogEntryPage";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -12,15 +15,19 @@ import "./App.css";
 function App() {
   return (
     <ItemState>
-      <Router>
-        <Fragment>
-          <HeaderNavbar />
-          <ItemModal />
-        </Fragment>
-        <Switch>
-          <Route exact path="/" component={StudyList} />
-        </Switch>
-      </Router>
+      <LogState>
+        <Router>
+          <Fragment>
+            <ScrollToTop />
+            <HeaderNavbar />
+          </Fragment>
+          <Switch>
+            <Route exact path="/" component={Index} />
+            <Route exact path="/api/items/:id" component={StudyPage} />
+            <Route exact path="/api/logs/:id" component={LogEntryPage} />
+          </Switch>
+        </Router>
+      </LogState>
     </ItemState>
   );
 }

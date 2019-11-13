@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import {
   ListGroup,
@@ -9,7 +10,7 @@ import {
   CardBody,
   CardFooter
 } from "reactstrap";
-import itemContext from "../../contexts/itemContext";
+import itemContext from "../../contexts/items/itemContext";
 
 const StudyItem = ({ item }) => {
   const context = useContext(itemContext);
@@ -22,49 +23,42 @@ const StudyItem = ({ item }) => {
     material,
     difficulty,
     date,
-    status,
-    comments
+    status
   } = item;
 
   const onDelete = () => {
     deleteItem(_id);
   };
 
-  const onUpdate = () => {
-    console.log(_id);
-  };
-
   return (
     <Card className="card bg-dark">
-      <CardHeader tag="h3" className="text-light font-weight-bolder">
-        {name}
-      </CardHeader>
+      <Link to={`/api/items/${_id}`}>
+        <CardHeader
+          tag="h3"
+          className="item-header text-light font-weight-bolder"
+        >
+          {name}
+        </CardHeader>{" "}
+      </Link>
       <CardBody>
         <ListGroup className="mb-3">
-          <ListGroupItem>
+          <ListGroupItem className="list-item">
             <i className="fas fa-clock" /> {status}
           </ListGroupItem>
-          <ListGroupItem>
+          <ListGroupItem className="list-item">
             <i className="fas fa-university" /> {field_of_study}
           </ListGroupItem>
-          <ListGroupItem>
+          <ListGroupItem className="list-item">
             <i className="fas fa-graduation-cap" /> {difficulty}
           </ListGroupItem>
         </ListGroup>
         <ListGroup className="mb-3">
           <h6 className="text-light">Study Material</h6>
-          <ListGroupItem>
+          <ListGroupItem className="list-item">
             <i className="fas fa-book" /> {material}
           </ListGroupItem>
         </ListGroup>
-        <ListGroup className="mb-3">
-          <h6 className="text-light">Additional Comments</h6>
-          <ListGroupItem>{comments}</ListGroupItem>
-        </ListGroup>
         <CardFooter>
-          <Button className="btn btn-light btn-sm" onClick={onUpdate}>
-            Edit
-          </Button>
           <Button className="btn btn-danger btn-sm" onClick={onDelete}>
             Delete
           </Button>

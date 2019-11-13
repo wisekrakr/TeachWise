@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useContext } from "react";
-import itemContext from "../../contexts/itemContext";
+import itemContext from "../../contexts/items/itemContext";
 import {
   Container,
   Button,
@@ -44,7 +44,7 @@ const ItemModal = () => {
   return (
     <Container>
       <Fragment>
-        <Button color="dark" style={{ marginBottom: "2rem" }} onClick={toggle}>
+        <Button color="dark" style={{ marginTop: "1rem" }} onClick={toggle}>
           Add Study Item
         </Button>
 
@@ -91,12 +91,18 @@ const ItemModal = () => {
                 ></Input>
                 <Label for="item">What is the status of this study?</Label>
                 <Input
-                  type="text"
+                  type="select"
                   name="status"
                   id="item"
-                  placeholder="Add study status..."
                   onChange={onChange}
-                ></Input>
+                >
+                  <option value="Not Started">Not Started</option>
+                  <option value="Started">Started</option>
+                  <option value="Going Strong">Going Strong</option>
+                  <option value="Last Stages">Last Stages</option>
+                  <option value="Completed">Completed</option>
+                  <option value="Mastered">Mastered</option>
+                </Input>
                 <Label for="item">Additional Comments</Label>
                 <Input
                   type="textarea"

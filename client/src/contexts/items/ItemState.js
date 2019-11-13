@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 import axios from "axios";
 import Context from "./itemContext";
-import itemReducer from "../reducers/itemReducer";
+import itemReducer from "../../reducers/itemReducer";
 import {
   GET_ITEMS,
   ADD_ITEM,
@@ -12,7 +12,7 @@ import {
   CLEAR_FILTER,
   ITEM_ERROR,
   LOADING_ITEMS
-} from "../actions/types";
+} from "../../actions/itemTypes";
 
 const ItemState = props => {
   const initialState = {

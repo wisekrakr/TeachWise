@@ -1,8 +1,8 @@
 import React, { Fragment, useContext, useEffect } from "react";
-import { ListGroup, ListGroupItem, Container } from "reactstrap";
+import { ListGroup, ListGroupItem, Container, Spinner } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import itemContext from "../../contexts/itemContext";
+import itemContext from "../../contexts/items/itemContext";
 import StudyItem from "./StudyItem";
 
 const StudyList = () => {
@@ -45,7 +45,9 @@ const StudyList = () => {
           </ListGroup>
         </Container>
       ) : (
-        <p>Loading...</p>
+        <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+          Loading...
+        </Spinner>
       )}
     </Fragment>
   );

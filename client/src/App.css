@@ -1,3 +1,12 @@
+body {
+  background-color: rgb(217, 235, 243);
+}
+
+#top {
+  color: #fff;
+  background-color: rgb(2, 98, 139);
+}
+
 .fade-enter {
   opacity: 0.01;
 }
@@ -13,4 +22,27 @@
 .fade-exit-enter {
   opacity: 0.01;
   transition: opacity 1000ms ease-in;
+}
+
+.header-navbar {
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.list-item {
+  color: #333333;
+}
+
+#top-btn {
+  z-index: 98;
+}
+
+.item-header:hover {
+  background-color: rgb(2, 98, 139);
+  transition: all 0.75s ease-out;
 }

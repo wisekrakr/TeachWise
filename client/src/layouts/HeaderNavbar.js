@@ -22,7 +22,7 @@ const HeaderNavbar = () => {
   };
 
   return (
-    <Navbar color="dark" dark expand="md" className="mb-5">
+    <Navbar color="dark" dark expand="md" className="header-navbar mb-5">
       <Container>
         <NavbarBrand href="/"> StudyList </NavbarBrand>
         <NavbarToggler onClick={toggle} />
@@ -30,7 +30,7 @@ const HeaderNavbar = () => {
           <Nav className="ml-auto" navbar>
             <NavItem>
               <NavLink href="https://github.com/wisekrakr" target="_blank">
-                Github
+                <i className="fab fa-github" /> Github Profile
               </NavLink>
             </NavItem>
           </Nav>
