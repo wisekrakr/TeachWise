@@ -25,14 +25,17 @@ const ItemModal = () => {
   const [item, setItem] = useState({});
 
   const onChange = e => {
+    e.preventDefault();
     setItem({
       ...item,
       [e.target.name]: e.target.value
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = e => {
+    // e.preventDefault();
     addItem(item);
+    toggle();
   };
 
   const toggle = () => {
@@ -103,14 +106,6 @@ const ItemModal = () => {
                   <option value="Completed">Completed</option>
                   <option value="Mastered">Mastered</option>
                 </Input>
-                <Label for="item">Additional Comments</Label>
-                <Input
-                  type="textarea"
-                  name="comments"
-                  id="item"
-                  placeholder="Any additional information..."
-                  onChange={onChange}
-                ></Input>
                 <br />
                 *required
                 <br />

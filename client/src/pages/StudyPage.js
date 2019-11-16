@@ -2,7 +2,21 @@ import React, { useState, useEffect, Fragment } from "react";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import { Container, Badge, Jumbotron, ListGroup, Spinner } from "reactstrap";
+
+import {
+  Container,
+  Badge,
+  Jumbotron,
+  ListGroup,
+  ListGroupItem,
+  Spinner,
+  Col,
+  Row
+} from "reactstrap";
+
+import CommentForm from "../components/comments/CommentForm";
+import CommentList from "../components/comments/CommentList";
+import { textTruncate } from "../helpers/TextHelper";
 
 const StudyPage = props => {
   const [item, setItem] = useState({});
@@ -17,6 +31,8 @@ const StudyPage = props => {
         console.error(err);
       });
   }, [props.match.params.id]);
+
+  const { name, field_of_study, difficulty, date, material, status } = item;
 
   const statusColor = () => {
     let color = "";
@@ -45,63 +61,71 @@ const StudyPage = props => {
     return color;
   };
 
-  if (item === null || item === undefined) {
-    return (
-      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-        Loading...
-      </Spinner>
-    );
-  } else {
-    return (
-      <Fragment>
-        <Jumbotron fluid>
-          <Container fluid>
-            <Badge
-              className="status-badge"
-              color={statusColor()}
-              style={{ float: "right" }}
+  return item !== null &&
+    item !== undefined &&
+    Object.keys(item).length !== 0 ? (
+    <Fragment>
+      <Jumbotron fluid>
+        <Container fluid>
+          <Badge
+            className="status-badge"
+            color={statusColor()}
+            style={{ float: "right" }}
+          >
+            {status}
+          </Badge>
+          <h1 className="display-3">{textTruncate(name, 40)}</h1>
+
+          <p className="lead">
+            This topic was added on <Moment format="DD/MM/YYYY">{date}</Moment>
+          </p>
+          <hr className="my-2" />
+          <p>
+            Field of Study: <strong>{textTruncate(field_of_study, 40)}</strong>{" "}
+          </p>
+          <p>
+            Study Material: <strong>{material}</strong>{" "}
+          </p>
+          <p>
+            Learning Curve: <strong>{difficulty}</strong>{" "}
+          </p>
+
+          <ListGroup className="flex-row m-auto">
+            <Link
+              to={`/api/items/${name}`}
+              className="btn btn-dark mt-4"
+              color="dark"
             >
-              {item.status}
-            </Badge>
-            <h1 className="display-1">{item.name}</h1>
+              More {textTruncate(name, 15)}
+            </Link>
 
-            <p className="lead">
-              This topic was added on{" "}
-              <Moment format="DD/MM/YYYY">{item.date}</Moment>
-            </p>
-            <hr className="my-2" />
-            <p>
-              Field of Study: <strong>{item.field_of_study}</strong>{" "}
-            </p>
-            <p>
-              Study Material: <strong>{item.material}</strong>{" "}
-            </p>
-            <p>
-              Learning Curve: <strong>{item.difficulty}</strong>{" "}
-            </p>
+            <Link
+              to={`/api/items/${field_of_study}`}
+              className="btn btn-dark mt-4 ml-4"
+              color="dark"
+            >
+              More {textTruncate(field_of_study, 15)}
+            </Link>
+          </ListGroup>
+        </Container>
+      </Jumbotron>
 
-            <ListGroup className="flex-row m-auto">
-              <Link
-                to={`/api/items/${item.name}`}
-                className="btn btn-dark mt-4"
-                color="dark"
-              >
-                More of {item.name}
-              </Link>
-
-              <Link
-                to={`/api/items/${item.field_of_study}`}
-                className="btn btn-dark mt-4 ml-4"
-                color="dark"
-              >
-                More of {item.field_of_study}
-              </Link>
-            </ListGroup>
-          </Container>
-        </Jumbotron>
-      </Fragment>
-    );
-  }
+      <Container>
+        <Row>
+          <Col>
+            <CommentForm itemId={item._id} />
+          </Col>
+          <Col>
+            <CommentList item={item} />
+          </Col>
+        </Row>
+      </Container>
+    </Fragment>
+  ) : (
+    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+      Loading...
+    </Spinner>
+  );
 };
 
 export default StudyPage;

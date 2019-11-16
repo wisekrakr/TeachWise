@@ -3,6 +3,10 @@ const Schema = mongoose.Schema;
 
 // Create Item Schema
 const ItemSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "users"
+  },
   name: {
     type: String,
     required: true
@@ -11,10 +15,27 @@ const ItemSchema = new Schema({
     type: String,
     required: true
   },
-  comments: {
-    type: String,
-    default: "No additional information specified"
-  },
+  user_comments: [
+    {
+      title: {
+        type: String,
+        required: true
+      },
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: "users"
+      },
+      comment: {
+        type: String,
+        required: true
+      },
+
+      date: {
+        type: Date,
+        default: Date.now
+      }
+    }
+  ],
   material: {
     type: String,
     default: "No study material specified"

@@ -1,10 +1,21 @@
+:root {
+  --blueish: rgb(32, 74, 85);
+  --light-blueish: rgb(217, 235, 243);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  background-color: rgb(217, 235, 243);
+  background-color: var(--light-blueish);
 }
 
 #top {
   color: #fff;
-  background-color: rgb(2, 98, 139);
+  background-color: var(--blueish);
 }
 
 .fade-enter {
@@ -34,15 +45,442 @@ a:hover {
   text-decoration: none;
 }
 
-.list-item {
-  color: #333333;
-}
-
 #top-btn {
   z-index: 98;
 }
 
-.item-header:hover {
-  background-color: rgb(2, 98, 139);
+.custom-header:hover {
+  background-color: var(--blueish);
   transition: all 0.75s ease-out;
+}
+
+.home {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://wallpapertag.com/wallpaper/full/3/c/4/852442-surreal-desktop-backgrounds-1920x1080-lockscreen.jpg")
+      no-repeat center;
+}
+
+/*================ BUTTONS ===========*/
+.btn {
+  border: 0;
+  margin-bottom: 0.3rem;
+}
+.btn:hover {
+  background: var(--light-blueish);
+  color: #333;
+}
+
+.large-btn {
+  background-color: var(--blueish);
+
+  border-width: large;
+  border-radius: 5rem;
+  padding: 0.9rem 1.5rem;
+  white-space: normal;
+
+  transition: all 0.75s ease-out;
+}
+
+.large-btn:hover {
+  background: rgba(darken(rgb(177, 175, 175), 6), 0.65);
+  color: #333;
+}
+
+.med-btn {
+  background-color: var(--blueish);
+
+  border-width: medium;
+  border-radius: 5rem;
+  padding: 0.6rem 1.1rem;
+  margin: 1rem;
+  transition: all 0.75s ease-out;
+}
+.med-btn:hover {
+  background: rgba(darken(rgb(177, 175, 175), 6), 0.65);
+  color: #333;
+}
+
+.small-btn {
+  background-color: var(--blueish);
+
+  border-width: medium;
+  border-radius: 5rem;
+  padding: 0.3rem 0.75rem;
+  margin: 0.5rem;
+  transition: all 0.75s ease-out;
+}
+
+.small-btn:hover {
+  background: rgba(darken(rgb(177, 175, 175), 6), 0.65);
+  color: #333;
+}
+
+/*================ TEXT STYLES ===========*/
+
+.text-xl {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.text-lg {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.text-md {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.narrow {
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+/*================ HEADINGS ===========*/
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 800;
+}
+
+h1,
+h2,
+h3.large-heading {
+  font-size: 4.2rem;
+  padding: 2rem !important;
+}
+
+h1,
+h2,
+h3.small-heading {
+  margin-bottom: 2rem;
+  padding: 0.2rem 1rem;
+  background: rgba(lighten(--light-blueish, 6), 0.5);
+}
+
+h1,
+h2,
+h3.x-small-heading {
+  margin-bottom: 1rem;
+  padding: 0.1rem 0.5rem;
+  background: rgba(lighten(--light-blueish, 6), 0.5);
+}
+.heading {
+  color: rgba(lighten(--blueish, 6), 0.85);
+  padding: 2rem;
+}
+
+h3.heading {
+  font-size: 1.9rem;
+  text-transform: uppercase;
+  padding-bottom: 2rem;
+}
+.heading-underline {
+  width: 20vw;
+  height: 0.3rem;
+  background-color: var(--blueish);
+  margin: 0 auto 2rem;
+}
+/*================ LISTS ===========*/
+
+.list-group {
+  text-decoration: none;
+}
+
+.list-item {
+  color: #333333;
+}
+
+/*================ FORMS ===========*/
+
+.form .form-group {
+  margin: 1.2rem 0;
+}
+
+.form .form-text {
+  display: block;
+  margin-top: 0.3rem;
+  color: #888;
+}
+
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="date"],
+.form select,
+.form textarea {
+  display: block;
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 1px solid #ccc;
+}
+
+.form input[type="submit"],
+button {
+  font: inherit;
+}
+
+.form .social-input {
+  display: flex;
+}
+
+.form .social-input i {
+  padding: 0.5rem;
+  width: 4rem;
+}
+
+.form .social-input i.fa-twitter {
+  color: #38a1f3;
+}
+.form .social-input i.fa-facebook {
+  color: #3b5998;
+}
+.form .social-input i.fa-instagram {
+  color: #3f729b;
+}
+.form .social-input i.fa-youtube {
+  color: #c4302b;
+}
+.form .social-input i.fa-linkedin {
+  color: #0077b5;
+}
+
+/*================ COMMENTS ===========*/
+
+/* Study Item Page */
+.comment-form .comment-form-header {
+  background: var(--primary-color);
+  padding: 0.5rem;
+}
+
+.comment {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-gap: 2rem;
+  align-items: center;
+}
+
+.comment > div:first-child {
+  text-align: center;
+}
+
+.custom-img {
+  width: 100px;
+  background: url("https://raw.githubusercontent.com/wisekrakr/portfolio_res/master/images/dd_logo_solo.png");
+  border-radius: 50%;
+  border: cyan;
+}
+
+.comment .comment-count {
+  background: var(--light-color);
+  color: var(--primary-color);
+  padding: 0.1rem 0.2rem;
+  border-radius: 5px;
+  font-size: 0.8rem;
+}
+
+.comment .comment-date {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+/*================ COMMENT CARDS ===========*/
+
+.card {
+  position: relative;
+  width: 450px;
+  height: 250px;
+  background-color: #fff;
+  background: linear-gradient(#929090, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 1.5rem;
+}
+
+.card h1 {
+  text-align: center;
+}
+
+.card .card-secondary {
+  position: absolute;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(#ca5a50, #eeafa9);
+  transition: width 0.4s;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.card.blue .card-secondary {
+  background: linear-gradient(#7084d3, #8de2f1);
+}
+
+.card:hover .card-secondary {
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+}
+
+.card .card-secondary .custom-card {
+  width: 150px;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+
+.card .card-secondary .custom-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10%;
+  right: -2px;
+  height: 80%;
+  border-left: 2px solid rgba(0, 0, 0, 0.025);
+}
+
+.card .card-secondary .custom-card .discuss,
+.card .card-secondary .custom-card .name {
+  margin-top: 1rem;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.75em;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.125rem 0.75rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.card .card-secondary .custom-card .discuss {
+  margin-top: 9rem;
+}
+
+.card .card-secondary .more-info {
+  width: 300px;
+  float: left;
+  position: absolute;
+  left: 150px;
+  height: 100%;
+}
+
+.card .card-secondary .more-info h1 {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card.blue .card-secondary .more-info h1 {
+  color: var(--blueish);
+}
+
+.card .card-secondary .coords {
+  margin: 0 1rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.card.blue .card-secondary .coords {
+  color: var(--blueish);
+}
+
+.card .card-secondary .coords span + span {
+  float: right;
+}
+
+.card .card-secondary .stats {
+  font-size: 1rem;
+  display: flex;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  top: auto;
+  color: #fff;
+}
+
+.card.blue .card-secondary .stats {
+  color: var(--blueish);
+}
+
+.card .card-secondary .stats > div {
+  flex: 1;
+  text-align: center;
+}
+
+.card .card-secondary .stats i {
+  display: block;
+}
+
+.card .card-secondary .stats div.title {
+  font-size: 0.75rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.card .card-secondary .stats div.value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1.5rem;
+}
+
+.card .card-secondary .stats div.value.infinity {
+  font-size: 2.5rem;
+}
+
+.card .card-main {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  box-sizing: border-box;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.card .card-main .more {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.9em;
+}
+
+.card-delete {
+  background-color: crimson;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .large-heading {
+    font-size: 3rem;
+  }
+
+  .display-3 {
+    font-size: 3rem;
+  }
+
+  .comment {
+    grid-template-columns: 1fr;
+  }
+  .comment a,
+  .comment button {
+    padding: 0.3rem 0.4rem;
+  }
+
+  .card {
+    width: 450px;
+    height: 250px;
+    margin: auto 0 1rem;
+  }
 }

@@ -4,12 +4,11 @@ import Context from "./itemContext";
 import itemReducer from "../../reducers/itemReducer";
 import {
   GET_ITEMS,
+  GET_ITEM,
   ADD_ITEM,
   DELETE_ITEM,
-  UPDATE_ITEM,
-  FILTER_ITEMS,
-  CLEAR_ITEMS,
-  CLEAR_FILTER,
+  ADD_COMMENT,
+  DELETE_COMMENT,
   ITEM_ERROR,
   LOADING_ITEMS
 } from "../../actions/itemTypes";
@@ -17,7 +16,7 @@ import {
 const ItemState = props => {
   const initialState = {
     items: [],
-    filtered: null,
+    item: null,
     error: null,
     loading: false
   };
@@ -38,6 +37,23 @@ const ItemState = props => {
       dispatch({
         type: ITEM_ERROR,
         payload: err.response.msg
+      });
+    }
+  };
+
+  // Get Item
+  const getItem = id => async () => {
+    try {
+      const res = await axios.get(`/api/items/${id}`);
+
+      dispatch({
+        type: GET_ITEM,
+        payload: res.data
+      });
+    } catch (err) {
+      dispatch({
+        type: ITEM_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
   };
@@ -82,8 +98,8 @@ const ItemState = props => {
     }
   };
 
-  // Update Item
-  const updateItem = async item => {
+  // Add user comment
+  const addUserComment = async (id, comment) => {
     const config = {
       headers: {
         "Content-Type": "application/json"
@@ -91,33 +107,38 @@ const ItemState = props => {
     };
 
     try {
-      const res = await axios.put(`/api/items/${item._id}`, item, config);
+      const res = await axios.post(
+        `/api/items/user_comments/${id}`,
+        comment,
+        config
+      );
 
       dispatch({
-        type: UPDATE_ITEM,
+        type: ADD_COMMENT,
         payload: res.data
       });
     } catch (err) {
       dispatch({
         type: ITEM_ERROR,
-        payload: err.response.msg
+        payload: { msg: err.response.statusText, status: err.response.status }
       });
     }
   };
 
-  // Clear Items
-  const clearItems = () => {
-    dispatch({ type: CLEAR_ITEMS });
-  };
-
-  // Filter Items
-  const filterItems = text => {
-    dispatch({ type: FILTER_ITEMS, payload: text });
-  };
-
-  // Clear Filter
-  const clearFilter = () => {
-    dispatch({ type: CLEAR_FILTER });
+  // Delete user comment
+  const deleteUserComment = (itemId, commentId) => async () => {
+    try {
+      dispatch({
+        type: DELETE_COMMENT,
+        payload: commentId
+      });
+      await axios.delete(`/api/items/user_comments/${itemId}/${commentId}`);
+    } catch (err) {
+      dispatch({
+        type: ITEM_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status }
+      });
+    }
   };
 
   // Set Items Loading
@@ -129,16 +150,15 @@ const ItemState = props => {
     <Context.Provider
       value={{
         items: state.items,
-        filtered: state.filtered,
+        item: state.item,
         error: state.error,
         loading: state.loading,
         addItem,
+        addUserComment,
+        deleteUserComment,
         deleteItem,
-        updateItem,
-        filterItems,
-        clearFilter,
         getItems,
-        clearItems,
+        getItem,
         setItemsLoading
       }}
     >

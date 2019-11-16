@@ -1,21 +1,33 @@
 import {
   GET_ITEMS,
+  GET_ITEM,
   ADD_ITEM,
   DELETE_ITEM,
-  UPDATE_ITEM,
-  FILTER_ITEMS,
-  CLEAR_FILTER,
   ITEM_ERROR,
-  CLEAR_ITEMS,
+  ADD_COMMENT,
+  DELETE_COMMENT,
   LOADING_ITEMS
 } from "../actions/itemTypes";
 
-export default (state, action) => {
+const initialState = {
+  items: [],
+  item: null,
+  loading: true,
+  error: {}
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
       return {
         ...state,
         items: action.payload,
+        loading: false
+      };
+    case GET_ITEM:
+      return {
+        ...state,
+        item: action.payload,
         loading: false
       };
     case ADD_ITEM:
@@ -24,40 +36,28 @@ export default (state, action) => {
         items: [action.payload, ...state.items],
         loading: false
       };
-    case UPDATE_ITEM:
-      return {
-        ...state,
-        items: state.items.map(item =>
-          item._id === action.payload._id ? action.payload : item
-        ),
-        loading: false
-      };
     case DELETE_ITEM:
       return {
         ...state,
         items: state.items.filter(item => item._id !== action.payload),
         loading: false
       };
-    case CLEAR_ITEMS:
+    case ADD_COMMENT:
       return {
         ...state,
-        items: null,
-        filtered: null,
-        error: null
+        item: { ...state.item, user_comments: action.payload },
+        loading: false
       };
-
-    case FILTER_ITEMS:
+    case DELETE_COMMENT:
       return {
         ...state,
-        filtered: state.items.filter(item => {
-          const regex = new RegExp(`${action.payload}`, "gi");
-          return item.name.match(regex) || item.field_of_study.match(regex);
-        })
-      };
-    case CLEAR_FILTER:
-      return {
-        ...state,
-        filtered: null
+        item: {
+          ...state.item,
+          user_comments: state.item.user_comments.filter(
+            comment => comment._id !== action.payload
+          )
+        },
+        loading: false
       };
     case ITEM_ERROR:
       return {

@@ -1,10 +1,12 @@
 const router = require("express").Router();
 
-// Item Model
+const auth = require("../../middleware/auth");
+
+// Log Model
 const Log = require("../../models/LogEntry");
 
 // @route GET api/logs
-// @desc  GET All Logs for an Item
+// @desc  GET All Logs for a Log
 // @access Public
 router.get("/", async (req, res) => {
   try {
@@ -16,12 +18,25 @@ router.get("/", async (req, res) => {
   }
 });
 
+// @route GET /:id
+// @desc  GET One Log
+// @access Public
+router.get("/:id", async (req, res) => {
+  try {
+    const log = await Log.findById(req.params.id);
+    res.json(log);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route POST api/logs/
 // @desc  Create a Log
 // @access Public
-router.post("/", async (req, res) => {
+router.post("/", auth, async (req, res) => {
   try {
-    const newEntry = new Item({
+    const newEntry = new Log({
       name: req.body.name,
       entry: req.body.entry
     });
@@ -36,7 +51,7 @@ router.post("/", async (req, res) => {
 });
 
 // @route DELETE api/logs/:id
-// @desc  Delete an Item
+// @desc  Delete a Log
 // @access Public
 router.delete("/:id", (req, res) => {
   Log.findById(req.params.id)
