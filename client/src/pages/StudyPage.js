@@ -77,7 +77,8 @@ const StudyPage = props => {
           <h1 className="display-3">{textTruncate(name, 40)}</h1>
 
           <p className="lead">
-            This topic was added on <Moment format="DD/MM/YYYY">{date}</Moment>
+            This topic was added on{" "}
+            <Moment format="YYYY-MM-DD HH:mm">{date}</Moment>
           </p>
           <hr className="my-2" />
           <p>

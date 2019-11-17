@@ -1,6 +1,10 @@
 :root {
   --blueish: rgb(32, 74, 85);
   --light-blueish: rgb(217, 235, 243);
+  --hard-blue: #7286d4;
+  --soft-blue: #8de2f1;
+  --blue-gradient: linear-gradient(var(--hard-blue), var(--soft-blue));
+  --reddish: rgb(179, 61, 84);
 }
 
 * {
@@ -47,11 +51,6 @@ a:hover {
 
 #top-btn {
   z-index: 98;
-}
-
-.custom-header:hover {
-  background-color: var(--blueish);
-  transition: all 0.75s ease-out;
 }
 
 .home {
@@ -141,6 +140,13 @@ a:hover {
   padding-top: 2rem;
 }
 
+/*================ CONTAINERs ===========*/
+
+.index-container {
+  margin: auto;
+  padding: 1rem;
+}
+
 /*================ HEADINGS ===========*/
 h1,
 h2,
@@ -187,6 +193,11 @@ h3.heading {
   background-color: var(--blueish);
   margin: 0 auto 2rem;
 }
+
+.custom-header:hover {
+  background-color: var(--blueish);
+  transition: all 0.75s ease-out;
+}
 /*================ LISTS ===========*/
 
 .list-group {
@@ -194,7 +205,36 @@ h3.heading {
 }
 
 .list-item {
+  display: block;
   color: #333333;
+  margin: 1rem 0 0;
+}
+
+.log-list-item {
+  width: 460px;
+  background: linear-gradient(#929090, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.list-delete {
+  background-color: var(--reddish);
+  border-radius: 2rem;
+  padding: 0 0.2rem 0;
+  float: right;
+}
+
+.custom-list-item {
+  color: #333333 !important;
+}
+.custom-list-item:hover {
+  background-color: var(--soft-blue);
+  border-radius: 5px;
+  padding: 1rem;
+  transition: all 0.75s ease-out;
 }
 
 /*================ FORMS ===========*/
@@ -262,20 +302,40 @@ button {
 
 .comment {
   display: grid;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: 1fr 2fr;
   grid-gap: 2rem;
   align-items: center;
+}
+
+.comment .comment-title {
+  background-color: var(--hard-blue);
+  color: #fff;
+  font-weight: bolder;
+  margin: 0 0 1rem;
+}
+
+.comment .comment-header {
+  font-weight: bolder;
+  margin: 0 0 1rem;
+}
+
+.comment .comment-footer {
+  font-weight: lighter;
+  margin: 1rem;
 }
 
 .comment > div:first-child {
   text-align: center;
 }
 
-.custom-img {
-  width: 100px;
+.comment .custom-img {
+  width: 75px;
+  height: 75px;
   background: url("https://raw.githubusercontent.com/wisekrakr/portfolio_res/master/images/dd_logo_solo.png");
+  margin: auto;
+  background-size: cover;
   border-radius: 50%;
-  border: cyan;
+  border: solid 2px var(--hard-blue);
 }
 
 .comment .comment-count {
@@ -292,12 +352,12 @@ button {
   margin-bottom: 0.5rem;
 }
 
-/*================ COMMENT CARDS ===========*/
+/*================ CARDS ===========*/
 
 .card {
   position: relative;
-  width: 450px;
-  height: 250px;
+  width: 460px;
+  height: 160px;
   background-color: #fff;
   background: linear-gradient(#929090, #fff);
   box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
@@ -321,7 +381,7 @@ button {
 }
 
 .card.blue .card-secondary {
-  background: linear-gradient(#7084d3, #8de2f1);
+  background: var(--blue-gradient);
 }
 
 .card:hover .card-secondary {
@@ -361,7 +421,12 @@ button {
 }
 
 .card .card-secondary .custom-card .discuss {
-  margin-top: 9rem;
+  margin-top: 3rem;
+}
+
+.card .card-secondary .custom-card .discuss:hover {
+  background-color: var(--light-blueish);
+  transition: 0.4s ease-in;
 }
 
 .card .card-secondary .more-info {
@@ -455,13 +520,15 @@ button {
 }
 
 .card-delete {
-  background-color: crimson;
+  background-color: var(--reddish);
+  border-radius: 2rem;
+  padding: 0 0.2rem 0;
   position: absolute;
   right: 0;
   bottom: 0;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 570px) {
   .large-heading {
     font-size: 3rem;
   }
@@ -479,8 +546,8 @@ button {
   }
 
   .card {
-    width: 450px;
-    height: 250px;
-    margin: auto 0 1rem;
+    width: 460px;
+    height: 160px;
+    margin: auto 0 1.5rem;
   }
 }

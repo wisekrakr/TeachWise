@@ -23,7 +23,7 @@ const Index = () => {
           <LogEntryModal />
         </ListGroup>
       </Jumbotron>
-      <Container>
+      <Container className="index-container">
         <Row>
           <Col>
             <StudyList />

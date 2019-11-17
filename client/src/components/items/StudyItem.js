@@ -7,8 +7,7 @@ import {
   Button,
   Card,
   CardHeader,
-  CardBody,
-  CardFooter
+  CardBody
 } from "reactstrap";
 
 import itemContext from "../../contexts/items/itemContext";
@@ -43,6 +42,7 @@ const StudyItem = ({ item }) => {
         >
           {name}
         </CardHeader>
+
         <Button className="btn card-delete btn-sm" onClick={onDelete}>
           <i className="fas fa-times" />
         </Button>
@@ -78,14 +78,14 @@ const StudyItem = ({ item }) => {
             <span>Date Added:</span>
             <span>
               {" "}
-              <Moment format="DD/MM/YYYY">{date}</Moment>
+              <Moment format="YYYY-MM-DD">{date}</Moment>
             </span>
           </div>
           <div className="coords">
             <span>Status:</span>
             <span>{status}</span>
           </div>
-          <div className="stats">
+          {/* <div className="stats">
             <div>
               <div className="title">Studies</div>
               <i className="fas fa-book"></i>
@@ -101,7 +101,7 @@ const StudyItem = ({ item }) => {
               <i className="fas fa-users"></i>
               <div className="value">123</div>
             </div>
-          </div>
+          </div> */}
           <Button className="btn card-delete btn-sm" onClick={onDelete}>
             <i className="fas fa-times" />
           </Button>

@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { ListGroup, ListGroupItem, Spinner } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -20,14 +20,14 @@ const StudyList = () => {
     Object.keys(items).length === 0
   ) {
     return (
-      <Fragment>
+      <div>
         <p>Please add a study item....</p>
-      </Fragment>
+      </div>
     );
   }
 
   return (
-    <Fragment>
+    <div>
       <h3 className="text-center small-heading">Your study items</h3>
       <p className="heading-underline" />
       {items !== null && !loading ? (
@@ -46,7 +46,7 @@ const StudyList = () => {
           Loading...
         </Spinner>
       )}
-    </Fragment>
+    </div>
   );
 };
 

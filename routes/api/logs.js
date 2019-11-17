@@ -34,7 +34,7 @@ router.get("/:id", async (req, res) => {
 // @route POST api/logs/
 // @desc  Create a Log
 // @access Public
-router.post("/", auth, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const newEntry = new Log({
       name: req.body.name,

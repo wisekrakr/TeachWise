@@ -33,7 +33,7 @@ const LogEntryPage = props => {
 
             <p className="lead">
               This topic was added on{" "}
-              <Moment format="DD/MM/YYYY">{log.date}</Moment>
+              <Moment format="YYYY-MM-DD HH:mm">{log.date}</Moment>
             </p>
             <hr className="my-2" />
 

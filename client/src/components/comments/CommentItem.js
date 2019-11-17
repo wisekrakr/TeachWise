@@ -32,90 +32,38 @@ const CommentItem = ({ item, user_comment }) => {
     <div className="comment" style={{ height: "100%" }}>
       <div className="comment-header">
         {textTruncate(user, 15)}
-        <img
-          className="custom-img"
-          // src={avatar}
-          alt=""
-        />
+        <div className="custom-img" />
       </div>
       <div className="comment-body">
-        {comment.split("\n").map((text, i) => {
-          return (
-            <p key={i} data={text}>
-              {text}
-            </p>
-          );
-        })}
+        <div className="comment-title">{textTruncate(title, 25)}</div>
+        <div>
+          {comment.split("\n").map((text, i) => {
+            return (
+              <p key={i} data={text}>
+                {text}
+              </p>
+            );
+          })}
+        </div>
       </div>
-      <Moment format="DD/MM/YYYY" className="text-dark float-left">
-        {date}
-      </Moment>
-      <div className="comment-footer">
-        <Button
-          className="btn card-delete btn-sm"
-          key={_id}
-          onClick={deleteUserComment(item._id, _id)}
-        >
-          <i className="fas fa-times mr-2" />
-          Delete
-        </Button>
+      <div>
+        <div className="comment-footer">
+          <Moment
+            format="YYYY-MM-DD HH:mm"
+            className="text-dark float-left text-center"
+          >
+            {date}
+          </Moment>
+        </div>
       </div>
+      <Button
+        className="btn card-delete btn-sm"
+        key={_id}
+        onClick={deleteUserComment(item._id, _id)}
+      >
+        <i className="fas fa-times" />
+      </Button>
     </div>
-
-    // <Card className="card bg-dark comment">
-    //   <Link to={`/api/profile/${user._id}`}>
-    //     <CardHeader
-    //       tag="h3"
-    //       className="custom-header text-light font-weight-bolder"
-    //     >
-    //       {/* {textTruncate(user.name, 30)} */}
-    //       <img
-    //         className="custom-img"
-    //         // src={avatar}
-    //         alt=""
-    //       />
-    //     </CardHeader>{" "}
-    //     {/* <CardSubtitle>{user.name}</CardSubtitle> */}
-    //   </Link>
-    //   <CardBody>
-    //     <ListGroup className="mb-3">
-    //       <h6 className="text-light">{textTruncate(title, 20)}</h6>
-    //       <ListGroupItem className="list-item">
-    //         {comment !== undefined ? (
-    //           comment.split("\n").map((text, i) => {
-    //             return (
-    //               <p key={i} data={text}>
-    //                 {text}
-    //               </p>
-    //             );
-    //           })
-    //         ) : (
-    //           <Spinner
-    //             color="primary"
-    //             style={{ width: "3rem", height: "3rem" }}
-    //           >
-    //             Please wait... Loading Comment...
-    //           </Spinner>
-    //         )}
-    //       </ListGroupItem>
-    //       <ListGroupItem className="list-item comment-date">
-    //         <i className="fas fa-clock mr-2" />
-    //         Posted on : <Moment format="DD/MM/YYYY">{date}</Moment>
-    //       </ListGroupItem>
-    //     </ListGroup>
-
-    //     <CardFooter key={_id}>
-    //       <Button
-    //         className="btn btn-danger btn-sm"
-    //         key={_id}
-    //         onClick={deleteUserComment(item._id, _id)}
-    //       >
-    //         <i className="fas fa-times mr-2" />
-    //         Delete
-    //       </Button>
-    //     </CardFooter>
-    //   </CardBody>
-    // </Card>
   );
 };
 

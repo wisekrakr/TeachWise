@@ -22,7 +22,7 @@ const CommentForm = ({ itemId }) => {
   };
 
   return (
-    <div className="comment-form">
+    <div className="comment-form ">
       <h3 className="text-center small-heading">Leave a Comment</h3>
       <p className="heading-underline" />
       <Form className="form" onSubmit={onSubmit}>
