@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useContext } from "react";
-import itemContext from "../../contexts/items/itemContext";
+import React, { Fragment, useState } from "react";
+import PropTypes from "prop-types";
 import {
   Container,
   Button,
@@ -11,18 +11,19 @@ import {
   Label,
   Input
 } from "reactstrap";
+import { connect } from "react-redux";
+import { addItem } from "../../actions/ItemState";
+import { addField } from "../../actions/FieldState";
 
-const ItemModal = () => {
+const ItemModal = ({ addItem }) => {
   const initialState = {
     modal: false,
-    name: ""
+    item: {},
+    field_of_study: {}
   };
   const [state, setState] = useState(initialState);
-
-  const context = useContext(itemContext);
-  const { addItem } = context;
-
   const [item, setItem] = useState({});
+  const [fieldOfStudy, setFieldOfStudy] = useState({});
 
   const onChange = e => {
     e.preventDefault();
@@ -30,11 +31,17 @@ const ItemModal = () => {
       ...item,
       [e.target.name]: e.target.value
     });
+    setFieldOfStudy({
+      ...fieldOfStudy,
+      [e.target.name]: e.target.value
+    });
   };
 
   const onSubmit = e => {
-    // e.preventDefault();
+    e.preventDefault();
+    setState({ item: item });
     addItem(item);
+    addField(fieldOfStudy);
     toggle();
   };
 
@@ -51,7 +58,7 @@ const ItemModal = () => {
           Add Study Item
         </Button>
 
-        <Modal isOpen={state.modal} toggle={toggle}>
+        <Modal className="custom-modal" isOpen={state.modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Add To Study List</ModalHeader>
           <ModalBody>
             <Form onSubmit={onSubmit}>
@@ -64,11 +71,11 @@ const ItemModal = () => {
                   placeholder="Add study item..."
                   onChange={onChange}
                 ></Input>
-                <Label for="item">Study Field*</Label>
+                <Label for="fieldOfStudy">Study Field*</Label>
                 <Input
                   type="text"
                   name="field_of_study"
-                  id="item"
+                  id="fieldOfStudy"
                   placeholder="Add study field..."
                   onChange={onChange}
                 ></Input>
@@ -124,4 +131,8 @@ const ItemModal = () => {
   );
 };
 
-export default ItemModal;
+ItemModal.propTypes = {
+  addItem: PropTypes.func.isRequired
+};
+
+export default connect(null, { addItem })(ItemModal);

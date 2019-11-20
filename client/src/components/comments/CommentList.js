@@ -1,8 +1,8 @@
-import React, { Fragment, useContext, useEffect } from "react";
-import { ListGroup, ListGroupItem, Spinner } from "reactstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { ListGroup, ListGroupItem } from "reactstrap";
 
-import itemContext from "../../contexts/items/itemContext";
 import CommentItem from "./CommentItem";
 
 const CommentList = ({ item }) => {
@@ -20,6 +20,8 @@ const CommentList = ({ item }) => {
     );
   }
 
+  console.log(user_comments);
+
   return (
     <Fragment>
       <h3 className="text-center small-heading">
@@ -32,23 +34,16 @@ const CommentList = ({ item }) => {
         Object.keys(user_comments).length !== 0 ? (
           <ListGroup>
             {/* Shows a list of study items */}
-            <TransitionGroup className="custom-list">
-              {user_comments.map(comment => (
-                <CSSTransition
+
+            {user_comments.map(comment => (
+              <ListGroupItem className="list-item" key={comment._id}>
+                <CommentItem
                   key={comment._id}
-                  timeout={500}
-                  classNames="fade"
-                >
-                  <ListGroupItem className="list-item" key={comment._id}>
-                    <CommentItem
-                      key={comment._id}
-                      user_comment={comment}
-                      item={item}
-                    />
-                  </ListGroupItem>
-                </CSSTransition>
-              ))}
-            </TransitionGroup>
+                  user_comment={comment}
+                  itemId={item._id}
+                />
+              </ListGroupItem>
+            ))}
           </ListGroup>
         ) : (
           <p>No User Comments </p>
@@ -58,4 +53,8 @@ const CommentList = ({ item }) => {
   );
 };
 
-export default CommentList;
+CommentList.prototypes = {
+  item: PropTypes.object.isRequired
+};
+
+export default connect(null, null)(CommentList);

@@ -1,23 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { Button } from "reactstrap";
 
-import logContext from "../../contexts/logs/logContext";
+import { deleteLogEntry } from "../../actions/LogState";
 import { textTruncate } from "../../helpers/TextHelper";
 
-const LogEntry = ({ log }) => {
-  const context = useContext(logContext);
-  const { deleteLogEntry } = context;
-
-  const { _id, name, date } = log;
-
+const LogEntry = ({ auth, deleteLogEntry, log: { _id, name, date } }) => {
   const onDelete = () => {
     deleteLogEntry(_id);
   };
 
   return (
-    <div className="list-group">
+    <div className="custom-list list-group">
       <div className="log-list-item" style={{ background: "transparant" }}>
         <div>
           <Moment format="YYYY-MM-DD HH:mm" className=" float-left m-3">
@@ -37,4 +34,13 @@ const LogEntry = ({ log }) => {
   );
 };
 
-export default LogEntry;
+LogEntry.prototypes = {
+  log: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
+  deleteLogEntry: PropTypes.func.isRequired
+};
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { deleteLogEntry })(LogEntry);

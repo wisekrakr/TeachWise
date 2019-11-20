@@ -1,17 +1,16 @@
-import React, { Fragment, useContext, useEffect } from "react";
-import { ListGroup, ListGroupItem, Spinner } from "reactstrap";
+import React, { Fragment, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { ListGroup, Spinner } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import logContext from "../../contexts/logs/logContext";
 import LogEntry from "./LogEntry";
+import { getLogs } from "../../actions/LogState";
 
-const LogEntryList = () => {
-  const context = useContext(logContext);
-  const { logs, getLogs, loading } = context;
-
+const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
   useEffect(() => {
     getLogs();
-  }, []);
+  }, [getLogs]);
 
   if (logs === null && logs === undefined && Object.keys(logs).length === 0) {
     return (
@@ -45,4 +44,12 @@ const LogEntryList = () => {
   );
 };
 
-export default LogEntryList;
+LogEntryList.prototypes = {
+  getLogs: PropTypes.func.isRequired,
+  log: PropTypes.object.isRequired
+};
+const mapStateToProps = state => ({
+  log: state.log
+});
+
+export default connect(mapStateToProps, { getLogs })(LogEntryList);

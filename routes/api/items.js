@@ -63,6 +63,7 @@ router.post(
         field_of_study: req.body.field_of_study,
         difficulty: req.body.difficulty,
         material: req.body.material,
+        user_comments: req.body.user_comments,
         status: req.body.status
       });
 
@@ -162,6 +163,62 @@ router.delete("/user_comments/:id/:comment_id", async (req, res) => {
     res.json(item.user_comments);
   } catch (err) {
     console.error(err.message + " in  items.js");
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    PUT api/items/like/:id
+// @desc     Like an item
+// @access   Private
+router.put("/like/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+
+    // Check if the item has already been liked
+    if (
+      item.likes.filter(like => like.user.toString() === req.user.id).length > 0
+    ) {
+      return res.status(400).json({ msg: "Item already liked" });
+    }
+
+    item.likes.unshift({ user: req.user.id });
+
+    await item.save();
+
+    res.json(item.likes);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route    PUT api/items/unlike/:id
+// @desc     Unlike an item
+// @access   Private
+router.put("/unlike/:id", async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+
+    // Check if the item has already been liked
+    if (
+      item.likes.filter(like => like.user.toString() === req.user.id).length ===
+      0
+    ) {
+      return res.status(400).json({ msg: "Post has not yet been liked" });
+    }
+
+    // Get remove index
+    const removeIndex = item.likes
+      .map(like => like.user.toString())
+      .indexOf(req.user.id);
+
+    item.likes.splice(removeIndex, 1);
+
+    await item.save();
+
+    res.json(item.likes);
+  } catch (err) {
+    console.error(err.message);
     res.status(500).send("Server Error");
   }
 });

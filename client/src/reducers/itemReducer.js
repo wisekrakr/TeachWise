@@ -5,6 +5,7 @@ import {
   DELETE_ITEM,
   ITEM_ERROR,
   ADD_COMMENT,
+  UPDATE_LIKE,
   DELETE_COMMENT,
   LOADING_ITEMS
 } from "../actions/itemTypes";
@@ -12,8 +13,8 @@ import {
 const initialState = {
   items: [],
   item: null,
-  loading: true,
-  error: {}
+  error: null,
+  loading: false
 };
 
 export default (state = initialState, action) => {
@@ -45,7 +46,7 @@ export default (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        item: { ...state.item, user_comments: action.payload },
+        item: { user_comments: action.payload, ...state.item },
         loading: false
       };
     case DELETE_COMMENT:
@@ -57,6 +58,16 @@ export default (state = initialState, action) => {
             comment => comment._id !== action.payload
           )
         },
+        loading: false
+      };
+    case UPDATE_LIKE:
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item._id === action.payload.id
+            ? { ...item, likes: action.payload.likes }
+            : item
+        ),
         loading: false
       };
     case ITEM_ERROR:

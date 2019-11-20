@@ -1,33 +1,31 @@
-import React, { useContext } from "react";
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
-import {
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Card,
-  CardHeader,
-  CardBody
-} from "reactstrap";
+import { Button, Card, CardHeader } from "reactstrap";
 
-import itemContext from "../../contexts/items/itemContext";
+import { deleteItem, addLike, removeLike } from "../../actions/ItemState";
 import { textTruncate } from "../../helpers/TextHelper";
 
-const StudyItem = ({ item }) => {
-  const context = useContext(itemContext);
-  const { deleteItem } = context;
-
-  const {
+const StudyItem = ({
+  deleteItem,
+  addLike,
+  removeLike,
+  auth,
+  item: {
     _id,
+    user,
     name,
     field_of_study,
     material,
+    likes,
     difficulty,
-    date,
     status,
-    user
-  } = item;
-
+    user_comments,
+    date
+  }
+}) => {
   const onDelete = e => {
     e.preventDefault();
     deleteItem(_id);
@@ -50,22 +48,38 @@ const StudyItem = ({ item }) => {
 
       <div className="card-secondary">
         <div className="custom-card">
-          <div className="name ">{textTruncate(field_of_study, 15)}</div>
-          <img
+          <div className="name ">username</div>
+          {/* <img
             className="custom-img "
             // src={user.avatar}
             alt=""
-          />
+          /> */}
 
           <div className="discuss ">
             <Link to={`/api/items/${_id}`} style={{ color: "#fff" }}>
-              Discuss
+              {user_comments.length} comments
             </Link>
+          </div>
+
+          <div className="likes">
+            <Button
+              onClick={() => addLike(_id)}
+              className="btn btn-sm btn-like"
+              color="transparant"
+            >
+              <i className="fas fa-thumbs-up" />{" "}
+              <span>{likes.length > 0 && <span>{likes.length}</span>}</span>
+            </Button>
+            <Button
+              onClick={() => removeLike(_id)}
+              color="transparant"
+              className="btn btn-sm btn-unlike"
+            >
+              <i className="fas fa-thumbs-down" />
+            </Button>
           </div>
         </div>
         <div className="more-info">
-          <CardHeader className="card-title">{user}</CardHeader>
-
           <div className="coords">
             <span>Field of study:</span>
             <span>{textTruncate(field_of_study, 15)}</span>
@@ -85,23 +99,19 @@ const StudyItem = ({ item }) => {
             <span>Status:</span>
             <span>{status}</span>
           </div>
-          {/* <div className="stats">
+          <div className="stats">
             <div>
               <div className="title">Studies</div>
               <i className="fas fa-book"></i>
               <div className="value">32</div>
             </div>
+
             <div>
-              <div className="title">Completed</div>
-              <i className="fas fa-graduation-cap"></i>
-              <div className="value">27</div>
-            </div>
-            <div>
-              <div className="title">People</div>
+              <div className="title">Classmates</div>
               <i className="fas fa-users"></i>
               <div className="value">123</div>
             </div>
-          </div> */}
+          </div>
           <Button className="btn card-delete btn-sm" onClick={onDelete}>
             <i className="fas fa-times" />
           </Button>
@@ -111,4 +121,22 @@ const StudyItem = ({ item }) => {
   );
 };
 
-export default StudyItem;
+StudyItem.defaultProps = {
+  showActions: true
+};
+
+StudyItem.propTypes = {
+  item: PropTypes.object.isRequired,
+  // auth: PropTypes.object.isRequired,
+  deleteItem: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { deleteItem, addLike, removeLike })(
+  StudyItem
+);

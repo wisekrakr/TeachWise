@@ -1,7 +1,12 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 
 // Create Log Entry Schema
-const LogSchema = mongoose.Schema({
+const LogSchema = new Schema({
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "users"
+  },
   name: {
     type: String,
     required: true
@@ -9,6 +14,9 @@ const LogSchema = mongoose.Schema({
   entry: {
     type: String,
     required: true
+  },
+  topic: {
+    type: String
   },
   date: {
     type: Date,

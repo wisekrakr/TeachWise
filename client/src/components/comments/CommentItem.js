@@ -1,33 +1,18 @@
-import React, { Fragment, useContext } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Moment from "react-moment";
-import {
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Card,
-  CardHeader,
-  CardSubtitle,
-  CardBody,
-  CardFooter,
-  Spinner
-} from "reactstrap";
+import { Button } from "reactstrap";
 
-import itemContext from "../../contexts/items/itemContext";
+import { deleteUserComment } from "../../actions/ItemState";
 import { textTruncate } from "../../helpers/TextHelper";
 
-const CommentItem = ({ item, user_comment }) => {
-  const context = useContext(itemContext);
-  const { deleteUserComment } = context;
-
-  const { _id, title, comment, user, date } = user_comment;
-
-  function onDelete(e) {
-    console.log("bliep");
-    e.preventDefault();
-    deleteUserComment(item._id, _id);
-  }
-
+const CommentItem = ({
+  itemId,
+  user_comment: { _id, title, comment, user, date },
+  auth,
+  deleteUserComment
+}) => {
   return (
     <div className="comment" style={{ height: "100%" }}>
       <div className="comment-header">
@@ -59,7 +44,10 @@ const CommentItem = ({ item, user_comment }) => {
       <Button
         className="btn card-delete btn-sm"
         key={_id}
-        onClick={deleteUserComment(item._id, _id)}
+        onClick={async e => {
+          e.preventDefault();
+          await deleteUserComment(itemId, _id);
+        }}
       >
         <i className="fas fa-times" />
       </Button>
@@ -67,4 +55,15 @@ const CommentItem = ({ item, user_comment }) => {
   );
 };
 
-export default CommentItem;
+CommentItem.propTypes = {
+  itemId: PropTypes.string.isRequired,
+  user_comment: PropTypes.object.isRequired,
+  // auth: PropTypes.object.isRequired,
+  deleteUserComment: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { deleteUserComment })(CommentItem);

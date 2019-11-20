@@ -3,15 +3,29 @@ import {
   ADD_LOG_ENTRY,
   DELETE_LOG_ENTRY,
   LOADING_LOGS,
-  LOG_ERROR
+  LOG_ERROR,
+  GET_LOG_ENTRY
 } from "../actions/logTypes";
 
-export default (state, action) => {
+const initialState = {
+  logs: [],
+  log: null,
+  error: null,
+  loading: false
+};
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case GET_LOGS:
       return {
         ...state,
         logs: action.payload,
+        loading: false
+      };
+    case GET_LOG_ENTRY:
+      return {
+        ...state,
+        log: action.payload,
         loading: false
       };
     case ADD_LOG_ENTRY:

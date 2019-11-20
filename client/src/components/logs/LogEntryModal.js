@@ -1,5 +1,9 @@
-import React, { Fragment, useState, useContext } from "react";
-import logContext from "../../contexts/logs/logContext";
+import React, { Fragment, useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { addLogEntry } from "../../actions/LogState";
+import { getItems, getItem } from "../../actions/ItemState";
+
 import {
   Container,
   Button,
@@ -12,26 +16,29 @@ import {
   Input
 } from "reactstrap";
 
-const LogEntryModal = () => {
+const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
   const initialState = {
     modal: false,
-    name: ""
+    log: {}
   };
   const [state, setState] = useState(initialState);
-
-  const context = useContext(logContext);
-  const { addLogEntry } = context;
-
   const [logEntry, setLogEntry] = useState({});
 
+  useEffect(() => {
+    getItems();
+  }, [getItems]);
+
   const onChange = e => {
+    e.preventDefault();
     setLogEntry({
       ...logEntry,
       [e.target.name]: e.target.value
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = e => {
+    e.preventDefault();
+    setState({ log: logEntry });
     addLogEntry(logEntry);
   };
 
@@ -48,7 +55,7 @@ const LogEntryModal = () => {
           Add Entry into Logs
         </Button>
 
-        <Modal isOpen={state.modal} toggle={toggle}>
+        <Modal className="custom-modal" isOpen={state.modal} toggle={toggle}>
           <ModalHeader toggle={toggle}>Add Entry into Logs</ModalHeader>
           <ModalBody>
             <Form onSubmit={onSubmit}>
@@ -61,6 +68,18 @@ const LogEntryModal = () => {
                   placeholder="Add a log entry title..."
                   onChange={onChange}
                 ></Input>
+                <Label for="item">About a specific topic</Label>
+                <Input
+                  type="select"
+                  name="topic"
+                  id="logEntry"
+                  onChange={onChange}
+                >
+                  <option value=""></option>
+                  {items.map(item => {
+                    return <option key={item._id}>{item.name}</option>;
+                  })}
+                </Input>
                 <Label for="logEntry">What are your thoughts?*</Label>
                 <Input
                   type="textarea"
@@ -87,4 +106,16 @@ const LogEntryModal = () => {
   );
 };
 
-export default LogEntryModal;
+LogEntryModal.propTypes = {
+  addLogEntry: PropTypes.func.isRequired,
+  getItems: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+export default connect(mapStateToProps, { addLogEntry, getItems })(
+  LogEntryModal
+);

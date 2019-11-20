@@ -1,10 +1,15 @@
 :root {
-  --blueish: rgb(32, 74, 85);
-  --light-blueish: rgb(217, 235, 243);
-  --hard-blue: #7286d4;
-  --soft-blue: #8de2f1;
+  --purple: rgb(85, 32, 72);
+  --light-purple: rgb(230, 217, 243);
+  --hard-blue: #a572d4;
+  --soft-blue: #c18df1;
+  --hard-dark: #251046;
+  --soft-dark: #d3d3d3;
   --blue-gradient: linear-gradient(var(--hard-blue), var(--soft-blue));
+  --dark-gradient: linear-gradient(var(--hard-dark), var(--soft-dark));
   --reddish: rgb(179, 61, 84);
+  --greenish: rgb(76, 158, 90);
+  --greyish: rgb(236, 236, 236);
 }
 
 * {
@@ -14,12 +19,12 @@
 }
 
 body {
-  background-color: var(--light-blueish);
+  background-color: var(--greyish);
 }
 
 #top {
   color: #fff;
-  background-color: var(--blueish);
+  background-color: var(--hard-dark);
 }
 
 .fade-enter {
@@ -40,9 +45,11 @@ body {
 }
 
 .header-navbar {
+  background: var(--dark-gradient);
   position: fixed;
   width: 100%;
   z-index: 99;
+  transition: top 0.8s;
 }
 
 a:hover {
@@ -54,9 +61,23 @@ a:hover {
 }
 
 .home {
+  height: 100vh;
+  overflow-y: hidden;
+  text-align: center;
+  margin: 0;
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
     url("https://wallpapertag.com/wallpaper/full/3/c/4/852442-surreal-desktop-backgrounds-1920x1080-lockscreen.jpg")
+      no-repeat center center fixed;
+}
+
+.main {
+  width: 100;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://42796r1ctbz645bo223zkcdl-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/library-425730_1920.jpg")
       no-repeat center;
+}
+.home h1 {
+  margin: 3rem;
 }
 
 /*================ BUTTONS ===========*/
@@ -65,12 +86,12 @@ a:hover {
   margin-bottom: 0.3rem;
 }
 .btn:hover {
-  background: var(--light-blueish);
+  background: var(--light-purple);
   color: #333;
 }
 
 .large-btn {
-  background-color: var(--blueish);
+  background-color: var(--purple);
 
   border-width: large;
   border-radius: 5rem;
@@ -86,7 +107,7 @@ a:hover {
 }
 
 .med-btn {
-  background-color: var(--blueish);
+  background-color: var(--purple);
 
   border-width: medium;
   border-radius: 5rem;
@@ -100,7 +121,7 @@ a:hover {
 }
 
 .small-btn {
-  background-color: var(--blueish);
+  background-color: var(--purple);
 
   border-width: medium;
   border-radius: 5rem;
@@ -112,6 +133,17 @@ a:hover {
 .small-btn:hover {
   background: rgba(darken(rgb(177, 175, 175), 6), 0.65);
   color: #333;
+}
+
+.btn-unlike:hover {
+  background-color: transparent;
+  color: var(--reddish);
+  transition: all 0.75s ease-out;
+}
+.btn-like:hover {
+  background-color: transparent;
+  color: var(--greenish);
+  transition: all 0.75s ease-out;
 }
 
 /*================ TEXT STYLES ===========*/
@@ -167,7 +199,7 @@ h2,
 h3.small-heading {
   margin-bottom: 2rem;
   padding: 0.2rem 1rem;
-  background: rgba(lighten(--light-blueish, 6), 0.5);
+  background: rgba(lighten(--light-purple, 6), 0.5);
 }
 
 h1,
@@ -175,10 +207,10 @@ h2,
 h3.x-small-heading {
   margin-bottom: 1rem;
   padding: 0.1rem 0.5rem;
-  background: rgba(lighten(--light-blueish, 6), 0.5);
+  background: rgba(lighten(--light-purple, 6), 0.5);
 }
 .heading {
-  color: rgba(lighten(--blueish, 6), 0.85);
+  color: rgba(lighten(--purple, 6), 0.85);
   padding: 2rem;
 }
 
@@ -190,13 +222,40 @@ h3.heading {
 .heading-underline {
   width: 20vw;
   height: 0.3rem;
-  background-color: var(--blueish);
+  background-color: var(--purple);
   margin: 0 auto 2rem;
 }
 
 .custom-header:hover {
-  background-color: var(--blueish);
+  background-color: var(--purple);
   transition: all 0.75s ease-out;
+}
+
+/*================ NAVBAR ===========*/
+
+/* Style the links inside the navigation bar */
+.custom-nav .a-link {
+  float: right;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 1rem 1rem;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.custom-nav .a-link:hover {
+  height: 100%;
+
+  background-color: var(--soft-blue);
+  color: #333;
+  transition: all 0.75s ease-out;
+}
+
+/* Add a color to the active/current link */
+.custom-nav .a-link.active {
+  background-color: var(--hard-blue);
+  color: #fff;
 }
 /*================ LISTS ===========*/
 
@@ -357,7 +416,7 @@ button {
 .card {
   position: relative;
   width: 460px;
-  height: 160px;
+  height: 180px;
   background-color: #fff;
   background: linear-gradient(#929090, #fff);
   box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
@@ -381,7 +440,7 @@ button {
 }
 
 .card.blue .card-secondary {
-  background: var(--blue-gradient);
+  background: var(--dark-gradient);
 }
 
 .card:hover .card-secondary {
@@ -407,12 +466,13 @@ button {
 }
 
 .card .card-secondary .custom-card .discuss,
-.card .card-secondary .custom-card .name {
+.card .card-secondary .custom-card .name,
+.card .card-secondary .custom-card .likes {
   margin-top: 1rem;
   color: #fff;
   text-align: center;
   text-transform: uppercase;
-  font-size: 0.75em;
+  font-size: 0.75rem;
   font-weight: bold;
   background: rgba(0, 0, 0, 0.15);
   padding: 0.125rem 0.75rem;
@@ -421,17 +481,23 @@ button {
 }
 
 .card .card-secondary .custom-card .discuss {
-  margin-top: 3rem;
+  margin-top: 2rem;
+}
+
+.card .card-secondary .custom-card .likes {
+  margin-top: 2rem;
+  padding: 0 !important;
 }
 
 .card .card-secondary .custom-card .discuss:hover {
-  background-color: var(--light-blueish);
+  background-color: var(--soft-dark);
   transition: 0.4s ease-in;
 }
 
 .card .card-secondary .more-info {
   width: 300px;
   float: left;
+  font-weight: bold;
   position: absolute;
   left: 150px;
   height: 100%;
@@ -443,7 +509,7 @@ button {
 }
 
 .card.blue .card-secondary .more-info h1 {
-  color: var(--blueish);
+  color: var(--soft-dark);
 }
 
 .card .card-secondary .coords {
@@ -453,7 +519,7 @@ button {
 }
 
 .card.blue .card-secondary .coords {
-  color: var(--blueish);
+  color: var(--soft-dark);
 }
 
 .card .card-secondary .coords span + span {
@@ -461,18 +527,15 @@ button {
 }
 
 .card .card-secondary .stats {
-  font-size: 1rem;
+  font-size: 0.8rem;
   display: flex;
   position: absolute;
   bottom: 0.5rem;
   left: 0.5rem;
   right: 0.5rem;
   top: auto;
-  color: #fff;
-}
-
-.card.blue .card-secondary .stats {
-  color: var(--blueish);
+  margin-top: 0.5rem;
+  color: var(--purple);
 }
 
 .card .card-secondary .stats > div {
@@ -485,14 +548,12 @@ button {
 }
 
 .card .card-secondary .stats div.title {
-  font-size: 0.75rem;
-  font-weight: bold;
+  font-size: 0.6rem;
   text-transform: uppercase;
 }
 
 .card .card-secondary .stats div.value {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1rem;
   line-height: 1.5rem;
 }
 
@@ -529,6 +590,10 @@ button {
 }
 
 @media only screen and (max-width: 570px) {
+  .home h1 {
+    font-size: 2.2rem;
+  }
+
   .large-heading {
     font-size: 3rem;
   }
@@ -546,8 +611,52 @@ button {
   }
 
   .card {
-    width: 460px;
-    height: 160px;
+    width: 320px;
+    height: 120px;
     margin: auto 0 1.5rem;
+  }
+
+  .custom-header {
+    text-align: right;
+    width: 175px;
+    float: right;
+    font-size: 0.8rem;
+  }
+
+  .card .card-secondary .more-info {
+    width: 180px;
+    font-size: 0.9rem;
+  }
+  .card .card-secondary .coords {
+    margin: 0 1rem;
+    color: #fff;
+    font-size: 0.7rem;
+  }
+  .card .card-secondary .custom-card .discuss {
+    margin-top: 0.8rem;
+  }
+  .card .card-secondary .custom-card .likes {
+    padding: 0;
+    margin-top: 0.6rem;
+  }
+
+  .card .card-secondary .stats {
+    font-size: 0.5rem;
+    bottom: 0;
+  }
+  .card .card-secondary .stats div.title {
+    font-size: 0.5rem;
+  }
+  .card .card-secondary .stats div.value {
+    font-size: 0.5rem;
+  }
+
+  .custom-modal {
+    width: 340px;
+  }
+
+  .log-list-item {
+    width: 320px;
+    font-size: 0.9rem;
   }
 }

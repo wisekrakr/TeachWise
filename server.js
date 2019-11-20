@@ -29,6 +29,7 @@ mongoose
 app.use("/api/items", require("./routes/api/items")); // everything in this file should refer to items
 app.use("/api/users", require("./routes/api/users"));
 app.use("/api/logs", require("./routes/api/logs"));
+app.use("/api/fields", require("./routes/api/fields"));
 app.use("/api/auth", require("./routes/api/auth"));
 
 // Serve a static assets if in production

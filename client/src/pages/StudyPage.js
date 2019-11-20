@@ -1,14 +1,14 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 import {
   Container,
   Badge,
   Jumbotron,
   ListGroup,
-  ListGroupItem,
   Spinner,
   Col,
   Row
@@ -16,23 +16,13 @@ import {
 
 import CommentForm from "../components/comments/CommentForm";
 import CommentList from "../components/comments/CommentList";
+import { getItem } from "../actions/ItemState";
 import { textTruncate } from "../helpers/TextHelper";
 
-const StudyPage = props => {
-  const [item, setItem] = useState({});
-
+const StudyPage = ({ getItem, item: { item, loading }, match }) => {
   useEffect(() => {
-    axios
-      .get(`/api/items/${props.match.params.id}`)
-      .then(res => {
-        setItem(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, [props.match.params.id]);
-
-  const { name, field_of_study, difficulty, date, material, status } = item;
+    getItem(match.params.id);
+  }, [getItem, match.params.id]);
 
   const statusColor = () => {
     let color = "";
@@ -61,6 +51,14 @@ const StudyPage = props => {
     return color;
   };
 
+  if (loading) {
+    return (
+      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+        Loading...
+      </Spinner>
+    );
+  }
+
   return item !== null &&
     item !== undefined &&
     Object.keys(item).length !== 0 ? (
@@ -70,42 +68,43 @@ const StudyPage = props => {
           <Badge
             className="status-badge"
             color={statusColor()}
-            style={{ float: "right" }}
+            style={{ float: "right", marginTop: "2rem" }}
           >
-            {status}
+            {item.status}
           </Badge>
-          <h1 className="display-3">{textTruncate(name, 40)}</h1>
+          <h1 className="display-3">{textTruncate(item.name, 40)}</h1>
 
           <p className="lead">
             This topic was added on{" "}
-            <Moment format="YYYY-MM-DD HH:mm">{date}</Moment>
+            <Moment format="YYYY-MM-DD HH:mm">{item.date}</Moment>
           </p>
           <hr className="my-2" />
           <p>
-            Field of Study: <strong>{textTruncate(field_of_study, 40)}</strong>{" "}
+            Field of Study:{" "}
+            <strong>{textTruncate(item.field_of_study, 40)}</strong>{" "}
           </p>
           <p>
-            Study Material: <strong>{material}</strong>{" "}
+            Study Material: <strong>{item.material}</strong>{" "}
           </p>
           <p>
-            Learning Curve: <strong>{difficulty}</strong>{" "}
+            Learning Curve: <strong>{item.difficulty}</strong>{" "}
           </p>
 
           <ListGroup className="flex-row m-auto">
             <Link
-              to={`/api/items/${name}`}
+              to={`/api/items/${item.name}`}
               className="btn btn-dark mt-4"
               color="dark"
             >
-              More {textTruncate(name, 15)}
+              More {textTruncate(item.name, 15)}
             </Link>
 
             <Link
-              to={`/api/items/${field_of_study}`}
+              to={`/api/items/${item.field_of_study}`}
               className="btn btn-dark mt-4 ml-4"
               color="dark"
             >
-              More {textTruncate(field_of_study, 15)}
+              More {textTruncate(item.field_of_study, 15)}
             </Link>
           </ListGroup>
         </Container>
@@ -129,4 +128,13 @@ const StudyPage = props => {
   );
 };
 
-export default StudyPage;
+StudyPage.propTypes = {
+  getItem: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+export default connect(mapStateToProps, { getItem })(StudyPage);

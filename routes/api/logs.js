@@ -38,7 +38,9 @@ router.post("/", async (req, res) => {
   try {
     const newEntry = new Log({
       name: req.body.name,
-      entry: req.body.entry
+      entry: req.body.entry,
+      topic: req.body.topic,
+      user: "5dcdf4c0ff04923f388cc5de"
     });
 
     const log = await newEntry.save();

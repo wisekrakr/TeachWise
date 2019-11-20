@@ -1,11 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Form, FormGroup, Input } from "reactstrap";
-import itemContext from "../../contexts/items/itemContext";
 
-const CommentForm = ({ itemId }) => {
-  const context = useContext(itemContext);
-  const { addUserComment } = context;
+import { addUserComment } from "../../actions/ItemState";
 
+const CommentForm = ({ itemId, addUserComment }) => {
   const [comment, setComment] = useState("");
 
   const onChange = e => {
@@ -50,6 +50,7 @@ const CommentForm = ({ itemId }) => {
             type="submit"
             value="Add Comment"
             className="btn btn-dark mt-2"
+            onSubmit={onSubmit}
           />
         </FormGroup>
       </Form>
@@ -57,4 +58,8 @@ const CommentForm = ({ itemId }) => {
   );
 };
 
-export default CommentForm;
+CommentForm.propTypes = {
+  addUserComment: PropTypes.func.isRequired
+};
+
+export default connect(null, { addUserComment })(CommentForm);

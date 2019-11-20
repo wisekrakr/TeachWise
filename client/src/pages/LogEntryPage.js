@@ -1,51 +1,55 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useEffect, Fragment } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import { Container, Jumbotron, ListGroup, Spinner } from "reactstrap";
 
-const LogEntryPage = props => {
-  const [log, setLog] = useState({});
+import { getLogEntry } from "../actions/LogState";
 
+const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
   useEffect(() => {
-    axios
-      .get(`/api/logs/${props.match.params.id}`)
-      .then(res => {
-        setLog(res.data);
-      })
-      .catch(err => {
-        console.error(err);
-      });
-  }, [props.match.params.id]);
+    getLogEntry(match.params.id);
+  }, [getLogEntry, match.params.id]);
 
-  if (log === null || log === undefined) {
+  if (loading) {
     return (
       <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
         Loading...
       </Spinner>
     );
-  } else {
-    return (
-      <Fragment>
-        <Jumbotron fluid>
-          <Container fluid>
-            <h1 className="display-1">{log.name}</h1>
+  }
 
-            <p className="lead">
-              This topic was added on{" "}
-              <Moment format="YYYY-MM-DD HH:mm">{log.date}</Moment>
-            </p>
-            <hr className="my-2" />
+  return log !== null && log !== undefined ? (
+    <Fragment>
+      <Jumbotron fluid>
+        <Container fluid>
+          <h1 className="display-1">{log.name}</h1>
 
-            <ListGroup className="flex-row m-auto">
-              <Link
-                to={`/api/logs/${log.name}`}
-                className="btn btn-dark mt-4"
-                color="dark"
-              >
-                More of {log.name}
-              </Link>
-              {/* 
+          <p className="lead">
+            This entry was added on{" "}
+            <Moment format="YYYY-MM-DD HH:mm">{log.date}</Moment>
+            <br />
+            {log.topic !== null &&
+            log.topic !== undefined &&
+            log.topic !== "" ? (
+              <em>Topic: {log.topic}</em>
+            ) : (
+              ""
+            )}
+          </p>
+
+          <hr className="my-2" />
+
+          <ListGroup className="flex-row m-auto">
+            <Link
+              to={`/api/logs/${log.topic._id}`}
+              className="btn btn-dark mt-4"
+              color="dark"
+            >
+              More of {log.topic}
+            </Link>
+            {/* 
               <Link
                 to={`/api/users/${user.name}`}
                 className="btn btn-dark mt-4 ml-4"
@@ -53,27 +57,39 @@ const LogEntryPage = props => {
               >
                 Go To Profile
               </Link> */}
-            </ListGroup>
-          </Container>
-        </Jumbotron>
-        <Container className="mx-md-auto">
-          {log.entry !== undefined ? (
-            log.entry.split("\n").map((text, i) => {
-              return (
-                <p key={i} data={text}>
-                  {text}
-                </p>
-              );
-            })
-          ) : (
-            <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-              Please wait... Loading Log Entry...
-            </Spinner>
-          )}
+          </ListGroup>
         </Container>
-      </Fragment>
-    );
-  }
+      </Jumbotron>
+      <Container className="mx-md-auto">
+        {log.entry !== undefined ? (
+          log.entry.split("\n").map((text, i) => {
+            return (
+              <p key={i} data={text}>
+                {text}
+              </p>
+            );
+          })
+        ) : (
+          <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+            Please wait... Loading Log Entry...
+          </Spinner>
+        )}
+      </Container>
+    </Fragment>
+  ) : (
+    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+      Loading...
+    </Spinner>
+  );
 };
 
-export default LogEntryPage;
+LogEntryPage.propTypes = {
+  getLogEntry: PropTypes.func.isRequired,
+  log: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  log: state.log
+});
+
+export default connect(mapStateToProps, { getLogEntry })(LogEntryPage);

@@ -1,18 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { ListGroup, ListGroupItem, Spinner } from "reactstrap";
+import React, { useEffect } from "react";
+import PropTypes from "prop-types";
+import { ListGroup, Spinner } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { connect } from "react-redux";
 
-import itemContext from "../../contexts/items/itemContext";
-
+import { getItems } from "../../actions/ItemState";
 import StudyItem from "./StudyItem";
 
-const StudyList = () => {
-  const context = useContext(itemContext);
-  const { items, getItems, loading } = context;
-
+const StudyList = ({ getItems, item: { items, loading } }) => {
   useEffect(() => {
     getItems();
-  }, []);
+  }, [getItems]);
 
   if (
     items === null &&
@@ -50,4 +48,13 @@ const StudyList = () => {
   );
 };
 
-export default StudyList;
+StudyList.propTypes = {
+  getItems: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  item: state.item
+});
+
+export default connect(mapStateToProps, { getItems })(StudyList);

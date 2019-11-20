@@ -1,15 +1,16 @@
-import React, { Fragment } from "react";
-import { Container, Jumbotron, ListGroup, Col, Row } from "reactstrap";
+import React from "react";
+import { Jumbotron, Container, ListGroup, Col, Row } from "reactstrap";
+import { Link } from "react-router-dom";
 
 import StudyList from "../components/items/StudyList";
 import LogEntryList from "../components/logs/LogEntryList";
 import ItemModal from "../components/items/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
 
-const Index = () => {
+const Main = () => {
   return (
-    <Fragment>
-      <Jumbotron className="home" id="top">
+    <div id="main">
+      <Jumbotron className="main" id="top">
         <h1 className="text-center large-heading mt-2">
           Mental Acquisitiveness
         </h1>
@@ -33,8 +34,8 @@ const Index = () => {
           </Col>
         </Row>
       </Container>
-    </Fragment>
+    </div>
   );
 };
 
-export default Index;
+export default Main;
