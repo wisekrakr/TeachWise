@@ -37,6 +37,7 @@ const StudyItem = ({
         <CardHeader
           tag="h3"
           className="custom-header text-light font-weight-bolder "
+          style={{ border: "none" }}
         >
           {name}
         </CardHeader>
@@ -119,10 +120,6 @@ const StudyItem = ({
       </div>
     </Card>
   );
-};
-
-StudyItem.defaultProps = {
-  showActions: true
 };
 
 StudyItem.propTypes = {

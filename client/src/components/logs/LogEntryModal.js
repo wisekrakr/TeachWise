@@ -55,7 +55,12 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
           Add Entry into Logs
         </Button>
 
-        <Modal className="custom-modal" isOpen={state.modal} toggle={toggle}>
+        <Modal
+          className="custom-modal"
+          isOpen={state.modal}
+          toggle={toggle}
+          style={{ color: "#333" }}
+        >
           <ModalHeader toggle={toggle}>Add Entry into Logs</ModalHeader>
           <ModalBody>
             <Form onSubmit={onSubmit}>

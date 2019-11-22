@@ -8,6 +8,7 @@ import {
   DELETE_COMMENT,
   UPDATE_LIKE,
   ITEM_ERROR,
+  GET_FIELD,
   LOADING_ITEMS
 } from "./itemTypes";
 

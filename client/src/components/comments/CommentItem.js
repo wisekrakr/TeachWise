@@ -33,10 +33,7 @@ const CommentItem = ({
       </div>
       <div>
         <div className="comment-footer">
-          <Moment
-            format="YYYY-MM-DD HH:mm"
-            className="text-dark float-left text-center"
-          >
+          <Moment format="YYYY-MM-DD HH:mm" className="float-left text-center">
             {date}
           </Moment>
         </div>

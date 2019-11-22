@@ -1,0 +1,176 @@
+.card {
+  position: relative;
+  width: 460px;
+  height: 180px;
+  background-color: #fff;
+  background: linear-gradient(#929090, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: auto;
+  margin-bottom: 1rem;
+}
+
+.card h1 {
+  text-align: center;
+}
+
+.card .card-secondary {
+  position: absolute;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(#ca5a50, #eeafa9);
+  transition: width 0.4s;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.card.blue .card-secondary {
+  background: linear-gradient($hard-dark, $soft-dark);
+}
+
+.card:hover .card-secondary {
+  width: 100%;
+  border-radius: 0 5px 5px 0;
+}
+
+.card .card-secondary .custom-card {
+  width: 150px;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+
+.card .card-secondary .custom-card::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 10%;
+  right: -2px;
+  height: 80%;
+  border-left: 2px solid rgba(0, 0, 0, 0.025);
+}
+
+.card .card-secondary .custom-card .discuss,
+.card .card-secondary .custom-card .name,
+.card .card-secondary .custom-card .likes {
+  margin-top: 1rem;
+  color: #fff;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.15);
+  padding: 0.125rem 0.75rem;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.card .card-secondary .custom-card .discuss {
+  margin-top: 2rem;
+}
+
+.card .card-secondary .custom-card .likes {
+  margin-top: 2rem;
+  padding: 0 !important;
+}
+
+.card .card-secondary .custom-card .discuss:hover {
+  background-color: $soft-dark;
+  transition: 0.4s ease-in;
+}
+
+.card .card-secondary .more-info {
+  width: 300px;
+  float: left;
+  font-weight: bold;
+  position: absolute;
+  left: 150px;
+  height: 100%;
+}
+
+.card .card-secondary .more-info h1 {
+  color: #fff;
+  margin-bottom: 0;
+}
+
+.card.blue .card-secondary .more-info h1 {
+  color: $soft-dark;
+}
+
+.card .card-secondary .coords {
+  margin: 0 1rem;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.card.blue .card-secondary .coords {
+  color: setTextColor($primary-color);
+}
+
+.card .card-secondary .coords span + span {
+  float: right;
+}
+
+.card .card-secondary .stats {
+  font-size: 0.8rem;
+  display: flex;
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  top: auto;
+  margin-top: 0.5rem;
+  color: setTextColor($primary-color);
+}
+
+.card .card-secondary .stats > div {
+  flex: 1;
+  text-align: center;
+}
+
+.card .card-secondary .stats i {
+  display: block;
+}
+
+.card .card-secondary .stats div.title {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+}
+
+.card .card-secondary .stats div.value {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.card .card-secondary .stats div.value.infinity {
+  font-size: 2.5rem;
+}
+
+.card .card-main {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  // box-sizing: border-box;
+  padding: 1rem;
+  padding-top: 0;
+}
+
+.card .card-main .more {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  font-size: 0.9em;
+}
+
+.card-delete {
+  background-color: $reddish;
+  border-radius: 1rem;
+  padding: 0 0.2rem 0;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}

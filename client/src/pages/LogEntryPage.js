@@ -22,9 +22,9 @@ const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
 
   return log !== null && log !== undefined ? (
     <Fragment>
-      <Jumbotron fluid>
+      <Jumbotron fluid className="jumbo-item">
         <Container fluid>
-          <h1 className="display-1">{log.name}</h1>
+          <h1 className="large-heading display-1">{log.name}</h1>
 
           <p className="lead">
             This entry was added on{" "}

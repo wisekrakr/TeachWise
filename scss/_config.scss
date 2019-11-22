@@ -1,0 +1,36 @@
+$primary-color: rgb(90, 82, 82);
+$light-color: rgb(202, 200, 200);
+$purple-color: rgb(85, 32, 72);
+$light-purple: rgb(230, 217, 243);
+
+$light-purple: #d3d3d3;
+$hard-dark: #251046;
+$soft-dark: #d3d3d3;
+$blue-gradient: linear-gradient($purple-color, $light-purple);
+$dark-gradient: linear-gradient($hard-dark, $soft-dark);
+$reddish: rgb(179, 61, 84);
+$greenish: rgb(76, 158, 90);
+
+@mixin easeOut {
+  transition: all 0.75s ease-out;
+}
+
+//Set Text Color
+
+@function setTextColor($color) {
+  @if (lightness($color) > 40) {
+    @return rgb(56, 53, 53);
+  } @else {
+    @return #ffffff;
+  }
+}
+
+//Add a portrait with circle around it
+@mixin addPortrait($path) {
+  width: 100px;
+  height: 100px;
+  background: url($path);
+  background-size: cover;
+  border-radius: 50%;
+  border: solid 3px $purple;
+}

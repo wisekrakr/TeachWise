@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 import { getItems } from "../../actions/ItemState";
 import StudyItem from "./StudyItem";
+import FieldOfStudy from "../../background/ticker/TickerItem";
 
 const StudyList = ({ getItems, item: { items, loading } }) => {
   useEffect(() => {

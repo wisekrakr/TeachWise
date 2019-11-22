@@ -4,6 +4,7 @@
   "description": "Study list built with the MERN stack",
   "main": "server.js",
   "scripts": {
+    "sass": "node-sass -w scss/ -o client/src/css/ --recursive",
     "postinstall": "npm install --prefix client",
     "start": "node server.js",
     "server": "nodemon server.js",
@@ -20,7 +21,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.7.8"
+    "mongoose": "^5.7.8",
+    "node-sass": "^4.13.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.4"

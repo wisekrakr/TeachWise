@@ -1,0 +1,75 @@
+@media only screen and (max-width: 570px) {
+  .home h1 {
+    font-size: 2.2rem;
+  }
+
+  .large-heading {
+    font-size: 3rem;
+  }
+
+  .display-3 {
+    font-size: 3rem;
+  }
+
+  .comment {
+    grid-template-columns: 1fr;
+    a,
+    button {
+      padding: 0.3rem 0.4rem;
+    }
+  }
+
+  .card {
+    width: 320px;
+    height: 120px;
+    margin: auto 0 1.5rem;
+  }
+
+  .custom-header {
+    text-align: right;
+    width: 175px;
+    float: right;
+    font-size: 0.8rem;
+  }
+
+  .card .card-secondary {
+    .more-info {
+      width: 180px;
+      font-size: 0.9rem;
+    }
+    .coords {
+      margin: 0 1rem;
+      color: #fff;
+      font-size: 0.7rem;
+    }
+
+    .stats {
+      font-size: 0.5rem;
+      bottom: 0;
+      div.title {
+        font-size: 0.5rem;
+      }
+      div.value {
+        font-size: 0.5rem;
+      }
+    }
+    .custom-card {
+      .discuss {
+        margin-top: 0.8rem;
+      }
+      .likes {
+        padding: 0;
+        margin-top: 0.6rem;
+      }
+    }
+  }
+
+  .custom-modal {
+    width: 340px;
+  }
+
+  .log-list-item {
+    width: 320px;
+    font-size: 0.9rem;
+  }
+}

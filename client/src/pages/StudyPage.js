@@ -16,6 +16,7 @@ import {
 
 import CommentForm from "../components/comments/CommentForm";
 import CommentList from "../components/comments/CommentList";
+import ItemModalEdit from "../components/items/ItemModalEdit";
 import { getItem } from "../actions/ItemState";
 import { textTruncate } from "../helpers/TextHelper";
 
@@ -63,7 +64,7 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
     item !== undefined &&
     Object.keys(item).length !== 0 ? (
     <Fragment>
-      <Jumbotron fluid>
+      <Jumbotron fluid className="jumbo-item">
         <Container fluid>
           <Badge
             className="status-badge"
@@ -72,7 +73,9 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
           >
             {item.status}
           </Badge>
-          <h1 className="display-3">{textTruncate(item.name, 40)}</h1>
+          <h1 className="large-heading display-3">
+            {textTruncate(item.name, 40)}
+          </h1>
 
           <p className="lead">
             This topic was added on{" "}
@@ -91,18 +94,13 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
           </p>
 
           <ListGroup className="flex-row m-auto">
-            <Link
-              to={`/api/items/${item.name}`}
-              className="btn btn-dark mt-4"
-              color="dark"
-            >
+            <Link to={`/api/items/${item.name}`} className="med-btn  mt-4">
               More {textTruncate(item.name, 15)}
             </Link>
 
             <Link
               to={`/api/items/${item.field_of_study}`}
-              className="btn btn-dark mt-4 ml-4"
-              color="dark"
+              className="med-btn  mt-4 ml-4"
             >
               More {textTruncate(item.field_of_study, 15)}
             </Link>

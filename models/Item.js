@@ -17,10 +17,6 @@ module.exports = Item = mongoose.model(
       type: String,
       required: true
     },
-    // field_of_study: {
-    //   type: Schema.Types.ObjectId,
-    //   ref: "fields"
-    // },
 
     user_comments: [
       {

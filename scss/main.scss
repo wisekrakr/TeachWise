@@ -1,0 +1,289 @@
+@import "config";
+@import "navbar";
+@import "card";
+@import "comment";
+@import "form";
+@import "ticker";
+@import "sidebar";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  background: rgba(darken($light-color, 6), 0.65);
+  color: setTextColor($primary-color);
+}
+
+#top {
+  color: #fff;
+  background-color: $hard-dark;
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 2000ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-enter {
+  opacity: 0.01;
+  transition: opacity 1000ms ease-in;
+}
+
+.header-navbar {
+  background: $dark-gradient;
+  position: fixed;
+  width: 100%;
+  z-index: 99;
+  transition: top 0.8s;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+#top-btn {
+  z-index: 98;
+}
+
+.home {
+  height: 100vh;
+  overflow-y: hidden;
+  text-align: center;
+  margin: 0;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://wallpapertag.com/wallpaper/full/3/c/4/852442-surreal-desktop-backgrounds-1920x1080-lockscreen.jpg")
+      no-repeat center center fixed;
+}
+
+.main {
+  width: 100%;
+
+  margin: auto;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url("https://42796r1ctbz645bo223zkcdl-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/library-425730_1920.jpg")
+      no-repeat center;
+}
+.home h1 {
+  margin: 3rem;
+}
+
+/*================ BUTTONS ===========*/
+.btn {
+  border: 0;
+  margin-bottom: 0.3rem;
+
+  &:hover {
+    background: $light-color;
+    color: $primary-color;
+  }
+}
+
+.large-btn {
+  color: setTextColor($primary-color);
+  background-color: $purple-color;
+  border-width: large;
+  border-radius: 1rem;
+  padding: 0.9rem 1.5rem;
+  white-space: normal;
+
+  &:hover {
+    background: rgba(darken($light-purple, 6), 0.65);
+    color: $primary-color;
+
+    @include easeOut;
+  }
+}
+
+.med-btn {
+  color: setTextColor($primary-color);
+  background-color: $purple-color;
+  border-width: medium;
+  border-radius: 1rem;
+  padding: 0.6rem 1.1rem;
+  margin: 1rem;
+  @include easeOut;
+
+  &:hover {
+    background: rgba(darken($light-purple, 6), 0.65);
+    color: $primary-color;
+  }
+}
+
+.small-btn {
+  color: setTextColor($primary-color);
+  background-color: $purple-color;
+  border-width: medium;
+  border-radius: 1rem;
+  padding: 0.3rem 0.75rem;
+  margin: 0.5rem;
+  @include easeOut;
+
+  &:hover {
+    background: rgba(darken($light-purple, 6), 0.65);
+    color: $primary-color;
+  }
+}
+
+.btn-unlike:hover {
+  background-color: transparent;
+  color: $reddish;
+  @include easeOut;
+}
+.btn-like:hover {
+  background-color: transparent;
+  color: $greenish;
+  @include easeOut;
+}
+
+/*================ TEXT STYLES ===========*/
+
+.text-xl {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+}
+
+.text-lg {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.text-md {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.narrow {
+  width: 75%;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+/*================ CONTAINERs ===========*/
+
+.index-container {
+  width: 100vw;
+  margin: auto;
+  padding: 1rem;
+}
+
+.jumbo {
+  border-radius: 0 !important;
+  border: none;
+
+  &-item {
+    color: #333;
+  }
+}
+
+.lead {
+  border: none;
+}
+
+/*================ HEADINGS ===========*/
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-weight: 800;
+  border-radius: 20px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: $light-purple;
+
+  &.large-heading {
+    border: none;
+    font-size: 4.2rem;
+    padding: 2rem !important;
+  }
+
+  &.small-heading {
+    margin-bottom: 2rem;
+    padding: 0.2rem 1rem;
+    background: $hard-dark;
+  }
+
+  &.x-small-heading {
+    margin-bottom: 1rem;
+    padding: 0.1rem 0.5rem;
+    background: $hard-dark;
+  }
+}
+
+.heading {
+  border: none;
+  color: rgba(darken($hard-dark, 6), 0.85);
+  padding: 2rem;
+}
+
+h3.heading {
+  border: none;
+  font-size: 1.9rem;
+  text-transform: uppercase;
+  padding-bottom: 2rem;
+}
+.heading-underline {
+  width: 6rem;
+  height: 0.3rem;
+  background-color: $hard-dark;
+  margin: 0 auto 2rem;
+}
+
+.custom-header:hover {
+  background-color: $purple-color;
+  @include easeOut;
+}
+
+/*================ LISTS ===========*/
+
+.list-group {
+  text-decoration: none;
+}
+
+.list-item {
+  display: block;
+  color: setTextColor($primary-color);
+  margin: 1rem 0 0;
+}
+
+.log-list-item {
+  width: 460px;
+  background: linear-gradient(#929090, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.list-delete {
+  background-color: $reddish;
+  border-radius: 2rem;
+  padding: 0 0.2rem 0;
+  float: right;
+}
+
+.custom-list-item {
+  color: setTextColor($primary-color);
+}
+.custom-list-item:hover {
+  background: linear-gradient($hard-dark, $soft-dark);
+  border-radius: 5px;
+  padding: 1rem;
+  @include easeOut;
+}
+@import "mobile";

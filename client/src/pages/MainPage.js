@@ -1,16 +1,17 @@
-import React from "react";
-import { Jumbotron, Container, ListGroup, Col, Row } from "reactstrap";
-import { Link } from "react-router-dom";
+import React, { Fragment } from "react";
+import { Jumbotron, ListGroup, Col, Row } from "reactstrap";
 
 import StudyList from "../components/items/StudyList";
 import LogEntryList from "../components/logs/LogEntryList";
+import TickerList from "../background/ticker/TickerList";
 import ItemModal from "../components/items/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
+import SideBar from "../layouts/SideBar";
 
 const Main = () => {
   return (
-    <div id="main">
-      <Jumbotron className="main" id="top">
+    <Fragment>
+      <Jumbotron className="main jumbo" id="top main">
         <h1 className="text-center large-heading mt-2">
           Mental Acquisitiveness
         </h1>
@@ -24,7 +25,9 @@ const Main = () => {
           <LogEntryModal />
         </ListGroup>
       </Jumbotron>
-      <Container className="index-container">
+      <TickerList />
+      <SideBar />
+      <div className="index-container">
         <Row>
           <Col>
             <StudyList />
@@ -33,8 +36,8 @@ const Main = () => {
             <LogEntryList />
           </Col>
         </Row>
-      </Container>
-    </div>
+      </div>
+    </Fragment>
   );
 };
 
