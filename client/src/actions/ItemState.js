@@ -10,7 +10,9 @@ import {
   ITEM_ERROR,
   GET_FIELD,
   LOADING_ITEMS
-} from "./itemTypes";
+} from "./types";
+
+import { setAlert } from "./AlertState";
 
 // Get Items
 export const getItems = () => async dispatch => {
@@ -62,6 +64,7 @@ export const addItem = item => async dispatch => {
       type: ADD_ITEM,
       payload: res.data
     });
+    dispatch(setAlert("Study Item Created", "success"));
   } catch (err) {
     dispatch({
       type: ITEM_ERROR,
@@ -79,6 +82,8 @@ export const deleteItem = id => async dispatch => {
       type: DELETE_ITEM,
       payload: id
     });
+
+    dispatch(setAlert("Item Removed", "success"));
   } catch (err) {
     dispatch({
       type: ITEM_ERROR,
@@ -94,7 +99,6 @@ export const addUserComment = (id, comment) => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
   try {
     const res = await axios.post(
       `/api/items/user_comments/${id}`,
@@ -106,8 +110,8 @@ export const addUserComment = (id, comment) => async dispatch => {
       type: ADD_COMMENT,
       payload: res.data
     });
+    dispatch(setAlert("Comment Posted", "success"));
   } catch (err) {
-    console.log(err);
     dispatch({
       type: ITEM_ERROR,
       payload: { msg: err.response.statusText, status: err.response.status }
@@ -123,6 +127,8 @@ export const deleteUserComment = (itemId, commentId) => async dispatch => {
       payload: commentId
     });
     await axios.delete(`/api/items/user_comments/${itemId}/${commentId}`);
+
+    dispatch(setAlert("Comment Removed", "success"));
   } catch (err) {
     dispatch({
       type: ITEM_ERROR,

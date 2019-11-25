@@ -6,7 +6,8 @@ import {
   DELETE_LOG_ENTRY,
   LOG_ERROR,
   LOADING_LOGS
-} from "./logTypes";
+} from "./types";
+import { setAlert } from "./AlertState";
 
 // Get Logs
 export const getLogs = () => async dispatch => {
@@ -50,7 +51,6 @@ export const addLogEntry = entry => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
   try {
     const res = await axios.post("/api/logs", entry, config);
 
@@ -58,10 +58,11 @@ export const addLogEntry = entry => async dispatch => {
       type: ADD_LOG_ENTRY,
       payload: res.data
     });
+    dispatch(setAlert("Entry has been logged", "success"));
   } catch (err) {
     dispatch({
       type: LOG_ERROR,
-      payload: err.response.msg
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -75,10 +76,11 @@ export const deleteLogEntry = id => async dispatch => {
       type: DELETE_LOG_ENTRY,
       payload: id
     });
+    dispatch(setAlert("Log Entry Removed", "success"));
   } catch (err) {
     dispatch({
       type: LOG_ERROR,
-      payload: err.response.msg
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };

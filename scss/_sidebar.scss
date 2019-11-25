@@ -9,7 +9,7 @@ $browser-context: 16;
   @return #{$pixels/$context}em;
 }
 
-$transition-duration: 600ms;
+$transition-duration: 400ms;
 $transition-delay: $transition-duration;
 
 $sidebar-transition: $transition-duration opacity $transition-delay,
@@ -30,120 +30,6 @@ a {
   }
 }
 
-[data-component="navbar"] {
-  .navbar {
-    background-color: #fff;
-  }
-  .navbar-toggler {
-    line-height: 2.4;
-    margin-left: 75px;
-    span {
-      text-transform: uppercase;
-      font-size: em(16);
-      font-weight: 400;
-      font-family: "Lato", sans-serif;
-      display: none;
-    }
-  }
-  .navbar-toggler[aria-expanded="true"] {
-    color: #009fff;
-    span {
-      display: initial;
-      color: #009fff;
-    }
-    i {
-      color: #009fff;
-    }
-  }
-  .navbar-collapse {
-    background-color: $purple-color;
-    margin-left: 75px;
-  }
-  .navbar-nav {
-    height: 100vw;
-  }
-  //animation transition
-  .collapsing {
-    -webkit-transition: height 0.3s ease;
-    -o-transition: height 0.3s ease;
-    transition: height 0.3s ease;
-  }
-  .navbar-brand {
-    background-color: $primary-color;
-    height: 60px;
-    width: 75px;
-    text-align: center;
-  }
-
-  /* Right Menu Dropdowns */
-  ::-webkit-scrollbar {
-    width: 0px;
-    background: transparent;
-  }
-  .right-links {
-    i {
-      color: #000;
-      font-size: 20px;
-      line-height: 2.8;
-    }
-  }
-  .home {
-    border-right: 1px solid #ababab;
-  }
-  .dropdown-toggle::after {
-    display: none;
-  }
-
-  .dropdown-item {
-    color: #292b2c;
-    font-size: em(12);
-  }
-
-  /* Notification */
-  .dropdown {
-    position: relative;
-    span {
-      color: #fff;
-      position: absolute;
-      width: 15px;
-      height: 15px;
-      top: -8px;
-      right: -3px;
-      background-color: red;
-      border-radius: 50%;
-      text-align: center;
-      font-size: em(10);
-      font-weight: 600;
-    }
-    img {
-      border-radius: 50%;
-      height: 40px;
-    }
-  }
-  /* Notification Dropdown */
-  .list-group {
-    .lg {
-      height: 500px;
-      width: 270px;
-      overflow: auto;
-    }
-    .list-group-item {
-      border-radius: 0;
-      letter-spacing: 0.5px;
-    }
-    h5 {
-      font-size: em(11);
-      font-weight: 700;
-      line-height: 2;
-    }
-    p {
-      font-size: em(9);
-      font-weight: 400;
-      line-height: 2;
-    }
-  }
-}
-
 [data-component="sidebar"] {
   .sidebar {
     position: fixed;
@@ -152,14 +38,21 @@ a {
   //black menu
   .first-menu {
     position: fixed;
-    background-color: $purple-color;
+    background-color: $hard-dark;
+
     height: 100vw;
     width: 75px;
     left: 0;
     overflow: hidden;
     transition: width 0.5s;
-    a {
-      color: #fff;
+
+    button {
+      color: $light-color;
+      background: transparent;
+      border: none;
+    }
+    .custom-link {
+      color: $light-color;
     }
     i {
       font-size: 24px;
@@ -169,10 +62,11 @@ a {
       white-space: nowrap;
       font-family: "Open Sans", sans-serif;
       opacity: 0;
-      visibility: hidden;
+      display: flex;
+      // visibility: hidden;
     }
-    &:hover span {
-      opacity: 1;
+    :hover span {
+      // opacity: 1;
       visibility: visible;
     }
     .list-group-item {
@@ -183,7 +77,7 @@ a {
     }
   }
   .first-menu:hover {
-    width: 160px;
+    width: 85px;
   }
 
   .list-group-item {
@@ -193,9 +87,8 @@ a {
   //blue menu
   .submenu {
     position: fixed;
-    left: 160px;
-    width: 195px;
-    top: 60px;
+    left: 85px;
+    width: 160px;
     background-color: $primary-color;
     height: 100vw;
     opacity: 0;
@@ -203,7 +96,9 @@ a {
     transition: $sidebar-transition;
 
     .list-group-item {
+      margin: auto;
       margin-top: 8px;
+      width: 100%;
     }
   }
 
@@ -211,18 +106,21 @@ a {
     visibility: visible;
     opacity: 1;
   }
+
   //white menu
   .sub-submenu {
     position: fixed;
     background-color: #fff;
-    left: 355px;
-    top: 60px;
+    left: 245px;
     height: 100vw;
-    width: 195px;
+    width: 160px;
     opacity: 0;
     visibility: hidden;
     transition: $sidebar-transition;
-    a {
+    .custom-link {
+      color: $primary-color;
+    }
+    button {
       color: $primary-color;
     }
     .list-group-item:hover {
@@ -238,19 +136,5 @@ a {
     background-color: transparent;
     border: none;
     border-radius: 0;
-  }
-
-  .arrow {
-    position: fixed;
-    left: 329px;
-    width: 0;
-    height: 0;
-    border-top: 27px solid transparent;
-    border-bottom: 27px solid transparent;
-
-    border-right: 27px solid white;
-    &:nth-child(3) {
-      top: 20px;
-    }
   }
 }

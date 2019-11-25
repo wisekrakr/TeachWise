@@ -13,6 +13,7 @@ const CommentItem = ({
   auth,
   deleteUserComment
 }) => {
+  console.log(user);
   return (
     <div className="comment" style={{ height: "100%" }}>
       <div className="comment-header">
@@ -38,16 +39,18 @@ const CommentItem = ({
           </Moment>
         </div>
       </div>
-      <Button
-        className="btn card-delete btn-sm"
-        key={_id}
-        onClick={async e => {
-          e.preventDefault();
-          await deleteUserComment(itemId, _id);
-        }}
-      >
-        <i className="fas fa-times" />
-      </Button>
+      {!auth.loading && user === auth.user._id && (
+        <Button
+          className="btn card-delete btn-sm"
+          key={_id}
+          onClick={async e => {
+            e.preventDefault();
+            await deleteUserComment(itemId, _id);
+          }}
+        >
+          <i className="fas fa-times" />
+        </Button>
+      )}
     </div>
   );
 };
@@ -55,7 +58,7 @@ const CommentItem = ({
 CommentItem.propTypes = {
   itemId: PropTypes.string.isRequired,
   user_comment: PropTypes.object.isRequired,
-  // auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   deleteUserComment: PropTypes.func.isRequired
 };
 

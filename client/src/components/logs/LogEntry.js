@@ -8,7 +8,7 @@ import { Button } from "reactstrap";
 import { deleteLogEntry } from "../../actions/LogState";
 import { textTruncate } from "../../helpers/TextHelper";
 
-const LogEntry = ({ auth, deleteLogEntry, log: { _id, name, date } }) => {
+const LogEntry = ({ auth, deleteLogEntry, log: { _id, user, name, date } }) => {
   const onDelete = () => {
     deleteLogEntry(_id);
   };
@@ -21,9 +21,12 @@ const LogEntry = ({ auth, deleteLogEntry, log: { _id, name, date } }) => {
             {date}
           </Moment>
         </div>
-        <Button className="btn list-delete btn-sm" onClick={onDelete}>
-          <i className="fas fa-times" />
-        </Button>
+        {!auth.loading && user === auth.user._id && (
+          <Button className="btn list-delete btn-sm" onClick={onDelete}>
+            <i className="fas fa-times" />
+          </Button>
+        )}
+
         <Link to={`/api/logs/${_id}`}>
           <div className="custom-list-item font-weight-bolder">
             {textTruncate(name, 20)}

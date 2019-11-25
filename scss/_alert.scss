@@ -1,0 +1,56 @@
+.alert {
+  padding: 0.8rem;
+  margin: 1rem 0;
+  opacity: 0.9;
+  background: $light-color;
+  color: $primary-color;
+}
+
+.btn-primary,
+.bg-primary,
+.badge-primary,
+.alert-primary {
+  background: $primary-color;
+  color: $light-color;
+}
+
+.btn-light,
+.bg-light,
+.badge-light,
+.alert-light {
+  background: $light-color;
+  color: $primary-color;
+}
+
+.btn-dark,
+.bg-dark,
+.badge-dark,
+.alert-dark {
+  background: $hard-dark;
+  color: $light-color;
+}
+
+.btn-danger,
+.bg-danger,
+.badge-danger,
+.alert-danger {
+  background: $reddish;
+  color: $light-color;
+}
+
+.btn-success,
+.bg-success,
+.badge-success,
+.alert-success {
+  background: $greenish;
+  color: $light-color;
+}
+
+.btn-white,
+.bg-white,
+.badge-white,
+.alert-white {
+  background: $light-color;
+  color: $primary-color;
+  border: #ccc solid 1px;
+}

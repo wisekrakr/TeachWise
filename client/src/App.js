@@ -1,34 +1,39 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import cache from "./cache";
 
-import HeaderNavbar from "./layouts/HeaderNavbar";
-import StudyPage from "./pages/StudyPage";
+import Routes from "./routing/Routes";
 import Index from "./pages/Index";
-import MainPage from "./pages/MainPage";
+import HeaderNavbar from "./layouts/HeaderNavbar";
 import ScrollToTop from "./background/ScrollToTop";
-import LogEntryPage from "./pages/LogEntryPage";
-import StudyList from "./components/items/StudyList";
-import LogEntryList from "./components/logs/LogEntryList";
+
+import { loadUser } from "./actions/AuthState";
+import setAuthToken from "./helpers/setAuthToken";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/main.css";
 
+if (localStorage.token) {
+  setAuthToken(localStorage.token);
+}
+
 function App() {
+  useEffect(() => {
+    cache.dispatch(loadUser());
+  }, []);
+
   return (
     <Provider store={cache}>
       <Router>
         <Fragment>
           <ScrollToTop />
           <HeaderNavbar />
+
           <Switch>
-            <Route exact path="/" component={MainPage} />
-            <Route exact path="/api/items" component={StudyList} />
-            <Route exact path="/api/logs" component={LogEntryList} />
-            <Route exact path="/api/items/:id" component={StudyPage} />
-            <Route exact path="/api/logs/:id" component={LogEntryPage} />
+            <Route exact path="/" component={Index} />
+            <Route component={Routes} />
           </Switch>
         </Fragment>
       </Router>

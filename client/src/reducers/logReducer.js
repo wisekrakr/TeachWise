@@ -5,7 +5,7 @@ import {
   LOADING_LOGS,
   LOG_ERROR,
   GET_LOG_ENTRY
-} from "../actions/logTypes";
+} from "../actions/types";
 
 const initialState = {
   logs: [],
@@ -44,7 +44,8 @@ export default (state = initialState, action) => {
     case LOG_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       };
     case LOADING_LOGS:
       return { ...state, loading: true };

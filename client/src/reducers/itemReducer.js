@@ -8,7 +8,7 @@ import {
   UPDATE_LIKE,
   DELETE_COMMENT,
   LOADING_ITEMS
-} from "../actions/itemTypes";
+} from "../actions/types";
 
 const initialState = {
   items: [],
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
     case ADD_COMMENT:
       return {
         ...state,
-        item: { user_comments: action.payload, ...state.item },
+        item: { ...state.item, user_comments: action.payload },
         loading: false
       };
     case DELETE_COMMENT:
@@ -73,7 +73,8 @@ export default (state = initialState, action) => {
     case ITEM_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       };
     case LOADING_ITEMS:
       return { ...state, loading: true };

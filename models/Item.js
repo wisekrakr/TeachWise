@@ -9,6 +9,9 @@ module.exports = Item = mongoose.model(
       type: Schema.Types.ObjectId,
       ref: "users"
     },
+    username: {
+      type: String
+    },
     name: {
       type: String,
       required: true

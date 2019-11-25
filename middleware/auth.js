@@ -10,19 +10,19 @@ function auth(req, res, next) {
   // Check for token
   if (!token) {
     // Unauthorized status
-    res.status(401).json({ msg: "Not authorized" });
-  }
+    return res.status(401).json({ msg: "Not authorized" });
+  } else {
+    try {
+      // Verify token
+      const decoded = jwt.verify(token, config.get("jwtSecret"));
 
-  try {
-    // Verify token
-    const decoded = jwt.verify(token, config.get("jwtSecret"));
-
-    // Add user from payload
-    req.user = decoded;
-    next();
-  } catch (err) {
-    console.error(err);
-    res.status(400).json({ msg: "Token not valid" });
+      // Add user from payload
+      req.user = decoded;
+      next();
+    } catch (err) {
+      console.error(err);
+      res.status(400).json({ msg: "Token not valid" });
+    }
   }
 }
 

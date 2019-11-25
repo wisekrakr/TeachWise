@@ -5,7 +5,7 @@ import {
   ADD_FIELD,
   LOADING_FIELDS,
   FIELD_ERROR
-} from "./fieldTypes";
+} from "./types";
 
 // Get fields of study
 export const getFields = () => async dispatch => {
@@ -20,7 +20,7 @@ export const getFields = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: err.response.msg
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -37,7 +37,7 @@ export const getField = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: err.response.msg
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };
@@ -49,7 +49,6 @@ export const addField = field => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
   try {
     const res = await axios.post("/api/fields", field, config);
 
@@ -60,7 +59,7 @@ export const addField = field => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: err.response.msg
+      payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
 };

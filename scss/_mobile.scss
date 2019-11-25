@@ -1,6 +1,24 @@
 @media only screen and (max-width: 570px) {
   .home h1 {
     font-size: 2.2rem;
+    margin: auto;
+    padding-right: 2rem;
+  }
+
+  .index-container {
+    width: 100vw;
+    margin: auto;
+    padding: 0.7rem;
+  }
+
+  .main {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
+  .sidebar {
+    display: none;
   }
 
   .large-heading {
@@ -22,7 +40,9 @@
   .card {
     width: 320px;
     height: 120px;
-    margin: auto 0 1.5rem;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
   }
 
   .custom-header {

@@ -1,65 +1,65 @@
-import React, { useState } from "react";
+import React from "react";
+import { Link, Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Spinner } from "reactstrap";
 
-const SideBar = () => {
-  return (
+import ItemModal from "../components/items/ItemModal";
+import LogEntryModal from "../components/logs/LogEntryModal";
+import { logoutUser } from "../actions/AuthState";
+
+const SideBar = ({ auth: { loading }, logoutUser }) => {
+  const onClick = e => {
+    e.preventDefault();
+    logoutUser();
+
+    return <Link to="/"></Link>;
+  };
+
+  return !loading ? (
     <div data-component="sidebar">
       <div className="sidebar">
         <ul className="list-group flex-column d-inline-block first-menu">
           <li className="list-group-item pl-3 py-2">
-            <a href="#">
-              <i className="far fa-user" aria-hidden="true">
-                <span className="ml-2 align-middle">Reporting</span>
-              </i>
-            </a>
+            <button>
+              <i className="far fa-user" aria-hidden="true" />
+            </button>
 
             <ul className="list-group flex-column d-inline-block submenu">
               <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Dashboard
-                </a>
+                <button className="custom-link">Profile</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <span className="arrow"></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Home</a>
+                    <Link to="/api/profile/me" className="custom-link">
+                      Home
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">My Sites</a>
+                    <Link to="/api/profile/edit" className="custom-link">
+                      Edit
+                    </Link>
                   </li>
                 </ul>
               </li>
 
               <li className="list-group-item pl-4">
-                <a href="">SEO</a>
+                <button>Classmates</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "113px" }}></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Dashboard</a>
+                    <Link to="/api/profile/friends" className="custom-link">
+                      People
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Titles & Metas</a>
+                    <Link to="/api/profile/groups" className="custom-link">
+                      Groups
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Social</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">XML Sitemaps</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Advanced</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Tools</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Search Console</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Go Premium</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Manual</a>
+                    <button>Social</button>
                   </li>
                 </ul>
               </li>
@@ -67,165 +67,56 @@ const SideBar = () => {
           </li>
 
           <li className="list-group-item pl-3 py-2">
-            <a href="#">
-              <i className="far fa-user" aria-hidden="true">
-                <span className="ml-2 align-middle">Content</span>
-              </i>
-            </a>
+            <button>
+              <i className="fas fa-book-reader" aria-hidden="true" />
+            </button>
             <ul className="list-group flex-column d-inline-block submenu">
               <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Posts
-                </a>
+                <button>Study Items</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow"></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">All Posts</a>
+                    <Link to="/api/items" className="custom-link">
+                      My Study Items
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Add New</a>
+                    <ItemModal />
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Categories</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Tags</a>
+                    <Link to="/api/fields" className="custom-link">
+                      My Study Fields
+                    </Link>
                   </li>
                 </ul>
               </li>
 
               <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Blog Assist
-                </a>
+                <button className="">Log Entries</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "114px" }}></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Add New Blog Post</a>
+                    <Link to="/api/logs" className="custom-link">
+                      My Log Entries
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Feed Sources</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New Feed Source</a>
+                    <LogEntryModal />
                   </li>
                 </ul>
               </li>
 
               <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Pages
-                </a>
+                <button className="">Study Material</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "166px" }}></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">All Pages</a>
+                    <Link to="/api/materials" className="custom-link">
+                      My Study Material
+                    </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <a href="#">Add New</a>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Area Content
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "220px" }}></span>
-                  <li className="list-group-item pl-4">
-                    <a href="#">All Cities</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New City</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">All Neighborhoods</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New Neighborhood</a>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Manual Listings
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "272px" }}></span>
-                  <li className="list-group-item pl-4">
-                    <a href="#">View All Listings</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New Listing</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Status</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Locations</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Property Types</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Import Listing</a>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Testimonials
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "323px" }}></span>
-                  <li className="list-group-item pl-4">
-                    <a href="#">View All</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Categories</a>
-                  </li>
-                </ul>
-              </li>
-
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Team Members
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "377px" }}></span>
-                  <li className="list-group-item pl-4">
-                    <a href="#">All Members</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New Member</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Designations</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Specialties</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Areas</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">All Locations</a>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <a href="#">Add New Location</a>
+                    <button>Add New Study Material</button>
                   </li>
                 </ul>
               </li>
@@ -233,54 +124,54 @@ const SideBar = () => {
           </li>
 
           <li className="list-group-item pl-3 py-2">
-            <a href="#">
-              <i className="far fa-user" aria-hidden="true">
-                <span className="ml-2 align-middle">Support</span>
-              </i>
-            </a>
+            <button>
+              <i className="far fa-address-card" aria-hidden="true" />
+            </button>
             <ul className="list-group flex-column d-inline-block submenu">
               <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Training
-                </a>
+                <button>Contact</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow"></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Video Tutorials</a>
+                    <button>Help Desk</button>
                   </li>
-                </ul>
-              </li>
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Tutorials
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "114px" }}></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Help Desk</a>
+                    <button>FAQ</button>
                   </li>
-                </ul>
-              </li>
-              <li className="list-group-item pl-4">
-                <a href="#" className="">
-                  Ask a Question
-                </a>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow" style={{ top: "166px" }}></span>
                   <li className="list-group-item pl-4">
-                    <a href="#">Send Support Request</a>
+                    <button>Contact Info</button>
                   </li>
                 </ul>
               </li>
             </ul>
+          </li>
+
+          <li className="list-group-item pl-3 py-2">
+            <button
+              onClick={e => {
+                onClick(e);
+              }}
+            >
+              <i className="fas fa-power-off" aria-hidden="true" />
+            </button>
           </li>
         </ul>
       </div>
     </div>
+  ) : (
+    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
+      Loading...
+    </Spinner>
   );
 };
 
-export default SideBar;
+SideBar.propTypes = {
+  logoutUser: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logoutUser })(SideBar);

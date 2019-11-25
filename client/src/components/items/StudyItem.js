@@ -113,9 +113,11 @@ const StudyItem = ({
               <div className="value">123</div>
             </div>
           </div>
-          <Button className="btn card-delete btn-sm" onClick={onDelete}>
-            <i className="fas fa-times" />
-          </Button>
+          {!auth.loading && user === auth.user._id && (
+            <Button className="btn card-delete btn-sm" onClick={onDelete}>
+              <i className="fas fa-times" />
+            </Button>
+          )}
         </div>
       </div>
     </Card>
@@ -124,7 +126,7 @@ const StudyItem = ({
 
 StudyItem.propTypes = {
   item: PropTypes.object.isRequired,
-  // auth: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
   deleteItem: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
   removeLike: PropTypes.func.isRequired

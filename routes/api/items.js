@@ -10,7 +10,7 @@ const User = require("../../models/User");
 // @route GET api/items
 // @desc  GET All Items
 // @access Public
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     const items = await Item.find().sort({ date: -1 });
     res.json(items);
@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
 // @route GET /:id
 // @desc  GET One Items
 // @access Public
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
     res.json(item);
@@ -35,17 +35,19 @@ router.get("/:id", async (req, res) => {
 
 // @route POST api/items
 // @desc  Create an Item
-// @access Public
+// @access Private
 router.post(
   "/",
-
   [
-    check("name", "Title is required")
-      .not()
-      .isEmpty(),
-    check("field_of_study", "A Field of Study is required")
-      .not()
-      .isEmpty()
+    auth,
+    [
+      check("name", "Title is required")
+        .not()
+        .isEmpty(),
+      check("field_of_study", "A Field of Study is required")
+        .not()
+        .isEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -54,11 +56,11 @@ router.post(
     }
 
     try {
-      // const user = await User.findById(req.user.id).select('-password');
+      const user = await User.findById(req.user.user.id).select("-password");
 
       const newItem = new Item({
-        // user: req.user.id,
-        user: "5dcdf4c0ff04923f388cc5de",
+        user: req.user.user.id,
+        username: user.name,
         name: req.body.name,
         field_of_study: req.body.field_of_study,
         difficulty: req.body.difficulty,
@@ -80,7 +82,7 @@ router.post(
 // @route DELETE api/items/:id
 // @desc  Delete an Item
 // @access Public
-router.delete("/:id", (req, res) => {
+router.delete("/:id", auth, (req, res) => {
   Item.findById(req.params.id)
     .then(item => item.remove().then(() => res.json({ deleted: true })))
     .catch(err => res.status(404).json({ deleted: false }));
@@ -88,17 +90,19 @@ router.delete("/:id", (req, res) => {
 
 // @route    POST api/items/user_comments/:id
 // @desc     Add user item comment
-// @access   Public
+// @access   Private
 router.post(
   "/user_comments/:id",
-
   [
-    (check("title", "Title is required")
-      .not()
-      .isEmpty(),
-    check("comment", "A comment is required")
-      .not()
-      .isEmpty())
+    auth,
+    [
+      check("title", "Title is required")
+        .not()
+        .isEmpty(),
+      check("comment", "A comment is required")
+        .not()
+        .isEmpty()
+    ]
   ],
   async (req, res) => {
     const errors = validationResult(req);
@@ -107,15 +111,14 @@ router.post(
     }
 
     try {
-      // const user = await User.findById(req.user.id).select('-password');
-
+      const user = await User.findById(req.user.user.id).select("-password");
       const item = await Item.findById(req.params.id);
 
       const newComment = {
         comment: req.body.comment,
+        name: user.user.name,
         title: req.body.title,
-        // user: req.user.id
-        user: "5dcdf4c0ff04923f388cc5de"
+        user: req.user.user.id
       };
 
       item.user_comments.unshift(newComment);
@@ -132,8 +135,8 @@ router.post(
 
 // @route    DELETE api/items/user_comments/:id/:comment_id
 // @desc     Delete user comment from item
-// @access   Public
-router.delete("/user_comments/:id/:comment_id", async (req, res) => {
+// @access   Private
+router.delete("/user_comments/:id/:comment_id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
@@ -170,18 +173,23 @@ router.delete("/user_comments/:id/:comment_id", async (req, res) => {
 // @route    PUT api/items/like/:id
 // @desc     Like an item
 // @access   Private
-router.put("/like/:id", async (req, res) => {
+router.put("/like/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
+    item.likes.filter(like => {
+      console.log(like.user.toString() + " " + item.user);
+    });
+
     // Check if the item has already been liked
     if (
-      item.likes.filter(like => like.user.toString() === req.user.id).length > 0
+      item.likes.filter(like => like.user.toString() === req.user.user.id)
+        .length > 0
     ) {
       return res.status(400).json({ msg: "Item already liked" });
     }
 
-    item.likes.unshift({ user: req.user.id });
+    item.likes.unshift({ user: item.user });
 
     await item.save();
 
@@ -195,14 +203,14 @@ router.put("/like/:id", async (req, res) => {
 // @route    PUT api/items/unlike/:id
 // @desc     Unlike an item
 // @access   Private
-router.put("/unlike/:id", async (req, res) => {
+router.put("/unlike/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
     // Check if the item has already been liked
     if (
-      item.likes.filter(like => like.user.toString() === req.user.id).length ===
-      0
+      item.likes.filter(like => like.user.toString() === req.user.user.id)
+        .length === 0
     ) {
       return res.status(400).json({ msg: "Post has not yet been liked" });
     }
@@ -210,7 +218,7 @@ router.put("/unlike/:id", async (req, res) => {
     // Get remove index
     const removeIndex = item.likes
       .map(like => like.user.toString())
-      .indexOf(req.user.id);
+      .indexOf(item.user);
 
     item.likes.splice(removeIndex, 1);
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   Collapse,
   Navbar,
@@ -11,10 +13,10 @@ import {
   Container
 } from "reactstrap";
 
-const HeaderNavbar = () => {
+import { logoutUser } from "../actions/AuthState";
+
+const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
   const [state, setState] = useState({});
-  //   const [user, setUser] = useState({});
-  //   const [isAuthenticated, setAuthentication] = useState({});
 
   const toggle = () => {
     setState({
@@ -22,26 +24,54 @@ const HeaderNavbar = () => {
     });
   };
 
+  const authLinks = (
+    <Nav className="m-auto custom-nav" navbar>
+      <NavItem>
+        <Link to="/dashboard" className="a-link">
+          <i className="fas fa-home" /> Dashboard
+        </Link>
+      </NavItem>
+      <NavItem>
+        <Link to="/profiles/:id" className="a-link">
+          <i className="fas fa-user" /> Profile
+        </Link>
+      </NavItem>
+      <NavItem>
+        <Link to="/profiles/classmates/:id" className="a-link">
+          <i className="fas fa-users" /> Classmates
+        </Link>
+      </NavItem>
+    </Nav>
+  );
+
+  const guestLinks = (
+    <Nav className="m-auto custom-nav" navbar>
+      <NavItem>
+        <Link to="/profiles" className="a-link">
+          <i className="fas fa-user" /> Profiles
+        </Link>
+      </NavItem>
+    </Nav>
+  );
+
   return (
     <Navbar dark expand="md" className="header-navbar mb-5" id="navbar">
-      <Container>
-        <NavbarBrand href="/"> StudyList </NavbarBrand>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={state.isOpen} navbar>
-          <Nav className="m-auto custom-nav" navbar>
-            <NavItem>
-              <Link to="/profiles/:id" className="a-link">
-                <i className="fas fa-user" /> Profile
-              </Link>
-              <Link to="/profiles/classmates/:id" className="a-link">
-                <i className="fas fa-users" /> Classmates
-              </Link>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Container>
+      <NavbarBrand href="/"> WiseStudyList </NavbarBrand>
+      <NavbarToggler onClick={toggle} />
+      <Collapse isOpen={state.isOpen} navbar>
+        {isAuthenticated ? authLinks : guestLinks}
+      </Collapse>
     </Navbar>
   );
 };
 
-export default HeaderNavbar;
+HeaderNavbar.propTypes = {
+  auth: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = state => ({
+  auth: state.auth
+});
+
+export default connect(mapStateToProps, { logoutUser })(HeaderNavbar);

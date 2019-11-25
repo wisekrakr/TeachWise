@@ -8,13 +8,11 @@ const Index = () => {
       <Jumbotron className="home" id="top">
         <div
           className="font-weight-lighter"
-          style={{ textAlign: "bottom", mar: "0" }}
+          style={{ textAlign: "bottom", paddingTop: "1rem" }}
         >
           *use Google Chrome for the best experience
         </div>
-        <h1 className="text-center large-heading mt-2">
-          Mental Acquisitiveness
-        </h1>
+        <h1 className="large-heading">Mental Acquisitiveness</h1>
         <h3 className="lead text-center">Your Personal Path To Knowledge</h3>
         <ListGroup
           style={{
@@ -28,10 +26,10 @@ const Index = () => {
             className="btn-group-vertical mt-6"
             style={{ marginTop: "6rem" }}
           >
-            <Link to="/login" className="btn btn-light btn-lg ">
+            <Link to="/login" className="btn med-btn">
               Login
             </Link>
-            <Link to="/register" className="btn btn-light  btn-lg">
+            <Link to="/register" className="btn med-btn">
               Register
             </Link>
           </div>

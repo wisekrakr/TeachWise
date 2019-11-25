@@ -16,7 +16,8 @@ const CommentForm = ({ itemId, addUserComment }) => {
     });
   };
 
-  const onSubmit = () => {
+  const onSubmit = e => {
+    e.preventDefault();
     addUserComment(itemId, comment);
     setComment("");
   };

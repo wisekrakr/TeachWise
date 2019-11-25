@@ -14,25 +14,19 @@ const ScrollToTop = () => {
   };
 
   return (
-    <Button
-      color="dark"
-      onClick={toTheTop}
-      id="top-btn"
-      title="Go to top"
-      style={btnStyle}
-    >
+    <Button onClick={toTheTop} id="top-btn" title="Go to top" style={btnStyle}>
       <i href="#top" className="fas fa-arrow-alt-circle-up fa-2x" />
     </Button>
   );
 };
 
 const btnStyle = {
-  display: "none" /* Hidden by default */,
-  position: "fixed" /* Fixed/sticky position */,
-  bottom: "1rem" /* Place the button at the bottom of the page */,
-  right: "1rem" /* Place the button 30px from the right */,
-  cursor: "pointer" /* Add a mouse pointer on hover */,
-  borderRadius: "20px" /* Rounded corners */,
+  display: "none",
+  position: "fixed",
+  bottom: "1rem",
+  right: "1rem",
+  cursor: "pointer",
+  borderRadius: "20px",
   padding: "0.2rem"
 };
 

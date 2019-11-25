@@ -4,7 +4,7 @@ import {
   FIELD_ERROR,
   ADD_FIELD,
   LOADING_FIELDS
-} from "../actions/fieldTypes";
+} from "../actions/types";
 
 const initialState = {
   fields: [],
@@ -36,7 +36,8 @@ export default (state = initialState, action) => {
     case FIELD_ERROR:
       return {
         ...state,
-        error: action.payload
+        error: action.payload,
+        loading: false
       };
     case LOADING_FIELDS:
       return { ...state, loading: true };
