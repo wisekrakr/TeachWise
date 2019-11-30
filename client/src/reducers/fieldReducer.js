@@ -3,6 +3,7 @@ import {
   GET_FIELD,
   FIELD_ERROR,
   ADD_FIELD,
+  DELETE_FIELD,
   LOADING_FIELDS
 } from "../actions/types";
 
@@ -31,6 +32,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fields: [action.payload, ...state.fields],
+        loading: false
+      };
+    case DELETE_FIELD:
+      return {
+        ...state,
+        fields: state.fields.filter(field => field._id !== action.payload),
         loading: false
       };
     case FIELD_ERROR:

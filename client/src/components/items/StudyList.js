@@ -1,14 +1,13 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
-import { ListGroup, Spinner } from "reactstrap";
+import { ListGroup, Spinner, Container } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 
 import { getItems } from "../../actions/ItemState";
 import StudyItem from "./StudyItem";
-import FieldOfStudy from "../../background/ticker/TickerItem";
 
-const StudyList = ({ getItems, item: { items, loading } }) => {
+const StudyList = ({ getItems, item: { items, loading }, showAll }) => {
   useEffect(() => {
     getItems();
   }, [getItems]);
@@ -25,9 +24,16 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
     );
   }
 
-  return (
-    <div>
-      <h3 className="text-center small-heading">Your study items</h3>
+  return items.length !== 0 ? (
+    <Container>
+      {!showAll ? (
+        <h3 className="text-center small-heading">Your study items</h3>
+      ) : (
+        <h3 className="text-center small-heading">
+          Recently added study items
+        </h3>
+      )}
+
       <p className="heading-underline" />
       {items !== null && !loading ? (
         <ListGroup>
@@ -35,7 +41,7 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
           <TransitionGroup className="custom-list">
             {items.map(item => (
               <CSSTransition key={item._id} timeout={500} classNames="fade">
-                <StudyItem key={item._id} item={item} />
+                <StudyItem key={item._id} item={item} showAll={showAll} />
               </CSSTransition>
             ))}
           </TransitionGroup>
@@ -45,13 +51,20 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
           Loading...
         </Spinner>
       )}
-    </div>
+    </Container>
+  ) : (
+    <Fragment>
+      <h3 className="x-small-heading">
+        Add a Study Item to show what you are studying
+      </h3>
+    </Fragment>
   );
 };
 
 StudyList.propTypes = {
   getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  showAll: PropTypes.bool
 };
 
 const mapStateToProps = state => ({

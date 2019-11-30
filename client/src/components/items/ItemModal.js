@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import {
   Modal,
@@ -11,17 +11,20 @@ import {
 } from "reactstrap";
 import { connect } from "react-redux";
 import { addItem } from "../../actions/ItemState";
-import { addField } from "../../actions/FieldState";
+import { getFields } from "../../actions/FieldState";
+import StudyFieldModal from "../fields/StudyFieldModal";
 
-const ItemModal = ({ addItem, addField }) => {
+const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
   const initialState = {
     modal: false,
-    item: {},
-    field_of_study: {}
+    item: {}
   };
   const [state, setState] = useState(initialState);
   const [item, setItem] = useState({});
-  const [fieldOfStudy, setFieldOfStudy] = useState({});
+
+  useEffect(() => {
+    getFields();
+  }, [getFields]);
 
   const onChange = e => {
     e.preventDefault();
@@ -29,19 +32,13 @@ const ItemModal = ({ addItem, addField }) => {
       ...item,
       [e.target.name]: e.target.value
     });
-    setFieldOfStudy({
-      ...fieldOfStudy,
-      [e.target.name]: e.target.value
-    });
   };
 
   const onSubmit = e => {
     e.preventDefault();
     setState({ item: item });
-    setState({ field_of_study: fieldOfStudy });
     addItem(item);
-    addField(fieldOfStudy);
-    toggle();
+    // toggle();
   };
 
   const toggle = () => {
@@ -71,14 +68,28 @@ const ItemModal = ({ addItem, addField }) => {
                 placeholder="Add study item..."
                 onChange={onChange}
               ></Input>
-              <Label for="fieldOfStudy">Study Field*</Label>
+              <Label for="item">Study Field*</Label>
               <Input
-                type="text"
+                type="select"
                 name="field_of_study"
-                id="fieldOfStudy"
-                placeholder="Add study field..."
+                id="item"
                 onChange={onChange}
-              ></Input>
+              >
+                <option>{""}</option>
+                {fields.map(field => {
+                  return <option key={field._id}>{field.name}</option>;
+                })}
+              </Input>
+              <span
+                style={{
+                  float: "right",
+                  padding: "0.5rem",
+                  fontSize: "15px"
+                }}
+              >
+                <StudyFieldModal />
+              </span>
+              <br />
               <Label for="item">Study Difficulty</Label>
               <Input
                 type="select"
@@ -96,7 +107,7 @@ const ItemModal = ({ addItem, addField }) => {
                 type="text"
                 name="material"
                 id="item"
-                placeholder="Add study material..."
+                placeholder="Add study materials, separated by comma's"
                 onChange={onChange}
               ></Input>
               <Label for="item">What is the status of this study?</Label>
@@ -127,7 +138,12 @@ const ItemModal = ({ addItem, addField }) => {
 
 ItemModal.propTypes = {
   addItem: PropTypes.func.isRequired,
-  addField: PropTypes.func.isRequired
+  getFields: PropTypes.func.isRequired,
+  field: PropTypes.object.isRequired
 };
 
-export default connect(null, { addItem, addField })(ItemModal);
+const mapStateToProps = state => ({
+  field: state.field
+});
+
+export default connect(mapStateToProps, { addItem, getFields })(ItemModal);

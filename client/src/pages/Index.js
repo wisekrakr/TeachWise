@@ -1,15 +1,18 @@
 import React from "react";
-import { Jumbotron, ListGroup } from "reactstrap";
-import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
-const Index = () => {
+import { connect } from "react-redux";
+import { Jumbotron, ListGroup } from "reactstrap";
+import { Link, Redirect } from "react-router-dom";
+
+const Index = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Redirect to="/dashboard" />;
+  }
   return (
     <div id="index">
       <Jumbotron className="home" id="top">
-        <div
-          className="font-weight-lighter"
-          style={{ textAlign: "bottom", paddingTop: "1rem" }}
-        >
+        <div className="font-weight-lighter" style={{ textAlign: "bottom" }}>
           *use Google Chrome for the best experience
         </div>
         <h1 className="large-heading">Mental Acquisitiveness</h1>
@@ -39,4 +42,12 @@ const Index = () => {
   );
 };
 
-export default Index;
+Index.propTypes = {
+  isAuthenticated: PropTypes.bool
+};
+
+const mapStateToProps = state => ({
+  isAuthenticated: state.auth.isAuthenticated
+});
+
+export default connect(mapStateToProps)(Index);

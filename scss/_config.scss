@@ -1,15 +1,16 @@
 $primary-color: rgb(90, 82, 82);
 $light-color: rgb(202, 200, 200);
-$purple-color: rgb(85, 32, 72);
-$light-purple: rgb(230, 217, 243);
+$orange-color: #d67f39;
+$light-orange: #e2c4a8;
 
-$light-purple: #d3d3d3;
-$hard-dark: #251046;
-$soft-dark: #d3d3d3;
-$blue-gradient: linear-gradient($purple-color, $light-purple);
+$hard-dark: #1a5888;
+$soft-dark: #c2def3;
+$blue-gradient: linear-gradient($orange-color, $light-orange);
 $dark-gradient: linear-gradient($hard-dark, $soft-dark);
 $reddish: rgb(179, 61, 84);
 $greenish: rgb(76, 158, 90);
+$bg-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05),
+  0 0.5rem 1.125rem rgba(75, 0, 0, 0.05);
 
 @mixin easeOut {
   transition: all 0.75s ease-out;

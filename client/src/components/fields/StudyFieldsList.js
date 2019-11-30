@@ -1,17 +1,25 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { ListGroup, Spinner } from "reactstrap";
+import { Container, Spinner } from "reactstrap";
 
-import LogEntry from "./LogEntry";
-import { getLogs } from "../../actions/LogState";
+import { getFields } from "../../actions/FieldState";
+import StudyFieldItem from "./StudyFieldItem";
 
-const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
+const StudyFieldsList = ({
+  getFields,
+  field: { fields, loading },
+  showAll
+}) => {
   useEffect(() => {
-    getLogs();
-  }, [getLogs]);
+    getFields();
+  }, [getFields]);
 
-  if (logs === null && logs === undefined && Object.keys(logs).length === 0) {
+  if (
+    fields === null &&
+    fields === undefined &&
+    Object.keys(fields).length === 0
+  ) {
     return (
       <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
         Loading...
@@ -19,31 +27,44 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
     );
   }
 
-  return (
-    <Fragment>
-      <h3 className="text-center small-heading">Your Log Entries</h3>
+  return fields.length !== 0 ? (
+    <Container>
+      {!showAll ? (
+        <h3 className="text-center small-heading">Your fields of study</h3>
+      ) : (
+        <h3 className="text-center small-heading">
+          Recently added fields of study
+        </h3>
+      )}
       <p className="heading-underline" />
-      {logs !== null && !loading ? (
-        <ListGroup>
-          {logs.map(log => (
-            <LogEntry key={log._id} log={log} />
+      {fields !== null && !loading ? (
+        <ol className="alt-list">
+          {fields.map(field => (
+            <StudyFieldItem key={field._id} field={field} showAll={showAll} />
           ))}
-        </ListGroup>
+        </ol>
       ) : (
         <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-          Please add a log entry....
+          Loading....
         </Spinner>
       )}
+    </Container>
+  ) : (
+    <Fragment>
+      <h3 className="x-small-heading">
+        Add a Study Field before you add new Study Items
+      </h3>
     </Fragment>
   );
 };
 
-LogEntryList.prototypes = {
-  getLogs: PropTypes.func.isRequired,
-  log: PropTypes.object.isRequired
+StudyFieldsList.prototypes = {
+  getFields: PropTypes.func.isRequired,
+  field: PropTypes.object.isRequired,
+  showAll: PropTypes.bool
 };
 const mapStateToProps = state => ({
-  log: state.log
+  field: state.field
 });
 
-export default connect(mapStateToProps, { getLogs })(LogEntryList);
+export default connect(mapStateToProps, { getFields })(StudyFieldsList);

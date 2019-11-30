@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Spinner } from "reactstrap";
@@ -7,8 +7,9 @@ import { Spinner } from "reactstrap";
 import ItemModal from "../components/items/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
 import { logoutUser } from "../actions/AuthState";
+import StudyFieldModal from "../components/fields/StudyFieldModal";
 
-const SideBar = ({ auth: { loading }, logoutUser }) => {
+const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
   const onClick = e => {
     e.preventDefault();
     logoutUser();
@@ -32,12 +33,22 @@ const SideBar = ({ auth: { loading }, logoutUser }) => {
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <span className="arrow"></span>
                   <li className="list-group-item pl-4">
-                    <Link to="/api/profile/me" className="custom-link">
-                      Home
-                    </Link>
+                    {profile !== null ? (
+                      <Link
+                        to={`/profile/${profile.user._id}`}
+                        className="custom-link"
+                      >
+                        Home
+                      </Link>
+                    ) : (
+                      <div className="custom-link">Home</div>
+                    )}
                   </li>
                   <li className="list-group-item pl-4">
-                    <Link to="/api/profile/edit" className="custom-link">
+                    <Link
+                      to="/api/profile/profile-edit"
+                      className="custom-link"
+                    >
                       Edit
                     </Link>
                   </li>
@@ -83,11 +94,6 @@ const SideBar = ({ auth: { loading }, logoutUser }) => {
                   <li className="list-group-item pl-4">
                     <ItemModal />
                   </li>
-                  <li className="list-group-item pl-4">
-                    <Link to="/api/fields" className="custom-link">
-                      My Study Fields
-                    </Link>
-                  </li>
                 </ul>
               </li>
 
@@ -102,6 +108,21 @@ const SideBar = ({ auth: { loading }, logoutUser }) => {
                   </li>
                   <li className="list-group-item pl-4">
                     <LogEntryModal />
+                  </li>
+                </ul>
+              </li>
+
+              <li className="list-group-item pl-4">
+                <button className="">Study Fields</button>
+
+                <ul className="list-group flex-column d-inline-block sub-submenu">
+                  <li className="list-group-item pl-4">
+                    <Link to="/api/fields" className="custom-link">
+                      My Fields of Study
+                    </Link>
+                  </li>
+                  <li className="list-group-item pl-4">
+                    <StudyFieldModal />
                   </li>
                 </ul>
               </li>
@@ -167,7 +188,8 @@ const SideBar = ({ auth: { loading }, logoutUser }) => {
 
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object
 };
 
 const mapStateToProps = state => ({

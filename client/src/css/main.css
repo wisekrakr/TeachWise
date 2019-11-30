@@ -19,7 +19,7 @@
 
 /* Add a color to the active/current link */
 .custom-nav .a-link.active {
-  background-color: rgba(63, 24, 53, 0.65);
+  background-color: rgba(199, 112, 41, 0.65);
   color: #ffffff; }
 
 .card {
@@ -47,7 +47,7 @@
   z-index: 2; }
 
 .card.blue .card-secondary {
-  background: linear-gradient(#251046, #d3d3d3); }
+  background: linear-gradient(#1a5888, #c2def3); }
 
 .card:hover .card-secondary {
   width: 100%;
@@ -90,7 +90,7 @@
   padding: 0 !important; }
 
 .card .card-secondary .custom-card .discuss:hover {
-  background-color: #d3d3d3;
+  background-color: #c2def3;
   transition: 0.4s ease-in; }
 
 .card .card-secondary .more-info {
@@ -106,7 +106,7 @@
   margin-bottom: 0; }
 
 .card.blue .card-secondary .more-info h1 {
-  color: #d3d3d3; }
+  color: #c2def3; }
 
 .card .card-secondary .coords {
   margin: 0 1rem;
@@ -186,7 +186,7 @@
   align-items: center;
   color: #5a5252; }
   .comment .comment-title {
-    background-color: #552048;
+    background-color: #d67f39;
     color: #fff;
     font-weight: bolder;
     margin: 0 0 1rem; }
@@ -203,7 +203,7 @@
     margin: auto;
     background-size: cover;
     border-radius: 50%;
-    border: solid 2px #552048; }
+    border: solid 2px #d67f39; }
   .comment .comment-count {
     background: #cac8c8;
     padding: 0.1rem 0.2rem;
@@ -222,6 +222,9 @@
   margin-top: 0.3rem;
   color: #888; }
 
+.form-icon {
+  margin-right: 0.3rem; }
+
 .form input[type="text"],
 .form input[type="email"],
 .form input[type="password"],
@@ -232,7 +235,7 @@
   width: 100%;
   padding: 0.4rem;
   font-size: 1.2rem;
-  border: 1px solid #ccc; }
+  border: none; }
 
 .form input[type="submit"],
 button {
@@ -329,7 +332,7 @@ a:focus {
 
 [data-component="sidebar"] .first-menu {
   position: fixed;
-  background-color: #251046;
+  background-color: #1a5888;
   height: 100vw;
   width: 75px;
   left: 0;
@@ -406,6 +409,7 @@ a:focus {
   border-radius: 0; }
 
 .alert {
+  position: relative;
   padding: 0.8rem;
   margin: 1rem 0;
   opacity: 0.9;
@@ -430,7 +434,7 @@ a:focus {
 .bg-dark,
 .badge-dark,
 .alert-dark {
-  background: #251046;
+  background: #1a5888;
   color: #cac8c8; }
 
 .btn-danger,
@@ -455,6 +459,48 @@ a:focus {
   color: #5a5252;
   border: #ccc solid 1px; }
 
+/*** EXTEND ***/
+/* box-shadow */
+ol.alt-list > li, ol.alt-list > li::before {
+  box-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05), 0 0.5rem 1.125rem rgba(75, 0, 0, 0.05); }
+
+ol.alt-list {
+  counter-reset: gradient-counter;
+  list-style: none;
+  margin: 1.75rem 0;
+  padding-left: 1rem; }
+  ol.alt-list > li {
+    border-radius: 0 0.5rem 0.5rem 0.5rem;
+    counter-increment: gradient-counter;
+    margin-top: 1rem;
+    min-height: 3rem;
+    padding: 1rem 1rem 1rem 3rem;
+    position: relative; }
+    ol.alt-list > li:nth-child(odd) {
+      background: #e2c4a8; }
+    ol.alt-list > li:nth-child(even) {
+      background: #d67f39; }
+    ol.alt-list > li::before, ol.alt-list > li::after {
+      background: linear-gradient(135deg, #d67f39 0%, #cac8c8 50%, #1a5888 100%);
+      border-radius: 1rem 1rem 0 1rem;
+      content: "";
+      height: 3rem;
+      left: -1rem;
+      overflow: hidden;
+      position: absolute;
+      top: -1rem;
+      width: 3rem; }
+    ol.alt-list > li::before {
+      align-items: flex-end;
+      content: counter(gradient-counter);
+      color: #000;
+      display: flex;
+      justify-content: flex-end;
+      padding: 0.125em 0.25em;
+      z-index: 1; }
+    ol.alt-list > li + li {
+      margin-top: 2rem; }
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -468,7 +514,7 @@ body {
 
 #top {
   color: #fff;
-  background-color: #251046; }
+  background-color: #1a5888; }
 
 .fade-enter {
   opacity: 0.01; }
@@ -485,8 +531,7 @@ body {
   transition: opacity 1000ms ease-in; }
 
 .header-navbar {
-  background: linear-gradient(#251046, #d3d3d3);
-  position: fixed;
+  background: linear-gradient(#1a5888, #c2def3);
   width: 100%;
   z-index: 99;
   transition: top 0.8s; }
@@ -519,36 +564,46 @@ a:hover {
 
 .large-btn {
   color: #ffffff;
-  background-color: #552048;
+  background-color: #d67f39;
   border-width: large;
   border-radius: 1rem;
   padding: 0.9rem 1.5rem;
   white-space: normal; }
   .large-btn:hover {
-    background: rgba(196, 196, 196, 0.65);
+    background: rgba(218, 180, 145, 0.65);
     color: #5a5252;
     transition: all 0.75s ease-out; }
 
 .med-btn {
   color: #ffffff;
-  background-color: #552048;
+  background-color: #d67f39;
   border-width: medium;
   border-radius: 1rem;
   padding: 0.6rem 1.1rem;
   transition: all 0.75s ease-out; }
   .med-btn:hover {
-    background: rgba(196, 196, 196, 0.65);
+    background: rgba(218, 180, 145, 0.65);
     color: #5a5252; }
 
 .small-btn {
   color: #ffffff;
-  background-color: #552048;
+  background-color: #d67f39;
   border-width: medium;
   border-radius: 1rem;
   padding: 0.3rem 0.75rem;
   transition: all 0.75s ease-out; }
   .small-btn:hover {
-    background: rgba(196, 196, 196, 0.65);
+    background: rgba(218, 180, 145, 0.65);
+    color: #5a5252; }
+
+.nav-btn {
+  color: #ffffff;
+  background: transparent;
+  border: none;
+  margin: auto;
+  transition: all 0.75s ease-out; }
+  .nav-btn:hover {
+    background: rgba(218, 180, 145, 0.65);
     color: #5a5252; }
 
 .btn-unlike:hover {
@@ -568,10 +623,10 @@ a:hover {
 
 #top-btn {
   z-index: 98;
-  background-color: #251046;
+  background-color: #1a5888;
   transition: all 0.75s ease-out; }
   #top-btn:hover {
-    background-color: #d3d3d3; }
+    background-color: #c2def3; }
 
 /*================ TEXT STYLES ===========*/
 .text-xl {
@@ -594,12 +649,21 @@ a:hover {
   margin: 0 auto;
   padding-top: 2rem; }
 
+.input-group-text {
+  border: none;
+  background: #fff; }
+
 /*================ CONTAINERs/ROWS/COLUMNS ===========*/
 .index-container {
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr;
   width: 80vw;
-  float: right;
   margin: auto;
   padding: 2rem; }
+
+.half-container {
+  width: 50vw;
+  padding-top: 2rem; }
 
 .jumbo {
   border-radius: 0 !important;
@@ -620,7 +684,7 @@ h3 {
   border-radius: 20px;
   border-width: 3px;
   border-style: solid;
-  border-color: #d3d3d3; }
+  border-color: #cac8c8; }
   h1.large-heading,
   h2.large-heading,
   h3.large-heading {
@@ -632,17 +696,17 @@ h3 {
   h3.small-heading {
     margin-bottom: 2rem;
     padding: 0.2rem 1rem;
-    background: #251046; }
+    background: #1a5888; }
   h1.x-small-heading,
   h2.x-small-heading,
   h3.x-small-heading {
     margin-bottom: 1rem;
     padding: 0.1rem 0.5rem;
-    background: #251046; }
+    background: #1a5888; }
 
 .heading {
   border: none;
-  color: rgba(24, 10, 45, 0.85);
+  color: rgba(21, 71, 110, 0.85);
   padding: 2rem; }
 
 h3.heading {
@@ -654,11 +718,11 @@ h3.heading {
 .heading-underline {
   width: 6rem;
   height: 0.3rem;
-  background-color: #251046;
+  background-color: #1a5888;
   margin: 0 auto 2rem; }
 
 .custom-header:hover {
-  background-color: #552048;
+  background-color: #d67f39;
   transition: all 0.75s ease-out; }
 
 /*================ LISTS ===========*/
@@ -689,21 +753,33 @@ h3.heading {
   color: #ffffff; }
 
 .custom-list-item:hover {
-  background: linear-gradient(#251046, #d3d3d3);
+  background: linear-gradient(#1a5888, #c2def3);
   border-radius: 5px;
   padding: 1rem;
   transition: all 0.75s ease-out; }
+
+.register {
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://jooinn.com/images/close-up-of-open-book.jpg") no-repeat center; }
+
+.login {
+  background: url("https://mocah.org/uploads/posts/5390534-window-silhouette-person-back-city-architecture-sky-black-learn-explore-adventure-new-thinking-dreaming-wonder-winter-travel-skyline-view-leave-free-images.jpg") no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh; }
+
+@media (max-width: 992px) {
+  .index-container {
+    grid-template-columns: 1fr;
+    width: 100vw;
+    margin: auto;
+    padding: 0.7rem; } }
 
 @media only screen and (max-width: 570px) {
   .home h1 {
     font-size: 2.2rem;
     margin: auto;
     padding-right: 2rem; }
-  .index-container {
-    width: 100vw;
-    margin: auto;
-    padding: 0.7rem; }
-  .main h1 {
+  .main h1,
+  .main h3 {
     font-size: 2rem; }
   .sidebar {
     display: none; }
@@ -750,4 +826,8 @@ h3.heading {
     width: 340px; }
   .log-list-item {
     width: 320px;
-    font-size: 0.9rem; } }
+    font-size: 0.9rem; }
+  .half-container {
+    width: 100%; }
+  .ticker-wrap {
+    display: none; } }

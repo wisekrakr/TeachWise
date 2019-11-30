@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { ListGroup, Spinner } from "reactstrap";
+import { ListGroup, Spinner, Container } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import LogEntry from "./LogEntry";
@@ -20,8 +20,8 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
     );
   }
 
-  return (
-    <Fragment>
+  return logs.length !== 0 ? (
+    <Container>
       <h3 className="text-center small-heading">Your Log Entries</h3>
       <p className="heading-underline" />
       {logs !== null && !loading ? (
@@ -40,6 +40,13 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
           Please add a log entry....
         </Spinner>
       )}
+    </Container>
+  ) : (
+    <Fragment>
+      <h3 className="x-small-heading">
+        Try to enter something into your log every time you study, to keep track
+        of your progress
+      </h3>
     </Fragment>
   );
 };

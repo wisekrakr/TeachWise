@@ -14,6 +14,8 @@ import setAuthToken from "./helpers/setAuthToken";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/main.css";
+import "./js/main.js";
+import "./js/tabs.js";
 
 if (localStorage.token) {
   setAuthToken(localStorage.token);

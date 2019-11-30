@@ -9,7 +9,7 @@ const User = require("../../models/User");
 
 // @route GET api/items
 // @desc  GET All Items
-// @access Public
+// @access Private
 router.get("/", auth, async (req, res) => {
   try {
     const items = await Item.find().sort({ date: -1 });
@@ -20,9 +20,31 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route GET api/items/user
+// @desc  GET All Items from a user
+// @access Private
+router.get("/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.user.id).select("-password");
+    const items = await Item.find().sort({ date: -1 });
+    const newItems = [];
+    items.filter(item => {
+      // Check user
+      if (item.user.toString() !== user._id) {
+        newItems.push(item);
+      }
+    });
+
+    res.json(newItems);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route GET /:id
-// @desc  GET One Items
-// @access Public
+// @desc  GET One Item
+// @access Private
 router.get("/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
@@ -44,7 +66,7 @@ router.post(
       check("name", "Title is required")
         .not()
         .isEmpty(),
-      check("field_of_study", "A Field of Study is required")
+      check("field_of_study", "Field of Study is required")
         .not()
         .isEmpty()
     ]
@@ -64,7 +86,7 @@ router.post(
         name: req.body.name,
         field_of_study: req.body.field_of_study,
         difficulty: req.body.difficulty,
-        material: req.body.material,
+        material: req.body.material.split(",").map(mat => mat.trim()),
         user_comments: req.body.user_comments,
         status: req.body.status
       });
@@ -81,11 +103,29 @@ router.post(
 
 // @route DELETE api/items/:id
 // @desc  Delete an Item
-// @access Public
-router.delete("/:id", auth, (req, res) => {
-  Item.findById(req.params.id)
-    .then(item => item.remove().then(() => res.json({ deleted: true })))
-    .catch(err => res.status(404).json({ deleted: false }));
+// @access Private
+router.delete("/:id", auth, async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+
+    // Check for ObjectId format and post
+    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !item) {
+      return res.status(404).json({ msg: "Study Item not found" });
+    }
+
+    // Check user
+    if (item.user.toString() !== req.user.user.id) {
+      return res.status(401).json({ msg: "User not authorized" });
+    }
+
+    await item.remove();
+
+    res.json({ msg: "Study Item removed", deleted });
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send("Server Error");
+  }
 });
 
 // @route    POST api/items/user_comments/:id

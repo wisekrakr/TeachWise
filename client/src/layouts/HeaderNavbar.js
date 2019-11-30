@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -8,9 +8,7 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem,
-  NavLink,
-  Container
+  NavItem
 } from "reactstrap";
 
 import { logoutUser } from "../actions/AuthState";
@@ -32,14 +30,24 @@ const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
         </Link>
       </NavItem>
       <NavItem>
-        <Link to="/profiles/:id" className="a-link">
-          <i className="fas fa-user" /> Profile
+        <Link to="/api/fields" className="a-link">
+          <i className="fas fa-university" /> My Study Fields
         </Link>
       </NavItem>
       <NavItem>
-        <Link to="/profiles/classmates/:id" className="a-link">
-          <i className="fas fa-users" /> Classmates
+        <Link to="/api/items" className="a-link">
+          <i className="fas fa-book" /> My Study Items
         </Link>
+      </NavItem>
+      <NavItem>
+        <Link to="/api/logs" className="a-link">
+          <i className="fas fa-upload" /> My Log Entries
+        </Link>
+      </NavItem>
+      <NavItem>
+        <button onClick={logoutUser} className="a-link nav-btn">
+          <i className="fas fa-power-off" /> Logout
+        </button>
       </NavItem>
     </Nav>
   );
@@ -55,11 +63,13 @@ const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
   );
 
   return (
-    <Navbar dark expand="md" className="header-navbar mb-5" id="navbar">
-      <NavbarBrand href="/"> WiseStudyList </NavbarBrand>
+    <Navbar dark expand="md" className="header-navbar" id="navbar">
+      <NavbarBrand href="/"> Wise </NavbarBrand>
       <NavbarToggler onClick={toggle} />
       <Collapse isOpen={state.isOpen} navbar>
-        {isAuthenticated ? authLinks : guestLinks}
+        {!loading && (
+          <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
+        )}
       </Collapse>
     </Navbar>
   );

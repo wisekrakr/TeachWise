@@ -86,9 +86,14 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
             Field of Study:{" "}
             <strong>{textTruncate(item.field_of_study, 40)}</strong>{" "}
           </p>
-          <p>
-            Study Material: <strong>{item.material}</strong>{" "}
-          </p>
+          <h2 className="">Study Material</h2>
+          <div className="materials">
+            {item.material.map((mat, i) => (
+              <div key={i}>
+                <i className="fas fa-check" /> {mat}
+              </div>
+            ))}
+          </div>
           <p>
             Learning Curve: <strong>{item.difficulty}</strong>{" "}
           </p>

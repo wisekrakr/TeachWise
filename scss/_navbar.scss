@@ -26,7 +26,7 @@
 /* Add a color to the active/current link */
 .custom-nav {
   .a-link.active {
-    background-color: rgba(darken($purple-color, 6), 0.65);
+    background-color: rgba(darken($orange-color, 6), 0.65);
     color: setTextColor($primary-color);
   }
 }

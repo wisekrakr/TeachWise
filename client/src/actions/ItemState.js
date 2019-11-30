@@ -1,6 +1,7 @@
 import axios from "axios";
 import {
   GET_ITEMS,
+  GET_ITEMS_USER,
   GET_ITEM,
   ADD_ITEM,
   DELETE_ITEM,
@@ -8,7 +9,6 @@ import {
   DELETE_COMMENT,
   UPDATE_LIKE,
   ITEM_ERROR,
-  GET_FIELD,
   LOADING_ITEMS
 } from "./types";
 
@@ -22,6 +22,24 @@ export const getItems = () => async dispatch => {
 
     dispatch({
       type: GET_ITEMS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Get Items
+export const getItemsFromUser = userId => async dispatch => {
+  setItemsLoading();
+  try {
+    const res = await axios.get(`/api/items/${userId}`);
+
+    dispatch({
+      type: GET_ITEMS_USER,
       payload: res.data
     });
   } catch (err) {
@@ -56,7 +74,7 @@ export const addItem = item => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-
+  console.log(item);
   try {
     const res = await axios.post("/api/items", item, config);
 
@@ -64,6 +82,7 @@ export const addItem = item => async dispatch => {
       type: ADD_ITEM,
       payload: res.data
     });
+
     dispatch(setAlert("Study Item Created", "success"));
   } catch (err) {
     dispatch({

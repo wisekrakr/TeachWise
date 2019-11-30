@@ -1,3 +1,18 @@
+@media (max-width: 992px) {
+  .index-container {
+    grid-template-columns: 1fr;
+    width: 100vw;
+    margin: auto;
+    padding: 0.7rem;
+  }
+
+  .profile-container {
+  }
+}
+@media (max-width: 767px) {
+  .profile-container {
+  }
+}
 @media only screen and (max-width: 570px) {
   .home h1 {
     font-size: 2.2rem;
@@ -5,14 +20,9 @@
     padding-right: 2rem;
   }
 
-  .index-container {
-    width: 100vw;
-    margin: auto;
-    padding: 0.7rem;
-  }
-
   .main {
-    h1 {
+    h1,
+    h3 {
       font-size: 2rem;
     }
   }
@@ -91,5 +101,13 @@
   .log-list-item {
     width: 320px;
     font-size: 0.9rem;
+  }
+
+  .half-container {
+    width: 100%;
+  }
+
+  .ticker-wrap {
+    display: none;
   }
 }

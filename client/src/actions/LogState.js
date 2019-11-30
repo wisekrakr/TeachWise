@@ -67,7 +67,7 @@ export const addLogEntry = entry => async dispatch => {
   }
 };
 
-// Delete Item
+// Delete Log Entry
 export const deleteLogEntry = id => async dispatch => {
   try {
     await axios.delete(`/api/logs/${id}`);

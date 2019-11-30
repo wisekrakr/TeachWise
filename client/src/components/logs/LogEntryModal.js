@@ -38,6 +38,7 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
     e.preventDefault();
     setState({ log: logEntry });
     addLogEntry(logEntry);
+    toggle();
   };
 
   const toggle = () => {
@@ -67,14 +68,14 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
                 placeholder="Add a log entry title..."
                 onChange={onChange}
               ></Input>
-              <Label for="item">About a specific topic</Label>
+              <Label for="logEntry">About a specific topic</Label>
               <Input
                 type="select"
                 name="topic"
                 id="logEntry"
                 onChange={onChange}
+                placeholder="Choose a study item"
               >
-                <option value=""></option>
                 {items.map(item => {
                   return <option key={item._id}>{item.name}</option>;
                 })}

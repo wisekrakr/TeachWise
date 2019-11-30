@@ -14,26 +14,28 @@ const LogEntry = ({ auth, deleteLogEntry, log: { _id, user, name, date } }) => {
   };
 
   return (
-    <div className="custom-list list-group">
-      <div className="log-list-item" style={{ background: "transparant" }}>
-        <div>
-          <Moment format="YYYY-MM-DD HH:mm" className=" float-left m-3">
-            {date}
-          </Moment>
-        </div>
-        {!auth.loading && user === auth.user._id && (
+    !auth.loading &&
+    user === auth.user._id && (
+      <div className="custom-list list-group">
+        <div className="log-list-item" style={{ background: "transparant" }}>
+          <div>
+            <Moment format="YYYY-MM-DD HH:mm" className=" float-left m-3">
+              {date}
+            </Moment>
+          </div>
+
           <Button className="btn list-delete btn-sm" onClick={onDelete}>
             <i className="fas fa-times" />
           </Button>
-        )}
 
-        <Link to={`/api/logs/${_id}`}>
-          <div className="custom-list-item font-weight-bolder">
-            {textTruncate(name, 20)}
-          </div>{" "}
-        </Link>
+          <Link to={`/api/logs/${_id}`}>
+            <div className="custom-list-item font-weight-bolder">
+              {textTruncate(name, 20)}
+            </div>{" "}
+          </Link>
+        </div>
       </div>
-    </div>
+    )
   );
 };
 

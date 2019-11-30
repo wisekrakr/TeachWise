@@ -51,7 +51,7 @@ module.exports = Item = mongoose.model(
       }
     ],
     material: {
-      type: String,
+      type: [String],
       default: "No study material specified"
     },
     difficulty: {

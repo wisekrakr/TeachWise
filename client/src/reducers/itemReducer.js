@@ -7,7 +7,8 @@ import {
   ADD_COMMENT,
   UPDATE_LIKE,
   DELETE_COMMENT,
-  LOADING_ITEMS
+  LOADING_ITEMS,
+  GET_ITEMS_USER
 } from "../actions/types";
 
 const initialState = {
@@ -20,11 +21,13 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
+    case GET_ITEMS_USER:
       return {
         ...state,
         items: action.payload,
         loading: false
       };
+
     case GET_ITEM:
       return {
         ...state,
