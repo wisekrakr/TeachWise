@@ -86,7 +86,7 @@ export const deleteField = id => async dispatch => {
   }
 };
 
-// Set Log Entries Loading
+// Set Log Entries Loading h
 export const setFieldsLoading = async () => dispatch => {
   dispatch({ type: LOADING_FIELDS });
 };
