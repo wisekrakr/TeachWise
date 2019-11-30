@@ -1,15 +1,15 @@
 const express = require("express");
-const request = require("request");
-const config = require("config");
+// const request = require("request");
+// const config = require("config");
 const router = express.Router();
 const auth = require("../../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
 const Profile = require("../../models/Profile");
-const User = require("../../models/User");
-const Item = require("../../models/Item");
-const Field = require("../../models/Field");
-const Log = require("../../models/LogEntry");
+// const User = require("../../models/User");
+// const Item = require("../../models/Item");
+// const Field = require("../../models/Field");
+// const Log = require("../../models/LogEntry");
 
 // @route    GET api/profile/me
 // @desc     Get current users profile
@@ -132,28 +132,28 @@ router.get("/user/:user_id", async (req, res) => {
   }
 });
 
-// @route    DELETE api/profile
-// @desc     Delete profile, user & items
-// @access   Private
-router.delete("/", auth, async (req, res) => {
-  try {
-    // Remove user study fields
-    await Field.deleteMany({ user: req.user.user.id });
-    // Remove user log entries
-    await Log.deleteMany({ user: req.user.user.id });
-    // Remove user posts
-    await Item.deleteMany({ user: req.user.user.id });
-    // Remove profile
-    await Profile.findOneAndRemove({ user: req.user.user.id });
-    // Remove user
-    await User.findOneAndRemove({ _id: req.user.user.id });
+// // @route    DELETE api/profile
+// // @desc     Delete profile, user & items
+// // @access   Private
+// router.delete("/", auth, async (req, res) => {
+//   try {
+//     // Remove user study fields
+//     await Field.deleteMany({ user: req.user.user.id });
+//     // Remove user log entries
+//     await Log.deleteMany({ user: req.user.user.id });
+//     // Remove user posts
+//     await Item.deleteMany({ user: req.user.user.id });
+//     // Remove profile
+//     await Profile.findOneAndRemove({ user: req.user.user.id });
+//     // Remove user
+//     await User.findOneAndRemove({ _id: req.user.user.id });
 
-    res.json({ msg: "User deleted" });
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
+//     res.json({ msg: "User deleted" });
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 // @route    PUT api/profile/education
 // @desc     Add profile education

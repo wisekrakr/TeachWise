@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-const Field = require("../../models/Field");
 const auth = require("../../middleware/auth");
+const Field = require("../../models/Field");
 
 // @route GET api/fields
 // @desc  GET All FIelds of Study
