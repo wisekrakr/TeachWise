@@ -38,7 +38,7 @@ const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
     e.preventDefault();
     setState({ item: item });
     addItem(item);
-    // toggle();
+    toggle();
   };
 
   const toggle = () => {
