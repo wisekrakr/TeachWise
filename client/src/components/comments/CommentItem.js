@@ -6,7 +6,7 @@ import Moment from "react-moment";
 import { Button } from "reactstrap";
 
 import { deleteUserComment } from "../../actions/ItemState";
-import { textTruncate } from "../../helpers/textHelper";
+import { textTruncate } from "../../helpers/text";
 import Spinner from "../../background/Spinner";
 
 const CommentItem = ({

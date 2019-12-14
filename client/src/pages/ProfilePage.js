@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 
-import { textTrimmer } from "../helpers/textHelper";
 import { getProfileById } from "../actions/ProfileState";
 import ProfileMain from "../components/profiles/ProfileMain";
 import ProfileInfo from "../components/profiles/ProfileInfo";
@@ -12,6 +11,7 @@ import ProfileStudyList from "../components/profiles/profile-lists/ProfileStudyL
 import ProfileStudyFieldList from "../components/profiles/profile-lists/ProfileStudyFieldList";
 import LogEntryList from "../components/logs/LogEntryList";
 import Spinner from "../background/Spinner";
+import { textTrimmer } from "../helpers/text";
 
 const Profile = ({
   getProfileById,

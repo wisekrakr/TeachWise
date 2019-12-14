@@ -18,7 +18,7 @@ import CommentForm from "../components/comments/CommentForm";
 import CommentList from "../components/comments/CommentList";
 import ItemModalEdit from "../components/items/ItemModalEdit";
 import { getItem } from "../actions/ItemState";
-import { textTruncate } from "../helpers/textHelper";
+import { textTruncate } from "../helpers/text";
 import Spinner from "../background/Spinner";
 
 const StudyPage = ({ getItem, auth, item: { item, loading }, match }) => {
