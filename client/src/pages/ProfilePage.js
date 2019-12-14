@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import classnames from "classnames";
 import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
 
-import { textTrimmer } from "../helpers/textHelper";
+import { textTrimmer } from "../helpers/TextHelper";
 import { getProfileById } from "../actions/ProfileState";
 import ProfileMain from "../components/profiles/ProfileMain";
 import ProfileInfo from "../components/profiles/ProfileInfo";

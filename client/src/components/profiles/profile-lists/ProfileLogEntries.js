@@ -5,7 +5,7 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
 
 import LogEntry from "../../logs/LogEntry";
-import { textTrimmer } from "../../../helpers/textHelper";
+import { textTrimmer } from "../../../helpers/TextHelper";
 import Spinner from "../../../background/Spinner";
 
 const ProfileLogEntries = ({ logs, user }) => {

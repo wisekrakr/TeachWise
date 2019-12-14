@@ -4,7 +4,7 @@ import { Container, Button } from "reactstrap";
 import { connect } from "react-redux";
 
 import StudyFieldItem from "../../fields/StudyFieldItem";
-import { textTrimmer } from "../../../helpers/textHelper";
+import { textTrimmer } from "../../../helpers/TextHelper";
 import StudyFieldModal from "../../fields/StudyFieldModal";
 import Spinner from "../../../background/Spinner";
 

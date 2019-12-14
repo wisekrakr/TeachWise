@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { Button } from "reactstrap";
 
 import { deleteField, deleteUserField } from "../../actions/FieldState";
-import { textTruncate } from "../../helpers/textHelper";
+import { textTruncate } from "../../helpers/TextHelper";
 import Spinner from "../../background/Spinner";
 
 const StudyFieldItem = ({

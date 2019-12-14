@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Container } from "reactstrap";
 
-import { textTrimmer } from "../../helpers/textHelper";
+import { textTrimmer } from "../../helpers/TextHelper";
 
 const ProfileInfo = ({
   profile: {
