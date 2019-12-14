@@ -11,7 +11,7 @@ import {
   removeLike,
   deleteUserItem
 } from "../../actions/ItemState";
-import { textTruncate } from "../../helpers/TextHelper";
+import { textTruncate } from "../../helpers/textHelper";
 
 const StudyItem = ({
   deleteUserItem,

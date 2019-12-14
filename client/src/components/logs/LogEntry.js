@@ -6,7 +6,7 @@ import Moment from "react-moment";
 import { Button } from "reactstrap";
 
 import { deleteLogEntry, deleteUserLog } from "../../actions/LogState";
-import { textTruncate } from "../../helpers/TextHelper";
+import { textTruncate } from "../../helpers/textHelper";
 
 const LogEntry = ({
   auth,

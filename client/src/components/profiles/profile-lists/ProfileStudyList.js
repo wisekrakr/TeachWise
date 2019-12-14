@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import StudyItem from "../../items/StudyItem";
 import ItemModal from "../../../components/items/ItemModal";
-import { textTrimmer } from "../../../helpers/TextHelper";
+import { textTrimmer } from "../../../helpers/textHelper";
 import Spinner from "../../../background/Spinner";
 
 const ProfileStudyList = ({ items, user }) => {
