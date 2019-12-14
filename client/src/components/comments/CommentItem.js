@@ -1,24 +1,30 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import { Button } from "reactstrap";
 
 import { deleteUserComment } from "../../actions/ItemState";
-import { textTruncate } from "../../helpers/TextHelper";
+import { textTruncate } from "../../helpers/textHelper";
+import Spinner from "../../background/Spinner";
 
 const CommentItem = ({
   itemId,
-  user_comment: { _id, title, comment, user, date },
+  user_comment: { _id, title, comment, user, avatar, name, date },
   auth,
   deleteUserComment
 }) => {
-  console.log(user);
-  return (
+  return _id !== null && auth.user !== null ? (
     <div className="comment" style={{ height: "100%" }}>
       <div className="comment-header">
-        {textTruncate(user, 15)}
-        <div className="custom-img" />
+        <Link to={`/profile/${user}`} style={{ color: "#333" }}>
+          {textTruncate(name, 15)}
+        </Link>
+        <div
+          className="comment-img"
+          style={{ backgroundImage: `url(${avatar})` }}
+        ></div>
       </div>
       <div className="comment-body">
         <div className="comment-title">{textTruncate(title, 25)}</div>
@@ -41,7 +47,7 @@ const CommentItem = ({
       </div>
       {!auth.loading && user === auth.user._id && (
         <Button
-          className="btn card-delete btn-sm"
+          className="card-delete small-btn "
           key={_id}
           onClick={async e => {
             e.preventDefault();
@@ -52,6 +58,8 @@ const CommentItem = ({
         </Button>
       )}
     </div>
+  ) : (
+    <Spinner />
   );
 };
 
@@ -59,6 +67,7 @@ CommentItem.propTypes = {
   itemId: PropTypes.string.isRequired,
   user_comment: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  profile: PropTypes.object,
   deleteUserComment: PropTypes.func.isRequired
 };
 

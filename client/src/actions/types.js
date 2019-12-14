@@ -38,6 +38,13 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
+// User Meta Types
+export const ADD_ITEM_COUNT = "ADD_ITEM_COUNT";
+export const DELETE_ITEM_COUNT = "DELETE_ITEM_COUNT";
+export const ADD_FIELD_COUNT = "ADD_FIELD_COUNT";
+export const DELETE_FIELD_COUNT = "DELETE_FIELD_COUNT";
+export const ADD_LOG_COUNT = "ADD_LOG_COUNT";
+export const DELETE_LOG_COUNT = "DELETE_LOG_COUNT";
 
 // Profile Types
 

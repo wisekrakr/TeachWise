@@ -1,13 +1,13 @@
-import React, { Fragment, useEffect } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { ListGroup, Spinner, Container } from "reactstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { ListGroup, Container } from "reactstrap";
 import { connect } from "react-redux";
 
 import { getItems } from "../../actions/ItemState";
 import StudyItem from "./StudyItem";
+import Spinner from "../../background/Spinner";
 
-const StudyList = ({ getItems, item: { items, loading }, showAll }) => {
+const StudyList = ({ getItems, item: { items, loading } }) => {
   useEffect(() => {
     getItems();
   }, [getItems]);
@@ -26,45 +26,35 @@ const StudyList = ({ getItems, item: { items, loading }, showAll }) => {
 
   return items.length !== 0 ? (
     <Container>
-      {!showAll ? (
-        <h3 className="text-center small-heading">Your study items</h3>
-      ) : (
-        <h3 className="text-center small-heading">
-          Recently added study items
-        </h3>
-      )}
+      <h6 className="text-center small-heading">Recently added study items</h6>
 
       <p className="heading-underline" />
-      {items !== null && !loading ? (
-        <ListGroup>
+      {items !== null && items !== undefined && !loading ? (
+        <ListGroup className="custom-list">
           {/* Shows a list of study items */}
-          <TransitionGroup className="custom-list">
-            {items.map(item => (
-              <CSSTransition key={item._id} timeout={500} classNames="fade">
-                <StudyItem key={item._id} item={item} showAll={showAll} />
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
+
+          {items.map(item =>
+            item !== null ? (
+              <StudyItem key={item._id} item={item} items={items} />
+            ) : (
+              <Spinner />
+            )
+          )}
         </ListGroup>
       ) : (
-        <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-          Loading...
-        </Spinner>
+        <Spinner />
       )}
     </Container>
   ) : (
-    <Fragment>
-      <h3 className="x-small-heading">
-        Add a Study Item to show what you are studying
-      </h3>
-    </Fragment>
+    <h6 className="x-small-heading">
+      Add a Study Item to show what you are studying
+    </h6>
   );
 };
 
 StudyList.propTypes = {
   getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired,
-  showAll: PropTypes.bool
+  item: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({

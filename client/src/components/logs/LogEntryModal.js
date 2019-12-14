@@ -11,7 +11,8 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button
 } from "reactstrap";
 
 const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
@@ -76,9 +77,10 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
                 onChange={onChange}
                 placeholder="Choose a study item"
               >
-                {items.map(item => {
+                <option></option>
+                {/* {items.map(item => {
                   return <option key={item._id}>{item.name}</option>;
-                })}
+                })} */}
               </Input>
               <Label for="logEntry">What are your thoughts?*</Label>
               <Input
@@ -91,12 +93,13 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
               <br />
               *required
               <br />
-              <Input
+              <Button
                 type="submit"
-                value="Enter Log into System"
-                className="btn btn-dark"
-                style={{ marginTop: "2rem" }}
-              />
+                className="btn draw-border"
+                style={{ float: "right" }}
+              >
+                Enter log into system{" "}
+              </Button>
             </FormGroup>
           </Form>
         </ModalBody>

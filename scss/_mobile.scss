@@ -5,14 +5,8 @@
     margin: auto;
     padding: 0.7rem;
   }
+}
 
-  .profile-container {
-  }
-}
-@media (max-width: 767px) {
-  .profile-container {
-  }
-}
 @media only screen and (max-width: 570px) {
   .home h1 {
     font-size: 2.2rem;
@@ -109,5 +103,11 @@
 
   .ticker-wrap {
     display: none;
+  }
+
+  .jumbo-item {
+    .right {
+      clear: right;
+    }
   }
 }

@@ -1,11 +1,13 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { ListGroup, Spinner, Container } from "reactstrap";
+import { ListGroup, Container, Button } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import LogEntry from "./LogEntry";
 import { getLogs } from "../../actions/LogState";
+import LogEntryModal from "./LogEntryModal";
+import Spinner from "../../background/Spinner";
 
 const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
   useEffect(() => {
@@ -13,16 +15,17 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
   }, [getLogs]);
 
   if (logs === null && logs === undefined && Object.keys(logs).length === 0) {
-    return (
-      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-        Loading...
-      </Spinner>
-    );
+    return <Spinner />;
   }
 
   return logs.length !== 0 ? (
-    <Container>
-      <h3 className="text-center small-heading">Your Log Entries</h3>
+    <Container className="narrow">
+      <h6 className="text-center small-heading">Log Entries</h6>
+      <Button className="btn draw-border m-auto">
+        {" "}
+        <LogEntryModal />
+      </Button>
+
       <p className="heading-underline" />
       {logs !== null && !loading ? (
         <ListGroup>
@@ -36,17 +39,15 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
           </TransitionGroup>
         </ListGroup>
       ) : (
-        <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-          Please add a log entry....
-        </Spinner>
+        <Spinner />
       )}
     </Container>
   ) : (
     <Fragment>
-      <h3 className="x-small-heading">
+      <h6 className="x-small-heading">
         Try to enter something into your log every time you study, to keep track
         of your progress
-      </h3>
+      </h6>
     </Fragment>
   );
 };

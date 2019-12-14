@@ -1,7 +1,8 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-
 import { Container } from "reactstrap";
+
+import { textTrimmer } from "../../helpers/textHelper";
 
 const ProfileInfo = ({
   profile: {
@@ -13,15 +14,15 @@ const ProfileInfo = ({
   <div className="profile-about  p-2">
     {bio && (
       <Container>
-        <h2 className="x-small-heading ">{name.trim().split(" ")[0]}s Bio</h2>
+        <h5 className="text-center small-heading">{textTrimmer(name)}s Bio</h5>
         <p>{bio}</p>
         <div className="heading-underline" />
       </Container>
     )}
     <Container>
-      <h2 className="x-small-heading">
-        {name.trim().split(" ")[0]}s Skill Set
-      </h2>
+      <h5 className="text-center small-heading">
+        {textTrimmer(name)}s Skill Set
+      </h5>
       <div className="skills" style={{ display: "flex" }}>
         {skills.map((skill, index) => (
           <div key={index} className="p-1">

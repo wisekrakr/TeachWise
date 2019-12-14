@@ -18,6 +18,32 @@ const UserSchema = mongoose.Schema({
   avatar: {
     type: String
   },
+  metadata: {
+    item_count: [
+      {
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "items"
+        }
+      }
+    ],
+    field_count: [
+      {
+        field_of_study: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "fields"
+        }
+      }
+    ],
+    log_count: [
+      {
+        log: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "logs"
+        }
+      }
+    ]
+  },
   date: {
     type: Date,
     default: Date.now

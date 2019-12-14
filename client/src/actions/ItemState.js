@@ -9,7 +9,9 @@ import {
   DELETE_COMMENT,
   UPDATE_LIKE,
   ITEM_ERROR,
-  LOADING_ITEMS
+  LOADING_ITEMS,
+  ADD_ITEM_COUNT,
+  DELETE_ITEM_COUNT
 } from "./types";
 
 import { setAlert } from "./AlertState";
@@ -26,29 +28,26 @@ export const getItems = () => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
 
-// Get Items
-export const getItemsFromUser = userId => async dispatch => {
-  setItemsLoading();
-  try {
-    const res = await axios.get(`/api/items/${userId}`);
-
-    dispatch({
-      type: GET_ITEMS_USER,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
-    });
-  }
-};
+// // Get Items
+// export const getItemsFromUser = userId => async dispatch => {
+//   try {
+//     const res = await axios.get(`/api/items/user/${userId}`);
+//     // console.log(res);
+//     dispatch({
+//       type: GET_ITEMS_USER,
+//       payload: res.data
+//     });
+//   } catch (err) {
+//     dispatch({
+//       type: ITEM_ERROR
+//     });
+//   }
+// };
 
 // Get Item
 export const getItem = id => async dispatch => {
@@ -61,20 +60,19 @@ export const getItem = id => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
 
 // Add Item
-export const addItem = item => async dispatch => {
+export const addItem = (item, history, edit = false) => async dispatch => {
   const config = {
     headers: {
       "Content-Type": "application/json"
     }
   };
-  console.log(item);
+
   try {
     const res = await axios.post("/api/items", item, config);
 
@@ -84,10 +82,13 @@ export const addItem = item => async dispatch => {
     });
 
     dispatch(setAlert("Study Item Created", "success"));
+
+    if (!edit) {
+      history.push(`/dashboard`);
+    }
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
@@ -105,8 +106,49 @@ export const deleteItem = id => async dispatch => {
     dispatch(setAlert("Item Removed", "success"));
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
+    });
+  }
+};
+
+// Add user item
+export const addUserItem = (userId, item) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const res = await axios.post(
+      `/api/items/user/${userId}/${item.name}`,
+      item,
+      config
+    );
+
+    dispatch({
+      type: ADD_ITEM_COUNT,
+      payload: res.data
+    });
+    dispatch(setAlert("Item Added to User", "success"));
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR
+    });
+  }
+};
+
+// Delete user item
+export const deleteUserItem = (userId, itemId) => async dispatch => {
+  try {
+    dispatch({
+      type: DELETE_ITEM_COUNT,
+      payload: itemId
+    });
+    await axios.delete(`/api/items/user/${userId}/${itemId}`);
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR
     });
   }
 };
@@ -132,8 +174,7 @@ export const addUserComment = (id, comment) => async dispatch => {
     dispatch(setAlert("Comment Posted", "success"));
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
@@ -150,8 +191,7 @@ export const deleteUserComment = (itemId, commentId) => async dispatch => {
     dispatch(setAlert("Comment Removed", "success"));
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
@@ -167,8 +207,7 @@ export const addLike = id => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };
@@ -184,8 +223,7 @@ export const removeLike = id => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      type: ITEM_ERROR
     });
   }
 };

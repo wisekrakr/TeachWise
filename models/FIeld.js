@@ -12,7 +12,9 @@ module.exports = Field = mongoose.model(
       type: String,
       required: true
     },
-
+    number: {
+      type: Number
+    },
     date: {
       type: Date,
       default: Date.now

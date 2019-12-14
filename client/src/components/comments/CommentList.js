@@ -20,13 +20,11 @@ const CommentList = ({ item }) => {
     );
   }
 
-  console.log(user_comments);
-
   return (
     <Fragment>
-      <h3 className="text-center small-heading">
+      <h6 className="text-center small-heading">
         Comments about <strong> {item.name} </strong>
-      </h3>
+      </h6>
       <p className="heading-underline" />
       <div className="comments">
         {user_comments !== null &&
@@ -57,4 +55,4 @@ CommentList.prototypes = {
   item: PropTypes.object.isRequired
 };
 
-export default connect(null, null)(CommentList);
+export default connect(null)(CommentList);

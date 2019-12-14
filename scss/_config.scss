@@ -7,6 +7,12 @@ $hard-dark: #1a5888;
 $soft-dark: #c2def3;
 $blue-gradient: linear-gradient($orange-color, $light-orange);
 $dark-gradient: linear-gradient($hard-dark, $soft-dark);
+$color-gradient: linear-gradient(
+  135deg,
+  $orange-color 0%,
+  $light-color 50%,
+  $hard-dark 100%
+);
 $reddish: rgb(179, 61, 84);
 $greenish: rgb(76, 158, 90);
 $bg-shadow: 0.25rem 0.25rem 0.6rem rgba(0, 0, 0, 0.05),

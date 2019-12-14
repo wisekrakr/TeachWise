@@ -5,12 +5,18 @@ import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { Button } from "reactstrap";
 
-import { deleteLogEntry } from "../../actions/LogState";
-import { textTruncate } from "../../helpers/TextHelper";
+import { deleteLogEntry, deleteUserLog } from "../../actions/LogState";
+import { textTruncate } from "../../helpers/textHelper";
 
-const LogEntry = ({ auth, deleteLogEntry, log: { _id, user, name, date } }) => {
+const LogEntry = ({
+  auth,
+  deleteLogEntry,
+  deleteUserLog,
+  log: { _id, user, name, date }
+}) => {
   const onDelete = () => {
     deleteLogEntry(_id);
+    deleteUserLog(user, _id);
   };
 
   return (
@@ -42,10 +48,13 @@ const LogEntry = ({ auth, deleteLogEntry, log: { _id, user, name, date } }) => {
 LogEntry.prototypes = {
   log: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deleteLogEntry: PropTypes.func.isRequired
+  deleteLogEntry: PropTypes.func.isRequired,
+  deleteUserLog: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { deleteLogEntry })(LogEntry);
+export default connect(mapStateToProps, { deleteLogEntry, deleteUserLog })(
+  LogEntry
+);

@@ -1,20 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Spinner } from "reactstrap";
 
 import ItemModal from "../components/items/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
+import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
 import StudyFieldModal from "../components/fields/StudyFieldModal";
+import Spinner from "../background/Spinner";
 
-const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
+const SideBar = ({
+  auth: { user, loading },
+  logoutUser,
+  profile,
+  deleteAccount
+}) => {
   const onClick = e => {
     e.preventDefault();
     logoutUser();
 
     return <Link to="/"></Link>;
+  };
+
+  const onDelete = e => {
+    e.preventDefault();
+    deleteAccount();
+    logoutUser();
+    return <Redirect to="/"></Redirect>;
   };
 
   return !loading ? (
@@ -31,9 +44,8 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
                 <button className="custom-link">Profile</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
-                  <span className="arrow"></span>
                   <li className="list-group-item pl-4">
-                    {profile !== null ? (
+                    {profile !== null && profile !== undefined ? (
                       <Link
                         to={`/profile/${profile.user._id}`}
                         className="custom-link"
@@ -41,18 +53,26 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
                         Home
                       </Link>
                     ) : (
-                      <div className="custom-link">Home</div>
+                      <Link to="/profile-creation" className="custom-link">
+                        Please Create Your Profile
+                      </Link>
                     )}
                   </li>
                   <li className="list-group-item pl-4">
-                    <Link
-                      to="/api/profile/profile-edit"
-                      className="custom-link"
-                    >
+                    <Link to="/profile-edit" className="custom-link">
                       Edit
                     </Link>
                   </li>
+                  <li className="list-group-item pl-4">
+                    <button onClick={onDelete}>Delete Account</button>
+                  </li>
                 </ul>
+              </li>
+
+              <li className="list-group-item pl-4">
+                <Link to="/api/profile" className="custom-link">
+                  Profiles
+                </Link>
               </li>
 
               <li className="list-group-item pl-4">
@@ -92,7 +112,7 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
                     </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <ItemModal />
+                    <ItemModal user={user} />
                   </li>
                 </ul>
               </li>
@@ -107,7 +127,7 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
                     </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <LogEntryModal />
+                    <LogEntryModal user={user} />
                   </li>
                 </ul>
               </li>
@@ -122,7 +142,7 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
                     </Link>
                   </li>
                   <li className="list-group-item pl-4">
-                    <StudyFieldModal />
+                    <StudyFieldModal user={user} />
                   </li>
                 </ul>
               </li>
@@ -180,20 +200,18 @@ const SideBar = ({ auth: { loading }, logoutUser, profile }) => {
       </div>
     </div>
   ) : (
-    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-      Loading...
-    </Spinner>
+    <Spinner />
   );
 };
 
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object
+  deleteAccount: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(SideBar);
+export default connect(mapStateToProps, { logoutUser, deleteAccount })(SideBar);

@@ -24,7 +24,7 @@ const CommentForm = ({ itemId, addUserComment }) => {
 
   return (
     <div className="comment-form ">
-      <h3 className="text-center small-heading">Leave a Comment</h3>
+      <h6 className="text-center small-heading">Leave a Comment</h6>
       <p className="heading-underline" />
       <Form className="form" onSubmit={onSubmit}>
         <FormGroup>
@@ -45,13 +45,13 @@ const CommentForm = ({ itemId, addUserComment }) => {
             placeholder="Add your Comment..."
             onChange={onChange}
             required
+            className="mt-2"
           />
 
           <Input
             type="submit"
             value="Add Comment"
-            className="btn btn-dark mt-2"
-            onSubmit={onSubmit}
+            className="btn med-btn mt-4"
           />
         </FormGroup>
       </Form>

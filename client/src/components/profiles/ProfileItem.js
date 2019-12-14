@@ -1,33 +1,63 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { Card, CardHeader } from "reactstrap";
 
-const ProfileItem = ({
-  profile: {
-    user: { _id, name, avatar },
-    location,
-    skills
-  }
-}) => {
-  return (
-    <div className="profile bg-light">
-      <img src={avatar} alt="" className="round-img" />
-      <div>
-        <h2>{name}</h2>
+import Spinner from "../../background/Spinner";
 
-        <p className="my-1">{location && <span>{location}</span>}</p>
-        <Link to={`/profile/${_id}`} className="btn btn-primary">
-          View Profile
-        </Link>
+const ProfileItem = ({ profile }) => {
+  return profile.user !== null && profile !== undefined ? (
+    <Card className="card secondary">
+      <div className="card-main">
+        <CardHeader
+          tag="h5"
+          className="custom-header text-light font-weight-bolder "
+          style={{ border: "none" }}
+        >
+          {profile.user.name}
+        </CardHeader>
       </div>
-      <ul>
-        {skills.slice(0, 4).map((skill, index) => (
-          <li key={index} className="text-primary">
-            <i className="fas fa-check" /> {skill}
-          </li>
-        ))}
-      </ul>
-    </div>
+
+      <div className="card-secondary card-profile">
+        <div className="custom-card">
+          <img className="card-img " src={profile.avatar} alt="" />
+
+          <Link
+            to={`/api/profile/${profile.user._id}`}
+            className="btn draw-border profile-view"
+          >
+            View Profile
+          </Link>
+        </div>
+        <div className="more-info">
+          <div className="coords text-center">
+            <span>{profile.user.name}</span>
+          </div>
+          <div className="coords text-center">
+            <span>{profile.location}</span>
+          </div>
+
+          <div className="stats">
+            <div>
+              <div className="title">Studies</div>
+              <i className="fas fa-book"></i>
+              <div className="value">
+                {profile.user.metadata.item_count.length}
+              </div>
+            </div>
+
+            <div>
+              <div className="title">Classmates</div>
+              <i className="fas fa-users"></i>
+              <div className="value">123</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  ) : (
+    <Spinner />
   );
 };
 
@@ -35,4 +65,4 @@ ProfileItem.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default ProfileItem;
+export default connect(null)(ProfileItem);

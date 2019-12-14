@@ -22,7 +22,7 @@ export const getCurrentProfile = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -41,7 +41,7 @@ export const getProfiles = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -58,7 +58,7 @@ export const getProfileById = userId => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -97,7 +97,7 @@ export const createProfile = (
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -130,7 +130,7 @@ export const addEducation = (profile, history) => async dispatch => {
 
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -149,14 +149,18 @@ export const deleteEducation = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
 
 // Delete account & profile
 export const deleteAccount = () => async dispatch => {
-  if (window.confirm("Are you sure? This can NOT be undone!")) {
+  if (
+    window.confirm(
+      "Are you sure? This will delete everything and can NOT be undone!"
+    )
+  ) {
     try {
       await axios.delete("/api/profile");
 
@@ -167,7 +171,7 @@ export const deleteAccount = () => async dispatch => {
     } catch (err) {
       dispatch({
         type: PROFILE_ERROR,
-        payload: { msg: err.response.statusText, status: err.response.status }
+        payload: { msg: err.response.msg, status: err.response.status }
       });
     }
   }

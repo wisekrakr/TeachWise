@@ -29,10 +29,10 @@ const Index = ({ isAuthenticated }) => {
             className="btn-group-vertical mt-6"
             style={{ marginTop: "6rem" }}
           >
-            <Link to="/login" className="btn med-btn">
+            <Link to="/login" className="btn draw-border">
               Login
             </Link>
-            <Link to="/register" className="btn med-btn">
+            <Link to="/register" className="btn draw-border">
               Register
             </Link>
           </div>

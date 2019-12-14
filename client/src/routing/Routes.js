@@ -15,6 +15,9 @@ import StudyFieldsList from "../components/fields/StudyFieldsList";
 import StudyPage from "../pages/StudyPage";
 import LogEntryPage from "../pages/LogEntryPage";
 import PrivateRoute from "./PrivateRoute";
+import Profiles from "../components/profiles/profile-lists/Profiles";
+import ProfilePage from "../pages/ProfilePage";
+// import ProfileItem from "../components/profiles/ProfileItem";
 
 const Routes = () => {
   return (
@@ -36,11 +39,18 @@ const Routes = () => {
           path="/profile-add-education"
           component={ProfileAddEducation}
         />
+        <PrivateRoute exact path="/api/profile" component={Profiles} />
+        {/* <PrivateRoute
+          exact
+          path="/api/items/user/:id"
+          component={ProfileItem}
+        /> */}
         <PrivateRoute exact path="/api/items" component={StudyList} />
         <PrivateRoute exact path="/api/logs" component={LogEntryList} />
         <PrivateRoute exact path="/api/fields" component={StudyFieldsList} />
         <PrivateRoute exact path="/api/items/:id" component={StudyPage} />
         <PrivateRoute exact path="/api/logs/:id" component={LogEntryPage} />
+        <PrivateRoute exact path="/api/profile/:id" component={ProfilePage} />
       </Switch>
     </div>
   );

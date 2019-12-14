@@ -9,18 +9,19 @@ import {
   Badge,
   Jumbotron,
   ListGroup,
-  Spinner,
   Col,
-  Row
+  Row,
+  Button
 } from "reactstrap";
 
 import CommentForm from "../components/comments/CommentForm";
 import CommentList from "../components/comments/CommentList";
 import ItemModalEdit from "../components/items/ItemModalEdit";
 import { getItem } from "../actions/ItemState";
-import { textTruncate } from "../helpers/TextHelper";
+import { textTruncate } from "../helpers/textHelper";
+import Spinner from "../background/Spinner";
 
-const StudyPage = ({ getItem, item: { item, loading }, match }) => {
+const StudyPage = ({ getItem, auth, item: { item, loading }, match }) => {
   useEffect(() => {
     getItem(match.params.id);
   }, [getItem, match.params.id]);
@@ -53,11 +54,7 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
   };
 
   if (loading) {
-    return (
-      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-        Loading...
-      </Spinner>
-    );
+    return <Spinner />;
   }
 
   return item !== null &&
@@ -66,50 +63,65 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
     <Fragment>
       <Jumbotron fluid className="jumbo-item">
         <Container fluid>
-          <Badge
-            className="status-badge"
-            color={statusColor()}
-            style={{ float: "right", marginTop: "2rem" }}
-          >
-            {item.status}
-          </Badge>
-          <h1 className="large-heading display-3">
-            {textTruncate(item.name, 40)}
+          <h1 className="large-heading heading">
+            {textTruncate(item.name, 40)}{" "}
           </h1>
+          <Link to={`/profile/${item.user}`} className="animated-link">
+            {" "}
+            created by {item.username}
+          </Link>
 
-          <p className="lead">
-            This topic was added on{" "}
-            <Moment format="YYYY-MM-DD HH:mm">{item.date}</Moment>
-          </p>
-          <hr className="my-2" />
-          <p>
-            Field of Study:{" "}
-            <strong>{textTruncate(item.field_of_study, 40)}</strong>{" "}
-          </p>
-          <h2 className="">Study Material</h2>
-          <div className="materials">
-            {item.material.map((mat, i) => (
-              <div key={i}>
-                <i className="fas fa-check" /> {mat}
-              </div>
-            ))}
+          <div className="right">
+            <span className="mr-4">
+              This topic was added on{" "}
+              <Moment format="YYYY-MM-DD HH:mm">{item.date}</Moment>
+            </span>
+            <Badge className="status-badge" color={statusColor()}>
+              {item.status}
+            </Badge>
+            <ListGroup className="flex-row m-auto">
+              {item.user === auth.user._id ? (
+                <Button className="btn draw-border pl-2 mt-4">
+                  {" "}
+                  <ItemModalEdit />
+                </Button>
+              ) : null}
+
+              <Link
+                to={`/api/items/${item.name}`}
+                className="btn draw-border ml-4 mt-4"
+              >
+                More {textTruncate(item.name, 15)}
+              </Link>
+
+              <Link
+                to={`/api/items/${item.field_of_study}`}
+                className="btn draw-border  mt-4 ml-4"
+              >
+                More {textTruncate(item.field_of_study, 15)}
+              </Link>
+            </ListGroup>
           </div>
-          <p>
-            Learning Curve: <strong>{item.difficulty}</strong>{" "}
-          </p>
+          <hr className="my-2" />
 
-          <ListGroup className="flex-row m-auto">
-            <Link to={`/api/items/${item.name}`} className="med-btn  mt-4">
-              More {textTruncate(item.name, 15)}
-            </Link>
+          <div className="left">
+            <p>
+              Field of Study:{" "}
+              <strong>{textTruncate(item.field_of_study, 40)}</strong>{" "}
+            </p>
+            <p>
+              Learning Curve: <strong>{item.difficulty}</strong>{" "}
+            </p>
 
-            <Link
-              to={`/api/items/${item.field_of_study}`}
-              className="med-btn  mt-4 ml-4"
-            >
-              More {textTruncate(item.field_of_study, 15)}
-            </Link>
-          </ListGroup>
+            <h2 className="text-md">Study Material</h2>
+            <div className="materials">
+              {item.material.map((mat, i) => (
+                <div key={i}>
+                  <i className="fas fa-book" /> {mat}
+                </div>
+              ))}
+            </div>
+          </div>
         </Container>
       </Jumbotron>
 
@@ -125,19 +137,19 @@ const StudyPage = ({ getItem, item: { item, loading }, match }) => {
       </Container>
     </Fragment>
   ) : (
-    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-      Loading...
-    </Spinner>
+    <Spinner />
   );
 };
 
 StudyPage.propTypes = {
   getItem: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  item: state.item
+  item: state.item,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getItem })(StudyPage);

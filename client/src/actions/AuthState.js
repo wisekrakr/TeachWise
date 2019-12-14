@@ -31,7 +31,8 @@ export const loadUser = () => async dispatch => {
     });
   } catch (err) {
     dispatch({
-      type: AUTH_ERROR
+      type: AUTH_ERROR,
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -54,7 +55,7 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
       payload: res.data
     });
 
-    dispatch(loadUser());
+    // dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -62,7 +63,8 @@ export const registerUser = ({ name, email, password }) => async dispatch => {
       errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
     }
     dispatch({
-      type: REGISTER_FAIL
+      type: REGISTER_FAIL,
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -94,7 +96,8 @@ export const loginUser = (email, password) => async dispatch => {
     }
 
     dispatch({
-      type: LOGIN_FAIL
+      type: LOGIN_FAIL,
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };

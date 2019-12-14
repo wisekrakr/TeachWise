@@ -1,10 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
-  Container,
-  Button,
   Modal,
   ModalHeader,
   ModalBody,
@@ -22,8 +20,7 @@ const ItemModalEdit = ({
   history
 }) => {
   const initialState = {
-    modal: false,
-    item: {}
+    modal: false
   };
   const [state, setState] = useState(initialState);
   const [newItem, setNewItem] = useState({
@@ -49,12 +46,13 @@ const ItemModalEdit = ({
 
   const { name, difficulty, material, field_of_study, status } = newItem;
 
-  const onChange = e =>
+  const onChange = e => {
     setNewItem({ ...newItem, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = e => {
     e.preventDefault();
-    setState({ item: newItem });
+
     addItem(newItem, history, true);
   };
 
@@ -65,92 +63,87 @@ const ItemModalEdit = ({
   };
 
   return (
-    <Container>
-      <Fragment>
-        <Button color="dark" style={{ marginTop: "1rem" }} onClick={toggle}>
-          Update Study Item
-        </Button>
-
-        <Modal
-          className="custom-modal"
-          isOpen={state.modal}
-          toggle={toggle}
-          style={{ color: "#333" }}
-        >
-          <ModalHeader toggle={toggle}>Edit his item</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={onSubmit}>
-              <FormGroup>
-                <Label for="item">Study Item*</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  id="item"
-                  placeholder="Add study item..."
-                  value={name}
-                  onChange={onChange}
-                ></Input>
-                <Label for="fieldOfStudy">Study Field*</Label>
-                <Input
-                  type="text"
-                  name="field_of_study"
-                  id="fieldOfStudy"
-                  placeholder="Add study field..."
-                  onChange={onChange}
-                  value={field_of_study}
-                ></Input>
-                <Label for="item">Study Difficulty</Label>
-                <Input
-                  type="select"
-                  name="difficulty"
-                  id="item"
-                  onChange={onChange}
-                  value={difficulty}
-                >
-                  <option value="Beginner">Beginner</option>
-                  <option value="Intermediate">Intermediate</option>
-                  <option value="Expert">Expert</option>
-                  <option value="Master">Master</option>
-                </Input>
-                <Label for="item">Study Material</Label>
-                <Input
-                  type="text"
-                  name="material"
-                  id="item"
-                  placeholder="Add study material..."
-                  onChange={onChange}
-                  value={material}
-                ></Input>
-                <Label for="item">What is the status of this study?</Label>
-                <Input
-                  type="select"
-                  name="status"
-                  id="item"
-                  onChange={onChange}
-                  value={status}
-                >
-                  <option value="Not Started">Not Started</option>
-                  <option value="Started">Started</option>
-                  <option value="Going Strong">Going Strong</option>
-                  <option value="Last Stages">Last Stages</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Mastered">Mastered</option>
-                </Input>
-                <br />
-                *required
-                <br />
-                <Input
-                  type="submit"
-                  value="Add Item"
-                  className="btn btn-dark"
-                  style={{ marginTop: "2rem" }}
-                />
-              </FormGroup>
-            </Form>
-          </ModalBody>
-        </Modal>
-      </Fragment>
-    </Container>
+    <div className="modal-btn" onClick={toggle} style={{ color: "inherit" }}>
+      Edit Study Item
+      <Modal
+        className="custom-modal"
+        isOpen={state.modal}
+        toggle={toggle}
+        style={{ color: "#333" }}
+      >
+        <ModalHeader toggle={toggle}>Edit this item</ModalHeader>
+        <ModalBody>
+          <Form onSubmit={onSubmit}>
+            <FormGroup>
+              <Label for="item">Study Item*</Label>
+              <Input
+                type="text"
+                name="name"
+                id="item"
+                placeholder="Add study item..."
+                value={name}
+                onChange={onChange}
+              ></Input>
+              <Label for="fieldOfStudy">Study Field*</Label>
+              <Input
+                type="text"
+                name="field_of_study"
+                id="fieldOfStudy"
+                placeholder="Add study field..."
+                onChange={onChange}
+                value={field_of_study}
+              ></Input>
+              <Label for="item">Study Difficulty</Label>
+              <Input
+                type="select"
+                name="difficulty"
+                id="item"
+                onChange={onChange}
+                value={difficulty}
+              >
+                <option value="Beginner">Beginner</option>
+                <option value="Intermediate">Intermediate</option>
+                <option value="Expert">Expert</option>
+                <option value="Master">Master</option>
+              </Input>
+              <Label for="item">Study Material</Label>
+              <Input
+                type="text"
+                name="material"
+                id="item"
+                placeholder="Add study material..."
+                onChange={onChange}
+                value={material}
+              ></Input>
+              <Label for="item">What is the status of this study?</Label>
+              <Input
+                type="select"
+                name="status"
+                id="item"
+                onChange={onChange}
+                value={status}
+              >
+                <option value="Not Started">Not Started</option>
+                <option value="Started">Started</option>
+                <option value="Going Strong">Going Strong</option>
+                <option value="Last Stages">Last Stages</option>
+                <option value="Completed">Completed</option>
+                <option value="Mastered">Mastered</option>
+              </Input>
+              <br />
+              *required
+              <br />
+              <Input
+                type="submit"
+                value="Add Item"
+                className="btn btn-dark"
+                style={{ marginTop: "2rem" }}
+              />
+            </FormGroup>
+          </Form>
+        </ModalBody>
+      </Modal>
+    </div>
   );
 };
 

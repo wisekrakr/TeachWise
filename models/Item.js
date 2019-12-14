@@ -31,6 +31,12 @@ module.exports = Item = mongoose.model(
           type: Schema.Types.ObjectId,
           ref: "users"
         },
+        name: {
+          type: String
+        },
+        avatar: {
+          type: String
+        },
         comment: {
           type: String,
           required: true
@@ -50,6 +56,7 @@ module.exports = Item = mongoose.model(
         }
       }
     ],
+
     material: {
       type: [String],
       default: "No study material specified"

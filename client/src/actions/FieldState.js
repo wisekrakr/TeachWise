@@ -4,6 +4,8 @@ import {
   GET_FIELD,
   ADD_FIELD,
   DELETE_FIELD,
+  ADD_FIELD_COUNT,
+  DELETE_FIELD_COUNT,
   LOADING_FIELDS,
   FIELD_ERROR
 } from "./types";
@@ -22,7 +24,7 @@ export const getFields = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -39,7 +41,7 @@ export const getField = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -51,11 +53,10 @@ export const addField = field => async dispatch => {
       "Content-Type": "application/json"
     }
   };
-  console.log(field);
 
   try {
     const res = await axios.post("/api/fields", field, config);
-    console.log(res.data);
+
     dispatch({
       type: ADD_FIELD,
       payload: res.data
@@ -63,7 +64,7 @@ export const addField = field => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };
@@ -81,7 +82,49 @@ export const deleteField = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: FIELD_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { msg: err.response.msg, status: err.response.status }
+    });
+  }
+};
+
+// Add user field
+export const addUserField = (userId, field) => async dispatch => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json"
+    }
+  };
+
+  try {
+    const res = await axios.post(
+      `/api/fields/user/${userId}/${field.name}`,
+      field,
+      config
+    );
+
+    dispatch({
+      type: ADD_FIELD_COUNT,
+      payload: res.data
+    });
+    dispatch(setAlert("Field Added to User", "success"));
+  } catch (err) {
+    dispatch({
+      type: FIELD_ERROR
+    });
+  }
+};
+
+// Delete user field
+export const deleteUserField = (userId, fieldId) => async dispatch => {
+  try {
+    dispatch({
+      type: DELETE_FIELD_COUNT,
+      payload: fieldId
+    });
+    await axios.delete(`/api/fields/user/${userId}/${fieldId}`);
+  } catch (err) {
+    dispatch({
+      type: FIELD_ERROR
     });
   }
 };

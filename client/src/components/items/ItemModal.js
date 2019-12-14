@@ -7,14 +7,22 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button
 } from "reactstrap";
 import { connect } from "react-redux";
-import { addItem } from "../../actions/ItemState";
+
+import { addItem, addUserItem } from "../../actions/ItemState";
 import { getFields } from "../../actions/FieldState";
 import StudyFieldModal from "../fields/StudyFieldModal";
 
-const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
+const ItemModal = ({
+  user,
+  addItem,
+  addUserItem,
+  getFields,
+  field: { fields, loading }
+}) => {
   const initialState = {
     modal: false,
     item: {}
@@ -34,10 +42,11 @@ const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
     });
   };
 
-  const onSubmit = e => {
-    e.preventDefault();
+  const onSubmit = () => {
     setState({ item: item });
     addItem(item);
+    addUserItem(user._id, item);
+
     toggle();
   };
 
@@ -122,12 +131,13 @@ const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
               <br />
               *required
               <br />
-              <Input
+              <Button
                 type="submit"
-                value="Add Item"
-                className="btn btn-dark"
-                style={{ marginTop: "2rem" }}
-              />
+                className="btn draw-border"
+                style={{ float: "right" }}
+              >
+                Add Item{" "}
+              </Button>
             </FormGroup>
           </Form>
         </ModalBody>
@@ -137,6 +147,7 @@ const ItemModal = ({ addItem, getFields, field: { fields, loading } }) => {
 };
 
 ItemModal.propTypes = {
+  addUserItem: PropTypes.func.isRequired,
   addItem: PropTypes.func.isRequired,
   getFields: PropTypes.func.isRequired,
   field: PropTypes.object.isRequired
@@ -146,4 +157,6 @@ const mapStateToProps = state => ({
   field: state.field
 });
 
-export default connect(mapStateToProps, { addItem, getFields })(ItemModal);
+export default connect(mapStateToProps, { addItem, getFields, addUserItem })(
+  ItemModal
+);

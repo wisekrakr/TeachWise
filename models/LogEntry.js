@@ -16,7 +16,8 @@ const LogSchema = new Schema({
     required: true
   },
   topic: {
-    type: String
+    type: String,
+    default: "No Specific Topic"
   },
   date: {
     type: Date,

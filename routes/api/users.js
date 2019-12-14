@@ -64,7 +64,9 @@ router.post(
             user: {
               id: user.id,
               name: user.name,
-              email: user.email
+              email: user.email,
+              avatar: "",
+              metadata: { item_count: [], field_count: [], log_count: [] }
             }
           });
         }

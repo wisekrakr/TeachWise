@@ -1,37 +1,37 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Moment from "react-moment";
+
+import styled from "styled-components";
 import { Button } from "reactstrap";
 
-import { deleteField } from "../../actions/FieldState";
-import { textTruncate } from "../../helpers/TextHelper";
+import { deleteField, deleteUserField } from "../../actions/FieldState";
+import { textTruncate } from "../../helpers/textHelper";
+import Spinner from "../../background/Spinner";
 
 const StudyFieldItem = ({
   auth,
   deleteField,
-  field: { _id, user, name, date },
-  showAll
+  field: { _id, user, name, number, date }
 }) => {
   const onDelete = () => {
     deleteField(_id);
+    deleteUserField(user, _id);
   };
 
-  const userFields = !auth.loading && user === auth.user._id && (
-    <li className="alt-list-item">
-      <Button className="btn list-delete btn-sm" onClick={onDelete}>
-        <i className="fas fa-times" />
-      </Button>
+  const AltListItemStyle = styled.li`
+    &::before,
+    &::after {
+      content: "";
+    }
+    &::before {
+      content: "${number}";
+    }
+  `;
 
-      <Link to={`/api/fields/${_id}`}>
-        <div className="font-weight-bolder">{textTruncate(name, 40)}</div>{" "}
-      </Link>
-    </li>
-  );
-
-  const allFields = (
-    <li className="alt-list-item">
+  return auth.user !== null ? (
+    <AltListItemStyle className="alt-list-item">
       {!auth.loading && user === auth.user._id && (
         <Button className="btn list-delete btn-sm" onClick={onDelete}>
           <i className="fas fa-times" />
@@ -41,21 +41,23 @@ const StudyFieldItem = ({
       <Link to={`/api/fields/${_id}`}>
         <div className="font-weight-bolder">{textTruncate(name, 40)}</div>{" "}
       </Link>
-    </li>
+    </AltListItemStyle>
+  ) : (
+    <Spinner />
   );
-
-  return <Fragment>{!showAll ? userFields : allFields}</Fragment>;
 };
 
 StudyFieldItem.propTypes = {
   field: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteField: PropTypes.func.isRequired,
-  showAll: PropTypes.bool
+  deleteUserField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { deleteField })(StudyFieldItem);
+export default connect(mapStateToProps, { deleteField, deleteUserField })(
+  StudyFieldItem
+);

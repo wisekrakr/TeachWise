@@ -61,6 +61,7 @@ const Register = ({ setAlert, registerUser, isAuthenticated }) => {
                 onChange={e => onChange(e)}
               />
             </FormGroup>
+
             <FormGroup className="input-group-text">
               <InputGroupAddon addonType="prepend">
                 <FontAwesomeIcon icon={faEnvelope} className="form-icon" />

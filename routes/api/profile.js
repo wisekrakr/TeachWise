@@ -24,7 +24,7 @@ router.get("/me", auth, async (req, res) => {
 
     res.json(profile);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (GET) /me");
     res.status(500).send("Server Error");
   }
 });
@@ -49,6 +49,7 @@ router.post(
     }
 
     const {
+      avatar,
       website,
       location,
       bio,
@@ -57,18 +58,21 @@ router.post(
       facebook,
       twitter,
       instagram,
-      linkedin,
-      date
+      linkedin
     } = req.body;
 
     // Build profile object
     const profileFields = {};
 
     profileFields.user = req.user.user.id;
+    avatar
+      ? (profileFields.avatar = avatar)
+      : (profileFields.avatar =
+          "https://raw.githubusercontent.com/wisekrakr/portfolio_res/master/images/dd_logo_solo.png");
+
     if (website) profileFields.website = website;
     if (location) profileFields.location = location;
     if (bio) profileFields.bio = bio;
-    if (date) profileFields.date = date;
     if (skills) {
       profileFields.skills = skills.split(",").map(skill => skill.trim());
     }
@@ -89,19 +93,34 @@ router.post(
         { new: false, upsert: true }
       );
       res.json(profile);
+
+      // updateUser(req.user.user.id, profileFields.avatar);
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message + " in profile.js (POST) /");
       res.status(500).send("Server Error");
     }
   }
 );
+
+const updateUser = (userId, avatar) => {
+  User.findOneAndUpdate(userId, { $set: avatar }, { new: false, upsert: true })
+    .then(res => {
+      res.json(user);
+    })
+    .catch(err => {
+      console.error(err.message);
+    });
+};
 
 // @route    GET api/profile
 // @desc     Get all profiles
 // @access   Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find().populate("user", [
+      "name",
+      "metadata"
+    ]);
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -116,7 +135,7 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
-    }).populate("user", ["name", "avatar"]);
+    }).populate("user", ["name"]);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
 
@@ -177,6 +196,7 @@ router.put(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }

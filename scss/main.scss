@@ -1,5 +1,4 @@
 @import "config";
-@import "profile";
 @import "navbar";
 @import "card";
 @import "comment";
@@ -8,6 +7,8 @@
 @import "sidebar";
 @import "alert";
 @import "list";
+@import "button";
+@import "spinner";
 
 * {
   box-sizing: border-box;
@@ -78,6 +79,15 @@ a:hover {
   margin: 3rem;
 }
 
+.animated-link {
+  color: setTextColor($primary-color);
+  @include easeOut;
+
+  &:hover {
+    color: rgba(darken($hard-dark, 6), 0.65);
+  }
+}
+
 /*================ BUTTONS ===========*/
 .btn {
   border: 0;
@@ -91,14 +101,14 @@ a:hover {
 
 .large-btn {
   color: setTextColor($primary-color);
-  background-color: $orange-color;
+  background-color: $hard-dark;
   border-width: large;
   border-radius: 1rem;
   padding: 0.9rem 1.5rem;
   white-space: normal;
 
   &:hover {
-    background: rgba(darken($light-orange, 6), 0.65);
+    background: rgba(darken($soft-dark, 6), 0.65);
     color: $primary-color;
 
     @include easeOut;
@@ -107,7 +117,7 @@ a:hover {
 
 .med-btn {
   color: setTextColor($primary-color);
-  background-color: $orange-color;
+  background-color: $hard-dark;
   border-width: medium;
   border-radius: 1rem;
   padding: 0.6rem 1.1rem;
@@ -115,22 +125,22 @@ a:hover {
   @include easeOut;
 
   &:hover {
-    background: rgba(darken($light-orange, 6), 0.65);
+    background: rgba(darken($soft-dark, 6), 0.65);
     color: $primary-color;
   }
 }
 
 .small-btn {
   color: setTextColor($primary-color);
-  background-color: $orange-color;
+  background-color: $hard-dark;
   border-width: medium;
   border-radius: 1rem;
-  padding: 0.3rem 0.75rem;
+  padding: 0.2rem 0.45rem;
   // margin: 0.5rem;
   @include easeOut;
 
   &:hover {
-    background: rgba(darken($light-orange, 6), 0.65);
+    background: rgba(darken($soft-dark, 6), 0.65);
     color: $primary-color;
   }
 }
@@ -226,10 +236,49 @@ a:hover {
 .jumbo {
   border-radius: 0 !important;
   border: none;
-  top: 30%;
+
+  &-profile {
+    color: setTextColor($primary-color);
+    background: linear-gradient($soft-dark, $hard-dark);
+
+    .right {
+      float: right;
+    }
+
+    .left {
+      margin: auto;
+      width: 50%;
+    }
+
+    .profile-img {
+      display: block;
+      margin-top: auto;
+      margin-left: auto;
+      margin-right: auto;
+      width: 250px;
+      height: 250px;
+      background-position: center;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      background-repeat: no-repeat;
+      border-radius: 50%;
+      border: solid 3px $soft-dark;
+    }
+  }
 
   &-item {
-    color: #333;
+    color: setTextColor($primary-color);
+    background: linear-gradient($orange-color, $light-orange);
+
+    .right {
+      float: right;
+    }
+
+    .left {
+      width: 50%;
+    }
   }
 }
 
@@ -240,31 +289,39 @@ a:hover {
 /*================ HEADINGS ===========*/
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5,
+h6 {
   margin: 0;
-  font-weight: 800;
-  border-radius: 20px;
-  border-width: 3px;
-  border-style: solid;
-  border-color: $light-color;
+  font-weight: 600;
 
   &.large-heading {
-    border: none;
-    // box-shadow: $bg-shadow;
     font-size: 4.2rem;
     padding: 2rem !important;
+    text-transform: uppercase;
+  }
+
+  &.medium-heading {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 0.2rem 1rem;
+    background: rgba(lighten($soft-dark, 6), 0.85);
+    text-transform: uppercase;
   }
 
   &.small-heading {
     margin-bottom: 2rem;
     padding: 0.2rem 1rem;
     background: $hard-dark;
+    text-transform: uppercase;
   }
 
   &.x-small-heading {
     margin-bottom: 1rem;
     padding: 0.1rem 0.5rem;
     background: $hard-dark;
+    text-transform: uppercase;
   }
 }
 
@@ -274,7 +331,10 @@ h3 {
   padding: 2rem;
 }
 
-h3.heading {
+h3.heading,
+h4.heading,
+h5.heading,
+h6.heading {
   border: none;
   font-size: 1.9rem;
   text-transform: uppercase;
@@ -331,18 +391,75 @@ h3.heading {
   @include easeOut;
 }
 
+/*================ ICONS ===========*/
+
+.fa-globe {
+  color: #2fc59f;
+}
+.fa-twitter {
+  color: #38a1f3;
+}
+.fa-facebook {
+  color: #3b5998;
+}
+.fa-instagram {
+  color: #3f729b;
+}
+.fa-youtube {
+  color: #c4302b;
+}
+.fa-linkedin {
+  color: #0077b5;
+}
+
 // Register Page
 
 .register {
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("https://jooinn.com/images/close-up-of-open-book.jpg") no-repeat center;
+    url("https://jooinn.com/images/close-up-of-open-book.jpg") no-repeat center
+      center fixed;
+  background-size: cover;
+  height: 100vh;
 }
+
+// Login Page
 
 .login {
   background: url("https://mocah.org/uploads/posts/5390534-window-silhouette-person-back-city-architecture-sky-black-learn-explore-adventure-new-thinking-dreaming-wonder-winter-travel-skyline-view-leave-free-images.jpg")
     no-repeat center center fixed;
   background-size: cover;
   height: 100vh;
+}
+
+// Profile Page
+
+.profile-container {
+  color: setTextColor($primary-color);
+
+  .profile-about .skills {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .profile-nav {
+    background-color: rgba(darken($orange-color, 6), 0.85);
+
+    &-item {
+      @include easeOut;
+      &:hover {
+        cursor: pointer;
+
+        background-color: rgba(darken($primary-color, 6), 0.85);
+      }
+    }
+  }
+}
+
+.profile-edit,
+.profile-edu {
+  background: rgba(darken($primary-color, 6), 0.85);
 }
 
 @import "mobile";

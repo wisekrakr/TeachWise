@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addField } from "../../actions/FieldState";
+import { addField, addUserField } from "../../actions/FieldState";
 
 import {
   Modal,
@@ -10,10 +10,11 @@ import {
   Form,
   FormGroup,
   Label,
-  Input
+  Input,
+  Button
 } from "reactstrap";
 
-const StudyFieldModal = ({ addField }) => {
+const StudyFieldModal = ({ user, addField, addUserField }) => {
   const initialState = {
     modal: false,
     field: {}
@@ -33,6 +34,7 @@ const StudyFieldModal = ({ addField }) => {
     e.preventDefault();
     setState({ field: field });
     addField(field);
+    addUserField(user._id, field);
   };
 
   const toggle = () => {
@@ -62,12 +64,13 @@ const StudyFieldModal = ({ addField }) => {
                 placeholder="Add the name of your new field of study..."
                 onChange={onChange}
               ></Input>
-              <Input
+              <Button
                 type="submit"
-                value="Add Item"
-                className="btn btn-dark"
-                style={{ marginTop: "2rem" }}
-              />
+                className="btn draw-border"
+                style={{ float: "right" }}
+              >
+                Add Study Field{" "}
+              </Button>
             </FormGroup>
           </Form>
         </ModalBody>
@@ -77,11 +80,14 @@ const StudyFieldModal = ({ addField }) => {
 };
 
 StudyFieldModal.propTypes = {
-  addField: PropTypes.func.isRequired
+  addField: PropTypes.func.isRequired,
+  addUserField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   item: state.item
 });
 
-export default connect(mapStateToProps, { addField })(StudyFieldModal);
+export default connect(mapStateToProps, { addField, addUserField })(
+  StudyFieldModal
+);

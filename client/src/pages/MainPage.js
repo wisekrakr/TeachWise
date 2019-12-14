@@ -1,28 +1,25 @@
 import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { Jumbotron, ListGroup, Spinner } from "reactstrap";
+import { Jumbotron, ListGroup } from "reactstrap";
 
+import { getCurrentProfile } from "../actions/ProfileState";
 import TickerList from "../background/ticker/TickerList";
 import SideBar from "../layouts/SideBar";
-import ProfileEducation from "../components/profiles/ProfileEducation";
-import { getCurrentProfile, deleteAccount } from "../actions/ProfileState";
 import StudyFieldsList from "../components/fields/StudyFieldsList";
 import StudyList from "../components/items/StudyList";
-import LogEntryList from "../components/logs/LogEntryList";
+import Spinner from "../background/Spinner";
 
 const Main = ({
-  auth: { user },
   getCurrentProfile,
-  deleteAccount,
+  auth: { user },
   profile: { profile, loading }
 }) => {
   useEffect(() => {
     getCurrentProfile();
   }, [getCurrentProfile]);
 
-  return loading && profile === null ? (
+  return loading && user === null ? (
     <Spinner />
   ) : (
     <Fragment>
@@ -39,9 +36,8 @@ const Main = ({
       <SideBar profile={profile} />
 
       <div className="index-container">
-        <StudyList showAll={true} />
-        <StudyFieldsList showAll={true} />
-        <LogEntryList />
+        <StudyList />
+        <StudyFieldsList />
       </div>
     </Fragment>
   );
@@ -49,9 +45,8 @@ const Main = ({
 
 Main.propTypes = {
   getCurrentProfile: PropTypes.func.isRequired,
-  deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  profile: PropTypes.object
 };
 
 const mapStateToProps = state => ({
@@ -59,6 +54,4 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getCurrentProfile, deleteAccount })(
-  Main
-);
+export default connect(mapStateToProps, { getCurrentProfile })(Main);

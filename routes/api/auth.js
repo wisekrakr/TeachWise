@@ -13,7 +13,7 @@ const User = require("../../models/User");
 router.get("/", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.user.id).select("-password");
-    // console.log(res);
+
     res.json(user);
   } catch (err) {
     console.error(err.message);
@@ -57,7 +57,7 @@ router.post(
 
       const payload = {
         user: {
-          id: user.id
+          id: user._id
         }
       };
 

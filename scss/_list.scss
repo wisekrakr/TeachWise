@@ -6,25 +6,34 @@
 }
 
 ol.alt-list {
-  counter-reset: gradient-counter;
+  // counter-reset: gradient-counter;
+
   list-style: none;
   margin: 1.75rem 0;
   padding-left: 1rem;
+  a {
+    color: setTextColor($primary-color);
+  }
   > li {
-    // background: white;
     border-radius: 0 0.5rem 0.5rem 0.5rem;
     @extend %boxshadow;
-    counter-increment: gradient-counter;
+    // counter-increment: gradient-counter;
     margin-top: 1rem;
     min-height: 3rem;
     padding: 1rem 1rem 1rem 3rem;
     position: relative;
-
+    @include easeOut;
     &:nth-child(odd) {
       background: $light-orange;
+      &:hover {
+        background: rgba(darken($soft-dark, 6), 0.85);
+      }
     }
     &:nth-child(even) {
       background: $orange-color;
+      &:hover {
+        background: rgba(darken($soft-dark, 6), 0.85);
+      }
     }
     &::before,
     &::after {
@@ -35,7 +44,7 @@ ol.alt-list {
         $hard-dark 100%
       );
       border-radius: 1rem 1rem 0 1rem;
-      content: "";
+      // content: "";
       height: 3rem;
       left: -1rem;
       overflow: hidden;
@@ -46,7 +55,7 @@ ol.alt-list {
     &::before {
       align-items: flex-end;
       @extend %boxshadow;
-      content: counter(gradient-counter);
+      // content: counter(gradient-counter);
       color: #000;
       display: flex;
       justify-content: flex-end;

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { Spinner } from "reactstrap";
 import { connect } from "react-redux";
 
 import { getItems } from "../../actions/ItemState";
 import TickerItem from "./TickerItem";
+import Spinner from "../Spinner";
 
 const TickerList = ({ getItems, item: { items, loading } }) => {
   useEffect(() => {
@@ -16,11 +16,11 @@ const TickerList = ({ getItems, item: { items, loading } }) => {
       <div className="ticker-wrap">
         <div className="ticker">
           {items !== null && !loading ? (
-            items.map(item => <TickerItem key={item._id} item={item} />)
+            items.map(item =>
+              item !== null ? <TickerItem key={item._id} item={item} /> : ""
+            )
           ) : (
-            <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-              Loading...
-            </Spinner>
+            <Spinner />
           )}
         </div>
       </div>

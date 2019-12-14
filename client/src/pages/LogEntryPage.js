@@ -3,9 +3,10 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
 import { Link } from "react-router-dom";
-import { Container, Jumbotron, ListGroup, Spinner } from "reactstrap";
+import { Container, Jumbotron, ListGroup } from "reactstrap";
 
 import { getLogEntry } from "../actions/LogState";
+import Spinner from "../background/Spinner";
 
 const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
   useEffect(() => {
@@ -13,11 +14,7 @@ const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
   }, [getLogEntry, match.params.id]);
 
   if (loading) {
-    return (
-      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-        Loading...
-      </Spinner>
-    );
+    return <Spinner />;
   }
 
   return log !== null && log !== undefined ? (
@@ -41,23 +38,17 @@ const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
 
           <hr className="my-2" />
 
-          <ListGroup className="flex-row m-auto">
-            <Link
-              to={`/api/logs/${log.topic._id}`}
-              className="btn btn-dark mt-4"
-              color="dark"
-            >
-              More of {log.topic}
-            </Link>
-            {/* 
+          {log.topic !== "No Specific Topic" ? (
+            <ListGroup className="flex-row m-auto">
               <Link
-                to={`/api/users/${user.name}`}
-                className="btn btn-dark mt-4 ml-4"
+                to={`/api/logs/${log._id}`}
+                className="btn btn-dark mt-4"
                 color="dark"
               >
-                Go To Profile
-              </Link> */}
-          </ListGroup>
+                More of {log.topic}
+              </Link>
+            </ListGroup>
+          ) : null}
         </Container>
       </Jumbotron>
       <Container className="mx-md-auto">
@@ -70,16 +61,12 @@ const LogEntryPage = ({ getLogEntry, log: { log, loading }, match }) => {
             );
           })
         ) : (
-          <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-            Please wait... Loading Log Entry...
-          </Spinner>
+          <Spinner />
         )}
       </Container>
     </Fragment>
   ) : (
-    <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-      Loading...
-    </Spinner>
+    <Spinner />
   );
 };
 

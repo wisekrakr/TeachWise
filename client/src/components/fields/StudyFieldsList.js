@@ -1,16 +1,15 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Container, Spinner } from "reactstrap";
+import { Container } from "reactstrap";
+import styled from "styled-components";
 
 import { getFields } from "../../actions/FieldState";
 import StudyFieldItem from "./StudyFieldItem";
+import Spinner from "../../background/Spinner";
+// import ListPagination from "../../background/ListPagination";
 
-const StudyFieldsList = ({
-  getFields,
-  field: { fields, loading },
-  showAll
-}) => {
+const StudyFieldsList = ({ getFields, field: { fields, loading } }) => {
   useEffect(() => {
     getFields();
   }, [getFields]);
@@ -20,48 +19,48 @@ const StudyFieldsList = ({
     fields === undefined &&
     Object.keys(fields).length === 0
   ) {
-    return (
-      <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-        Loading...
-      </Spinner>
-    );
+    return <Spinner />;
   }
 
-  return fields.length !== 0 ? (
-    <Container>
-      {!showAll ? (
-        <h3 className="text-center small-heading">Your fields of study</h3>
-      ) : (
-        <h3 className="text-center small-heading">
-          Recently added fields of study
-        </h3>
-      )}
+  const AltListStyle = styled.ol`
+    counter-reset: ${fields.length};
+
+    > li {
+      counter-increment: ${fields.length};
+    }
+  `;
+
+  return fields !== null &&
+    fields !== undefined &&
+    Object.keys(fields).length > 0 ? (
+    <Container className="narrow">
+      <h6 className="text-center small-heading">
+        Recently added fields of study
+      </h6>
+
       <p className="heading-underline" />
-      {fields !== null && !loading ? (
-        <ol className="alt-list">
+      {fields !== null && fields !== undefined && !loading ? (
+        <AltListStyle className="alt-list">
           {fields.map(field => (
-            <StudyFieldItem key={field._id} field={field} showAll={showAll} />
+            <StudyFieldItem key={field._id} field={field} />
           ))}
-        </ol>
+        </AltListStyle>
       ) : (
-        <Spinner color="primary" style={{ width: "3rem", height: "3rem" }}>
-          Loading....
-        </Spinner>
+        <Spinner />
       )}
     </Container>
   ) : (
     <Fragment>
-      <h3 className="x-small-heading">
+      <h6 className="x-small-heading">
         Add a Study Field before you add new Study Items
-      </h3>
+      </h6>
     </Fragment>
   );
 };
 
 StudyFieldsList.prototypes = {
   getFields: PropTypes.func.isRequired,
-  field: PropTypes.object.isRequired,
-  showAll: PropTypes.bool
+  field: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   field: state.field

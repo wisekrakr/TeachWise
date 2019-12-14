@@ -14,36 +14,41 @@
   align-items: center;
   color: $primary-color;
 
-  .comment-title {
+  &-title {
     background-color: $orange-color;
     color: #fff;
     font-weight: bolder;
     margin: 0 0 1rem;
   }
-  .comment-header {
+  &-header {
+    text-align: center;
     font-weight: bolder;
     margin: 0 0 1rem;
   }
-  .comment-footer {
+  &-footer {
     font-weight: lighter;
     margin: 1rem;
   }
-  .custom-img {
+  &-img {
+    z-index: 3;
+    display: block;
+    margin-top: 0.4rem;
+    margin-left: auto;
+    margin-right: auto;
     width: 75px;
     height: 75px;
-    background: url("https://raw.githubusercontent.com/wisekrakr/portfolio_res/master/images/dd_logo_solo.png");
-    margin: auto;
+    background-position: center;
     background-size: cover;
     border-radius: 50%;
     border: solid 2px $orange-color;
   }
-  .comment-count {
+  &-count {
     background: $light-color;
     padding: 0.1rem 0.2rem;
     border-radius: 5px;
     font-size: 0.8rem;
   }
-  .comment-date {
+  &-date {
     font-size: 0.8rem;
     margin-bottom: 0.5rem;
   }

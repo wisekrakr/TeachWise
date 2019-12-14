@@ -12,7 +12,7 @@ import {
 } from "reactstrap";
 
 import itemContext from "../../contexts/items/itemContext";
-import { textTruncate } from "../../helpers/TextHelper";
+import { textTruncate } from "../../helpers/textHelper";
 
 const StudyItem = ({ item }) => {
   const context = useContext(itemContext);
@@ -36,7 +36,7 @@ const StudyItem = ({ item }) => {
     <Card className="card bg-dark">
       <Link to={`/api/items/${_id}`}>
         <CardHeader
-          tag="h3"
+          tag="h5"
           className="custom-header text-light font-weight-bolder"
         >
           {textTruncate(name, 30)}

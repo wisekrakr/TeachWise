@@ -19,14 +19,24 @@
   position: absolute;
   width: 150px;
   height: 100%;
-  background: linear-gradient(#ca5a50, #eeafa9);
+  background: linear-gradient(
+    135deg,
+    $reddish 0%,
+    $orange-color 50%,
+    $light-orange 100%
+  );
   transition: width 0.4s;
   overflow: hidden;
   z-index: 2;
 }
 
 .card.blue .card-secondary {
-  background: linear-gradient($hard-dark, $soft-dark);
+  background: linear-gradient(
+    135deg,
+    $orange-color 0%,
+    $light-color 50%,
+    $hard-dark 100%
+  );
 }
 
 .card:hover .card-secondary {
@@ -75,6 +85,7 @@
   padding: 0 !important;
 }
 
+.card .card-secondary .custom-card .name:hover,
 .card .card-secondary .custom-card .discuss:hover {
   background-color: $soft-dark;
   transition: 0.4s ease-in;
@@ -167,10 +178,32 @@
 }
 
 .card-delete {
-  background-color: $reddish;
-  border-radius: 1rem;
+  background-color: $reddish !important;
+  border-radius: 0.5rem;
   padding: 0 0.2rem 0;
   position: absolute;
   right: 0;
   bottom: 0;
+}
+
+.card .card-profile {
+  .card-img {
+    display: block;
+    margin-top: 0.4rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    border: solid 3px $soft-dark;
+  }
+
+  .profile-view {
+    margin: 0.3rem 1rem 1rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
