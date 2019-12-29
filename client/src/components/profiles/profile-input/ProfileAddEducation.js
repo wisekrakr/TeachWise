@@ -101,7 +101,7 @@ const ProfileAddEducation = ({ addEducation, history }) => {
                 type="text"
                 placeholder="* Field of Study"
                 name="field_of_study"
-                value={field_of_study}
+                value={field_of_study.name}
                 onChange={onChange}
                 className="custom-input"
               />

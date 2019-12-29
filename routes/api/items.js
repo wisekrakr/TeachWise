@@ -7,14 +7,55 @@ const auth = require("../../middleware/auth");
 const Item = require("../../models/Item");
 const User = require("../../models/User");
 const Profile = require("../../models/Profile");
+const Field = require("../../models/FIeld");
 
 // @route GET api/items
 // @desc  GET All Items
 // @access Private
 router.get("/", auth, async (req, res) => {
   try {
-    const items = await Item.find().sort({ date: -1 });
+    const items = await Item.find()
+      .sort({ date: -1 })
+      .populate("field_of_study", ["name"], Field);
     res.json(items);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route GET api/items/name/:item_name
+// @desc  GET All Items with a specific name
+// @access Private
+router.get("/name/:item_name", auth, async (req, res) => {
+  try {
+    const namedItems = await Item.find({ name: req.params.item_name })
+      .sort({
+        date: -1
+      })
+      .populate("field_of_study", ["name"], Field);
+
+    res.json(namedItems);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route GET api/items/field/:field_id
+// @desc  GET All Items with a specific field
+// @access Private
+router.get("/field/:field_id", auth, async (req, res) => {
+  try {
+    const fieldItems = await Item.find({
+      field_of_study: { _id: req.params.field_id }
+    })
+      .sort({
+        date: -1
+      })
+      .populate("field_of_study", ["name"], Field);
+    // console.log(fieldItems);
+    res.json(fieldItems);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -26,7 +67,11 @@ router.get("/", auth, async (req, res) => {
 // @access Private
 router.get("/:id", auth, async (req, res) => {
   try {
-    const item = await Item.findById(req.params.id);
+    const item = await Item.findById(req.params.id).populate(
+      "field_of_study",
+      ["name"],
+      Field
+    );
 
     res.json(item);
   } catch (err) {
@@ -35,8 +80,8 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
-// @route POST api/items
-// @desc  Create an Item
+// @route POST api/items/
+// @desc  Create or Edit an Item and also add it to the user's item_count
 // @access Private
 router.post(
   "/",
@@ -44,9 +89,6 @@ router.post(
     auth,
     [
       check("name", "Title is required")
-        .not()
-        .isEmpty(),
-      check("field_of_study", "Field of Study is required")
         .not()
         .isEmpty()
     ]
@@ -57,38 +99,62 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, field_of_study, difficulty, material, status } = req.body;
+    let item = null;
+    let { name, field_of_study, difficulty, material, status, _id } = req.body;
 
-    // Build item object
-    const itemFields = {};
+    const field = await Field.findById(field_of_study);
+    const user = await User.findById(req.user.user.id);
 
-    const user = await User.findById(req.user.user.id).select("-password");
+    await Profile.findOne({ user: req.user.user.id })
+      .then(async result => {
+        if (_id === undefined) {
+          const newItem = new Item({
+            user: user._id,
+            username: user.name,
+            name: name.charAt(0).toUpperCase() + name.slice(1),
+            field_of_study: field,
+            difficulty: difficulty,
+            status: status,
+            material:
+              material !== undefined
+                ? material.split(",").map(mat => mat.trim())
+                : material
+          });
 
-    itemFields.user = req.user.user.id;
-    itemFields.username = user.name;
-    if (name) itemFields.name = name;
-    if (field_of_study) itemFields.field_of_study = field_of_study;
-    if (difficulty) itemFields.difficulty = difficulty;
-    if (status) itemFields.status = status;
-    if (material) {
-      itemFields.material =
-        material.length > 1
-          ? material.split(",").map(mat => mat.trim())
-          : material;
-    }
+          item = await newItem.save();
 
-    try {
-      let item = await Item.findOneAndUpdate(
-        { user: req.user.user.id },
-        { $set: itemFields },
-        { new: false, upsert: true }
-      );
+          await Item.findById(item._id).then(res => {
+            result.metadata.item_count.unshift(res);
 
-      res.json(item);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send("Server Error");
-    }
+            result.save();
+          });
+        } else {
+          // Build item object
+          const itemFields = {};
+          itemFields.user = req.user.user.id;
+          if (name) itemFields.name = name;
+          if (difficulty) itemFields.difficulty = difficulty;
+          if (status) itemFields.status = status;
+          if (material) {
+            itemFields.material =
+              material.length > 0
+                ? material.split(",").map(mat => mat.trim())
+                : material;
+          }
+
+          item = await Item.findOneAndUpdate(
+            { _id: _id },
+            { $set: itemFields },
+            { new: false, upsert: true }
+          );
+        }
+      })
+      .catch(err => {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+      });
+
+    await res.json(item);
   }
 );
 
@@ -109,6 +175,28 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(401).json({ msg: "User not authorized" });
     }
 
+    await Chapter.find({ item: item_id }).then(async res => {
+      await Document.find({ chapter: res._id }).then(res2 => {
+        res2.remove();
+      });
+
+      await res.remove();
+    });
+
+    await Profile.findOne({ user: req.user.user.id }).then(async result => {
+      await result.metadata.item_count.filter(userItem => {
+        if (userItem._id.toString() === item._id.toString()) {
+          const removeIndex = result.metadata.item_count
+            .map(item => item.id)
+            .indexOf(req.params.item_id);
+
+          result.metadata.item_count.splice(removeIndex, 1);
+
+          result.save();
+        }
+      });
+    });
+
     await item.remove();
 
     res.json({ msg: "Study Item removed" });
@@ -119,91 +207,30 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
-// TODO THIS WORKS BUT WHAT IF AN USER MAKES TWO ITEMS WITH THE SAME NAME?
-// CREATES A NULL OBJECT ==> DUPLICATES NOT PERMITTED AS ITEMS BUT PERMITTED IN ITEM_COUNT
-
-// @route POST api/items/user/:id/:item_name
-// @desc  POST to Item_count from a user
-// @access Private
-router.post("/user/:id/:item_name", auth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  try {
-    const user = await User.findById(req.user.user.id).select("-password");
-
-    const item = await Item.findOne({ name: req.params.item_name });
-
-    user.metadata.item_count.unshift(item);
-
-    await user.save();
-
-    res.json(user.metadata.item_count);
-  } catch (err) {
-    console.error(err.message + " in items.js (POST) /user/:id/:item_name");
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route DELETE api/items/user/:id/:item_id
-// @desc  Delete an Item from Item_count from user
-// @access Private
-router.delete("/user/:id/:item_id", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    // Pull out the item
-    user.metadata.item_count.filter(userItem => {
-      if (userItem._id.toString() === req.params.item_id.toString()) {
-        const removeIndex = user.metadata.item_count
-          .map(item => item.id)
-          .indexOf(req.params.item_id);
-
-        user.metadata.item_count.splice(removeIndex, 1);
-
-        user.save();
-
-        res.json(user.metadata.item_count);
-      } else {
-        console.error("item not found in items.js DELETE user/:id/:item_id");
-        return res.status(404).json({ msg: "Item does not exist" });
-      }
-    });
-
-    // If the item does not exist
-  } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send("Server Error");
-  }
-});
-
 // // @route GET api/items/user/:id
 // // @desc  GET All Items from a user
 // // @access Private
-// router.get("/user/:id", auth, async (req, res) => {
-//   try {
-//     const user = await User.findById(req.user.user.id).select("-password");
-//     const items = await Item.find({ user: user._id }).sort({
-//       date: -1
-//     });
-//     console.log(items);
-//     const newItems = [];
-//     items.filter(item => {
-//       // Check user
-//       if (item.user.toString() !== user._id) {
-//         newItems.push(item);
-//       }
-//     });
+router.get("/user/:id", auth, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.user.id).select("-password");
+    const items = await Item.find({ user: user._id }).sort({
+      date: -1
+    });
+    console.log(items);
+    const newItems = [];
+    items.filter(item => {
+      // Check user
+      if (item.user.toString() !== user._id) {
+        newItems.push(item);
+      }
+    });
 
-//     res.json(newItems);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send("Server Error");
-//   }
-// });
+    res.json(newItems);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
 // @route    POST api/items/user_comments/:id
 // @desc     Add user item comment

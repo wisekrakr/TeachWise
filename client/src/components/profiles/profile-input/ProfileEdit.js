@@ -46,7 +46,7 @@ const ProfileEdit = ({
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
-    getCurrentProfile();
+    // getCurrentProfile();
 
     setNewProfile({
       avatar: loading || !profile.avatar ? "" : profile.avatar,

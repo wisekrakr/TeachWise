@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -8,13 +8,20 @@ import {
   NavbarToggler,
   NavbarBrand,
   Nav,
-  NavItem
+  NavItem,
+  Button
 } from "reactstrap";
 
 import { logoutUser } from "../actions/AuthState";
 
 const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
   const [state, setState] = useState({});
+
+  const onClick = e => {
+    e.preventDefault();
+    logoutUser();
+    return <Link to="/"></Link>;
+  };
 
   const toggle = () => {
     setState({
@@ -49,9 +56,9 @@ const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
             </Link>
           </NavItem>
           <NavItem>
-            <button onClick={logoutUser} className="a-link nav-btn">
-              <i className="fas fa-power-off" /> Logout
-            </button>
+            <Link onClick={logoutUser} to="/" className="a-link nav-btn">
+              <i className="fas fa-power-off" aria-hidden="true" /> Logout
+            </Link>
           </NavItem>
         </Nav>
       </Collapse>

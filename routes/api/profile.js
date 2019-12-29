@@ -16,7 +16,7 @@ router.get("/me", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.user.id
-    }).populate("user", ["name", "avatar"]);
+    }).populate("user", ["name", "avatar", "email"]);
 
     if (!profile) {
       return res.status(400).json({ msg: "There is no profile for this user" });
@@ -76,6 +76,7 @@ router.post(
     if (skills) {
       profileFields.skills = skills.split(",").map(skill => skill.trim());
     }
+    profileFields.metadata = { item_count: [], field_count: [], log_count: [] };
 
     // Build social object
     profileFields.social = {};
@@ -93,24 +94,12 @@ router.post(
         { new: false, upsert: true }
       );
       res.json(profile);
-
-      // updateUser(req.user.user.id, profileFields.avatar);
     } catch (err) {
       console.error(err.message + " in profile.js (POST) /");
       res.status(500).send("Server Error");
     }
   }
 );
-
-const updateUser = (userId, avatar) => {
-  User.findOneAndUpdate(userId, { $set: avatar }, { new: false, upsert: true })
-    .then(res => {
-      res.json(user);
-    })
-    .catch(err => {
-      console.error(err.message);
-    });
-};
 
 // @route    GET api/profile
 // @desc     Get all profiles
@@ -135,7 +124,7 @@ router.get("/user/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
-    }).populate("user", ["name"]);
+    }).populate("user", ["name", "metadata", "email"]);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
 
@@ -222,7 +211,7 @@ router.put(
     };
 
     try {
-      const profile = await Profile.findOne({ user: req.user.id });
+      const profile = await Profile.findOne({ user: req.user.user.id });
 
       profile.education.unshift(newEdu);
 
@@ -238,7 +227,7 @@ router.put(
 
 router.delete("/education/:edu_id", auth, async (req, res) => {
   try {
-    const foundProfile = await Profile.findOne({ user: req.user.id });
+    const foundProfile = await Profile.findOne({ user: req.user.user.id });
     const eduIds = foundProfile.education.map(edu => edu._id.toString());
     const removeIndex = eduIds.indexOf(req.params.edu_id);
 

@@ -12,7 +12,7 @@ const TickerItem = ({ item: { _id, name, field_of_study, date } }) => {
         {name}
         &nbsp;
         <sub>in the field of </sub>
-        {field_of_study}
+        {field_of_study.name}
       </div>
     </Link>
   );

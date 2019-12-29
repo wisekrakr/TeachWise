@@ -39,6 +39,15 @@
   );
 }
 
+.card.edu .card-secondary {
+  background: linear-gradient(
+    135deg,
+    $hard-dark 0%,
+    $light-color 50%,
+    $soft-dark 100%
+  );
+}
+
 .card:hover .card-secondary {
   width: 100%;
   border-radius: 0 5px 5px 0;
@@ -65,7 +74,7 @@
 .card .card-secondary .custom-card .name,
 .card .card-secondary .custom-card .likes {
   margin-top: 1rem;
-  color: #fff;
+  color: setTextColor($light-color);
   text-align: center;
   text-transform: uppercase;
   font-size: 0.75rem;
@@ -85,7 +94,7 @@
   padding: 0 !important;
 }
 
-.card .card-secondary .custom-card .name:hover,
+// .card .card-secondary .custom-card .name:hover,
 .card .card-secondary .custom-card .discuss:hover {
   background-color: $soft-dark;
   transition: 0.4s ease-in;
@@ -101,22 +110,22 @@
 }
 
 .card .card-secondary .more-info h1 {
-  color: #fff;
+  color: setTextColor($light-color);
   margin-bottom: 0;
 }
 
 .card.blue .card-secondary .more-info h1 {
-  color: $soft-dark;
+  color: setTextColor($light-color);
 }
 
 .card .card-secondary .coords {
   margin: 0 1rem;
-  color: #fff;
+  color: setTextColor($light-color);
   font-size: 1rem;
 }
 
 .card.blue .card-secondary .coords {
-  color: setTextColor($primary-color);
+  color: setTextColor($light-color);
 }
 
 .card .card-secondary .coords span + span {
@@ -132,7 +141,7 @@
   right: 0.5rem;
   top: auto;
   margin-top: 0.5rem;
-  color: setTextColor($primary-color);
+  color: setTextColor($light-color);
 }
 
 .card .card-secondary .stats > div {

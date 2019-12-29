@@ -19,7 +19,7 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
   }
 
   return logs.length !== 0 ? (
-    <Container className="narrow">
+    <Container>
       <h6 className="text-center small-heading">Log Entries</h6>
       <Button className="btn draw-border m-auto">
         {" "}
@@ -48,6 +48,10 @@ const LogEntryList = ({ getLogs, log: { logs, loading } }) => {
         Try to enter something into your log every time you study, to keep track
         of your progress
       </h6>
+      <Button className="btn draw-border m-auto">
+        {" "}
+        <LogEntryModal />
+      </Button>
     </Fragment>
   );
 };

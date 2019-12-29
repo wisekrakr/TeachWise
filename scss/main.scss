@@ -9,6 +9,7 @@
 @import "list";
 @import "button";
 @import "spinner";
+@import "profile";
 
 * {
   box-sizing: border-box;
@@ -24,7 +25,7 @@ body {
 }
 
 #top {
-  color: #fff;
+  color: $light-color;
   background-color: $hard-dark;
 }
 
@@ -86,6 +87,29 @@ a:hover {
   &:hover {
     color: rgba(darken($hard-dark, 6), 0.65);
   }
+}
+
+.custom-select {
+  background-color: rgba(darken($soft-dark, 6), 0.65);
+  color: rgba(darken($light-orange, 6), 0.65);
+}
+
+.fade-enter {
+  opacity: 0.01;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 2000ms ease-in;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0.01;
+  transition: opacity 2000ms ease-in;
 }
 
 /*================ BUTTONS ===========*/
@@ -214,7 +238,7 @@ a:hover {
 
 .input-group-text {
   border: none;
-  background: #fff;
+  background: $light-color;
 }
 
 /*================ CONTAINERs/ROWS/COLUMNS ===========*/
@@ -271,13 +295,17 @@ a:hover {
   &-item {
     color: setTextColor($primary-color);
     background: linear-gradient($orange-color, $light-orange);
+    display: block;
 
     .right {
       float: right;
+      margin: 2rem;
     }
 
     .left {
-      width: 50%;
+      margin: auto;
+      padding: 2rem;
+      // width: 50%;
     }
   }
 }
@@ -295,7 +323,7 @@ h5,
 h6 {
   margin: 0;
   font-weight: 600;
-
+  color: setTextColor($primary-color);
   &.large-heading {
     font-size: 4.2rem;
     padding: 2rem !important;
@@ -335,6 +363,7 @@ h3.heading,
 h4.heading,
 h5.heading,
 h6.heading {
+  color: setTextColor($primary-color);
   border: none;
   font-size: 1.9rem;
   text-transform: uppercase;
@@ -431,35 +460,23 @@ h6.heading {
   height: 100vh;
 }
 
-// Profile Page
+// Modal
 
-.profile-container {
-  color: setTextColor($primary-color);
+.custom-modal {
+  color: rgba(darken($hard-dark, 6), 0.85);
 
-  .profile-about .skills {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  .modal-title {
+    color: rgba(darken($hard-dark, 6), 0.85);
   }
 
-  .profile-nav {
-    background-color: rgba(darken($orange-color, 6), 0.85);
-
-    &-item {
-      @include easeOut;
-      &:hover {
-        cursor: pointer;
-
-        background-color: rgba(darken($primary-color, 6), 0.85);
-      }
-    }
+  .modal-body {
+    background: linear-gradient(
+      135deg,
+      $orange-color 0%,
+      $light-color 50%,
+      $hard-dark 100%
+    );
   }
-}
-
-.profile-edit,
-.profile-edu {
-  background: rgba(darken($primary-color, 6), 0.85);
 }
 
 @import "mobile";

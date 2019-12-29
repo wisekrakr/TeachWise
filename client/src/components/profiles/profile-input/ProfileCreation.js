@@ -19,15 +19,12 @@ import {
   faUser
 } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  createProfile,
-  getCurrentProfile
-} from "../../../actions/ProfileState";
+import { createProfile } from "../../../actions/ProfileState";
 
 const ProfileCreation = ({
   createProfile,
-  getCurrentProfile,
   profile: { profile, loading },
+  // skill: { allSkills },
   history
 }) => {
   const [newProfile, setNewProfile] = useState({
@@ -42,6 +39,7 @@ const ProfileCreation = ({
     youtube: "",
     instagram: ""
   });
+  const [newSkill, setNewSkill] = useState({});
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const {
     avatar,
@@ -62,16 +60,12 @@ const ProfileCreation = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    createProfile(newProfile, history);
+    createProfile(newProfile, history, false);
+
+    history.goBack();
   };
 
-  useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
-
-  return loading && profile === null ? (
-    <Redirect to="/dashboard" />
-  ) : (
+  return (
     <div className="profile-edit form-container">
       <Container className="half-container">
         <Fragment>
@@ -264,12 +258,11 @@ const ProfileCreation = ({
 
 ProfileCreation.propTypes = {
   createProfile: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   profile: state.profile
 });
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
-  withRouter(ProfileCreation)
-);
+export default connect(mapStateToProps, {
+  createProfile
+})(withRouter(ProfileCreation));

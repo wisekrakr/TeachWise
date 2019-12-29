@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { addField, addUserField } from "../../actions/FieldState";
+import { addField } from "../../actions/FieldState";
 
 import {
   Modal,
@@ -14,7 +14,7 @@ import {
   Button
 } from "reactstrap";
 
-const StudyFieldModal = ({ user, addField, addUserField }) => {
+const StudyFieldModal = ({ addField }) => {
   const initialState = {
     modal: false,
     field: {}
@@ -34,7 +34,6 @@ const StudyFieldModal = ({ user, addField, addUserField }) => {
     e.preventDefault();
     setState({ field: field });
     addField(field);
-    addUserField(user._id, field);
   };
 
   const toggle = () => {
@@ -60,7 +59,6 @@ const StudyFieldModal = ({ user, addField, addUserField }) => {
               <Input
                 type="text"
                 name="name"
-                id="field"
                 placeholder="Add the name of your new field of study..."
                 onChange={onChange}
               ></Input>
@@ -80,14 +78,11 @@ const StudyFieldModal = ({ user, addField, addUserField }) => {
 };
 
 StudyFieldModal.propTypes = {
-  addField: PropTypes.func.isRequired,
-  addUserField: PropTypes.func.isRequired
+  addField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   item: state.item
 });
 
-export default connect(mapStateToProps, { addField, addUserField })(
-  StudyFieldModal
-);
+export default connect(mapStateToProps, { addField })(StudyFieldModal);

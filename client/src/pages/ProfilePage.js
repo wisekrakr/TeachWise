@@ -2,16 +2,26 @@ import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import classnames from "classnames";
-import { TabContent, TabPane, Nav, NavItem, NavLink } from "reactstrap";
+import {
+  Container,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink
+} from "reactstrap";
 
 import { getProfileById } from "../actions/ProfileState";
 import ProfileMain from "../components/profiles/ProfileMain";
-import ProfileInfo from "../components/profiles/ProfileInfo";
+import ProfileLeftInfo from "../components/profiles/ProfileLeftInfo";
+import ProfileRightInfo from "../components/profiles/ProfileRightInfo";
+import ProfileHeader from "../components/profiles/ProfileHeader";
 import ProfileStudyList from "../components/profiles/profile-lists/ProfileStudyList";
 import ProfileStudyFieldList from "../components/profiles/profile-lists/ProfileStudyFieldList";
 import LogEntryList from "../components/logs/LogEntryList";
 import Spinner from "../background/Spinner";
 import { textTrimmer } from "../helpers/text";
+import SideBar from "../layouts/SideBar";
 
 const Profile = ({
   getProfileById,
@@ -49,12 +59,29 @@ const Profile = ({
     if (activeTab !== tab) setActiveTab(tab);
   };
 
-  return profile !== null && user !== null && !loading ? (
+  return profile !== null &&
+    profile !== undefined &&
+    user !== null &&
+    user !== undefined &&
+    !loading ? (
     <Fragment>
-      <ProfileMain profile={profile} items={userItems} fields={userFields} />
+      <SideBar />
+      <Container className="container-new">
+        <header>
+          <ProfileHeader />{" "}
+        </header>
+        <div className="row">
+          <ProfileLeftInfo
+            profile={profile}
+            items={userItems}
+            fields={userFields}
+          />
 
-      <div className="profile-container">
-        <Nav tabs className="profile-nav">
+          <ProfileRightInfo />
+        </div>
+      </Container>
+      <Container className="profile-tabs">
+        <Nav tabs className="profile-nav nav">
           <NavItem className="profile-nav-item">
             <NavLink
               className={classnames({ active: activeTab === "1" })}
@@ -62,7 +89,7 @@ const Profile = ({
                 toggle("1");
               }}
             >
-              Info on {textTrimmer(profile.user.name)}
+              {textTrimmer(profile.user.name)}s Studies
             </NavLink>
           </NavItem>
           <NavItem className="profile-nav-item">
@@ -72,7 +99,7 @@ const Profile = ({
                 toggle("2");
               }}
             >
-              {textTrimmer(profile.user.name)}s Studies
+              {textTrimmer(profile.user.name)}s Fields of Study
             </NavLink>
           </NavItem>
           <NavItem className="profile-nav-item">
@@ -82,35 +109,22 @@ const Profile = ({
                 toggle("3");
               }}
             >
-              {textTrimmer(profile.user.name)}s Fields of Study
-            </NavLink>
-          </NavItem>
-          <NavItem className="profile-nav-item">
-            <NavLink
-              className={classnames({ active: activeTab === "4" })}
-              onClick={() => {
-                toggle("4");
-              }}
-            >
               {textTrimmer(profile.user.name)}s Log Entries
             </NavLink>
           </NavItem>
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
-            <ProfileInfo profile={profile} />
-          </TabPane>
-          <TabPane tabId="2">
             <ProfileStudyList items={userItems} user={user} />
           </TabPane>
-          <TabPane tabId="3">
+          <TabPane tabId="2">
             <ProfileStudyFieldList fields={userFields} user={user} />
           </TabPane>
-          <TabPane tabId="4">
+          <TabPane tabId="3">
             <LogEntryList />
           </TabPane>
         </TabContent>
-      </div>
+      </Container>
     </Fragment>
   ) : (
     <Spinner />

@@ -13,7 +13,6 @@ const ProfileMain = ({
     avatar,
     website,
     social,
-    education,
     user: { name, _id }
   },
   items,

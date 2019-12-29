@@ -5,16 +5,11 @@ import { Link } from "react-router-dom";
 import Moment from "react-moment";
 import { Button, Card, CardHeader } from "reactstrap";
 
-import {
-  deleteItem,
-  addLike,
-  removeLike,
-  deleteUserItem
-} from "../../actions/ItemState";
+import { deleteItem, addLike, removeLike } from "../../actions/ItemState";
 import { textTruncate } from "../../helpers/text";
+import Spinner from "../../background/Spinner";
 
 const StudyItem = ({
-  deleteUserItem,
   deleteItem,
   addLike,
   removeLike,
@@ -25,7 +20,6 @@ const StudyItem = ({
     username,
     name,
     field_of_study,
-    material,
     likes,
     difficulty,
     status,
@@ -36,10 +30,9 @@ const StudyItem = ({
   const onDelete = e => {
     e.preventDefault();
     deleteItem(_id);
-    deleteUserItem(user, _id);
   };
 
-  return auth.user !== null ? (
+  return auth.user !== null && field_of_study.name !== undefined ? (
     <Card className="card blue">
       <div className="card-main">
         <CardHeader
@@ -59,14 +52,13 @@ const StudyItem = ({
 
       <div className="card-secondary">
         <div className="custom-card">
-          <div className="name ">
-            <Link to={`/profile/${user}`} style={{ color: "#fff" }}>
-              {username}
-            </Link>
-          </div>
+          <div className="name ">{username}</div>
 
           <div className="discuss ">
-            <Link to={`/api/items/${_id}`} style={{ color: "#fff" }}>
+            <Link
+              to={`/api/items/${_id}`}
+              style={{ color: "rgb(202, 200, 200)" }}
+            >
               {user_comments.length} comments
             </Link>
           </div>
@@ -92,7 +84,7 @@ const StudyItem = ({
         <div className="more-info">
           <div className="coords">
             <span>Field of study:</span>
-            <span>{textTruncate(field_of_study, 15)}</span>
+            <span>{textTruncate(field_of_study.name, 15)}</span>
           </div>
           <div className="coords">
             <span>Difficulty:</span>
@@ -109,21 +101,7 @@ const StudyItem = ({
             <span>Status:</span>
             <span>{status}</span>
           </div>
-          <div className="stats">
-            <div>
-              <div className="title">Studies</div>
-              <i className="fas fa-book"></i>
-              <div className="value">
-                {auth.user.metadata.item_count.length}
-              </div>
-            </div>
 
-            <div>
-              <div className="title">Classmates</div>
-              <i className="fas fa-users"></i>
-              <div className="value">123</div>
-            </div>
-          </div>
           {!auth.loading && user === auth.user._id && (
             <Button className="card-delete small-btn" onClick={onDelete}>
               <i className="fas fa-times" />
@@ -133,7 +111,7 @@ const StudyItem = ({
       </div>
     </Card>
   ) : (
-    "Loading"
+    <Spinner />
   );
 };
 
@@ -142,8 +120,7 @@ StudyItem.propTypes = {
   auth: PropTypes.object.isRequired,
   deleteItem: PropTypes.func.isRequired,
   addLike: PropTypes.func.isRequired,
-  removeLike: PropTypes.func.isRequired,
-  deleteUserItem: PropTypes.func.isRequired
+  removeLike: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -153,6 +130,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   deleteItem,
   addLike,
-  removeLike,
-  deleteUserItem
+  removeLike
 })(StudyItem);

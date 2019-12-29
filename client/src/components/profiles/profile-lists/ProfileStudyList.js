@@ -4,7 +4,7 @@ import { ListGroup, Container, Button } from "reactstrap";
 import { connect } from "react-redux";
 
 import StudyItem from "../../items/StudyItem";
-import ItemModal from "../../../components/items/ItemModal";
+import ItemModal from "../../items/item-input/ItemModal";
 import { textTrimmer } from "../../../helpers/text";
 import Spinner from "../../../background/Spinner";
 
@@ -22,16 +22,16 @@ const ProfileStudyList = ({ items, user }) => {
   }
 
   return items.length !== 0 ? (
-    <Container className="narrow">
+    <Container>
       <h6 className="text-center small-heading">
         {textTrimmer(user.name)}s Current Studies
       </h6>
 
       <p className="heading-underline" />
       {items !== null && user !== null ? (
-        <ListGroup className="custom-list">
+        <ListGroup className="study-list">
           {items.map(item => (
-            <StudyItem key={item._id} item={item} />
+            <StudyItem className="study-list-item" key={item._id} item={item} />
           ))}
         </ListGroup>
       ) : (

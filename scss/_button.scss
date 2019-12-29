@@ -43,7 +43,7 @@
 
   &:hover {
     color: $hover;
-
+    box-shadow: $bg-shadow;
     &::before,
     &::after {
       border-color: $hover;

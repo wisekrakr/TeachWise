@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { validationResult } = require("express-validator");
 
 const auth = require("../../middleware/auth");
 const User = require("../../models/User");
@@ -17,6 +16,21 @@ router.get("/", auth, async (req, res) => {
     res.status(500).send("Server Error");
   }
 });
+
+// @route GET api/items/fields/:field_name
+// @desc  GET All Items with a specific field
+// @access Private
+// router.get("/fields/:field_name", auth, async (req, res) => {
+//   try {
+//     const items = await Item.find({
+//       field_of_study: req.params.field_name
+//     }).sort({ date: -1 });
+//     res.json(items);
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Server Error");
+//   }
+// });
 
 // @route GET /fields/:id
 // @desc  GET One Field of study
@@ -52,6 +66,14 @@ router.post("/", auth, async (req, res) => {
 
     const field = await newEntry.save();
 
+    await Profile.findOne({ user: req.user.user.id }).then(async res => {
+      await Field.findById(field._id).then(res2 => {
+        res.metadata.field_count.unshift(res2);
+
+        res.save();
+      });
+    });
+
     res.json(field);
   } catch (err) {
     console.error(err.message);
@@ -76,67 +98,23 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(401).json({ msg: "User not authorized" });
     }
 
+    await Profile.findOne({ user: req.user.user.id }).then(async result => {
+      await result.metadata.field_count.filter(userField => {
+        if (userField._id.toString() === field._id.toString()) {
+          const removeIndex = result.metadata.field_count
+            .map(field => field.id)
+            .indexOf(req.params.field_id);
+
+          result.metadata.field_count.splice(removeIndex, 1);
+
+          result.save();
+        }
+      });
+    });
+
     await field.remove();
 
     res.json({ msg: "Field of Study removed" });
-  } catch (err) {
-    console.error(err.message);
-
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route POST api/fields/user/:id/:field_name
-// @desc  POST to Field_count from a user
-// @access Private
-router.post("/user/:id/:field_name", auth, async (req, res) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ errors: errors.array() });
-  }
-
-  try {
-    const user = await User.findById(req.user.user.id).select("-password");
-
-    const field = await Field.findOne({ name: req.params.field_name });
-
-    user.metadata.field_count.unshift(field);
-
-    await user.save();
-
-    res.json(user.metadata.field_count);
-  } catch (err) {
-    console.error(err.message + " in fields.js (POST) /user/:id/:field_name");
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route DELETE api/fields/user/:id/:field_id
-// @desc  Delete an Field from Field_count from user
-// @access Private
-router.delete("/user/:id/:field_id", auth, async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-
-    // Pull out the item
-    user.metadata.field_count.filter(userField => {
-      if (userField._id.toString() === req.params.field_id.toString()) {
-        const removeIndex = user.metadata.field_count
-          .map(field => field.id)
-          .indexOf(req.params.field_id);
-
-        user.metadata.field_count.splice(removeIndex, 1);
-
-        user.save();
-
-        res.json(user.metadata.field_count);
-      } else {
-        console.error("item not found in fields.js DELETE user/:id/:field_id");
-        return res.status(404).json({ msg: "Field does not exist" });
-      }
-    });
-
-    // If the field does not exist
   } catch (err) {
     console.error(err.message);
 

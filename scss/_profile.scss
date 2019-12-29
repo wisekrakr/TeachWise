@@ -1,0 +1,192 @@
+// Profile Page
+
+.profile-tabs {
+  padding: 0 !important;
+  margin: auto;
+  color: $primary-color;
+
+  box-shadow: $hard-bg-shadow;
+  .profile-nav {
+    background-color: rgba(darken($orange-color, 6), 0.85);
+
+    &-item {
+      @include easeOut;
+      &:hover {
+        cursor: pointer;
+
+        background-color: rgba(darken($light-orange, 6), 0.85);
+      }
+    }
+  }
+  .study-list {
+    display: grid;
+    grid-template-columns: 3fr 3fr;
+  }
+}
+
+.profile-edit,
+.profile-edu {
+  background: rgba(darken($primary-color, 6), 0.85);
+}
+
+.container-new {
+  margin: auto;
+  padding: 0 !important;
+
+  background-color: #fff;
+  color: $primary-color;
+  box-shadow: $hard-bg-shadow;
+
+  header {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background: $secondary-gradient;
+    height: 250px;
+
+    .header-buttons {
+      position: relative;
+      float: right;
+      margin: 2rem 2rem;
+    }
+  }
+
+  main {
+    padding: 20px 20px 0px 20px;
+  }
+
+  .left {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .photo {
+    width: 200px;
+    height: 200px;
+    margin-top: -120px;
+    border-radius: 100px;
+    border: 4px solid $orange-color;
+  }
+
+  .active {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 2rem;
+    position: absolute;
+    right: calc(50% - 70px);
+    top: 4rem;
+    background-color: #ffc107;
+    border: 3px solid $light-orange;
+  }
+
+  .name {
+    color: rgba(darken($light-orange, 6), 0.85);
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 18pt;
+  }
+
+  .info {
+    margin-top: -0.5px;
+    margin-bottom: 0.5px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 11pt;
+  }
+
+  .stats {
+    margin-top: 2rem;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ededed;
+  }
+
+  .number-stat {
+    margin: 2rem;
+    padding: 0px;
+    font-size: 14pt;
+    font-weight: bold;
+  }
+
+  .desc-stat {
+    margin: 0.5rem;
+    margin-top: -15px;
+    font-size: 10pt;
+  }
+
+  .desc {
+    text-align: center;
+    margin-top: 25px;
+    margin: 25px 40px;
+
+    font-size: 11pt;
+    padding-bottom: 25px;
+    border-bottom: 1px solid #ededed;
+  }
+
+  .social {
+    margin: 5px 0 12px 0;
+    text-align: center;
+    display: inline-block;
+    font-size: 20pt;
+  }
+
+  .social i {
+    cursor: pointer;
+    margin: 0 15px;
+    &:hover {
+      box-shadow: $hard-bg-shadow;
+    }
+  }
+
+  .right {
+    padding: 0 25px 0 25px !important;
+    color: $primary-color;
+    .profile-about {
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+
+      .skills {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  }
+
+  .nav {
+    display: inline-flex;
+  }
+
+  .nav li {
+    margin: 40px 30px 0 10px;
+    cursor: pointer;
+    font-size: 13pt;
+    text-transform: uppercase;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 500;
+  }
+
+  .nav li:hover,
+  .nav li:nth-child(1) {
+    border-bottom: 2px solid #999;
+  }
+
+  .gallery {
+    margin-top: 35px;
+  }
+
+  .gallery div {
+    margin-bottom: 30px;
+  }
+
+  .gallery img {
+    box-shadow: $hard-bg-shadow;
+    width: auto;
+    height: auto;
+    cursor: pointer;
+    max-width: 100%;
+  }
+}

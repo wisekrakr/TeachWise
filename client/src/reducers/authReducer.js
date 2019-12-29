@@ -6,13 +6,7 @@ import {
   LOGIN_FAIL,
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
-  REGISTER_FAIL,
-  ADD_ITEM_COUNT,
-  DELETE_ITEM_COUNT,
-  ADD_FIELD_COUNT,
-  DELETE_FIELD_COUNT,
-  ADD_LOG_COUNT,
-  DELETE_LOG_COUNT
+  REGISTER_FAIL
 } from "../actions/types";
 
 const initialState = {
@@ -57,57 +51,7 @@ export default function(state = initialState, action) {
         isAuthenticated: false,
         loading: false
       };
-    case ADD_ITEM_COUNT:
-      return {
-        ...state,
-        items: { ...state.items, item_count: action.payload },
-        loading: false
-      };
-    case DELETE_ITEM_COUNT:
-      return {
-        ...state,
-        items: {
-          ...state.items,
-          item_count: state.user.metadata.item_count.filter(
-            item => item._id !== action.payload
-          )
-        },
-        loading: false
-      };
-    case ADD_FIELD_COUNT:
-      return {
-        ...state,
-        fields: { ...state.fields, field_count: action.payload },
-        loading: false
-      };
-    case DELETE_FIELD_COUNT:
-      return {
-        ...state,
-        fields: {
-          ...state.fields,
-          field_count: state.user.metadata.field_count.filter(
-            field => field._id !== action.payload
-          )
-        },
-        loading: false
-      };
-    case ADD_LOG_COUNT:
-      return {
-        ...state,
-        logs: { ...state.logs, log_count: action.payload },
-        loading: false
-      };
-    case DELETE_LOG_COUNT:
-      return {
-        ...state,
-        logs: {
-          ...state.logs,
-          log_count: state.user.metadata.log_count.filter(
-            log => log._id !== action.payload
-          )
-        },
-        loading: false
-      };
+
     default:
       return state;
   }

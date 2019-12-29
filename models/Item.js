@@ -17,10 +17,23 @@ module.exports = Item = mongoose.model(
       required: true
     },
     field_of_study: {
-      type: String,
-      required: true
+      type: Schema.Types.ObjectId,
+      ref: "fields"
     },
-
+    documentation: {
+      documents: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "documents"
+        }
+      ],
+      chapters: [
+        {
+          type: Schema.Types.ObjectId,
+          ref: "chapters"
+        }
+      ]
+    },
     user_comments: [
       {
         title: {
@@ -72,6 +85,10 @@ module.exports = Item = mongoose.model(
     status: {
       type: String,
       default: "Not Started"
+    },
+    edited: {
+      type: Boolean,
+      default: false
     }
   })
 );

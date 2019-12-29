@@ -3,19 +3,23 @@ import PropTypes from "prop-types";
 import { ListGroup, Container } from "reactstrap";
 import { connect } from "react-redux";
 
-import { getItems } from "../../actions/ItemState";
-import StudyItem from "./StudyItem";
-import Spinner from "../../background/Spinner";
+import { getItemsByName } from "../../../actions/ItemState";
+import StudyItem from "../StudyItem";
+import Spinner from "../../../background/Spinner";
 
-const StudyList = ({ getItems, item: { items, loading } }) => {
+const ItemsByName = ({
+  match,
+  getItemsByName,
+  item: { namedItems, loading }
+}) => {
   useEffect(() => {
-    getItems();
-  }, [getItems]);
+    getItemsByName(match.params.id);
+  }, [getItemsByName, match.params.id]);
 
   if (
-    items === null &&
-    items === undefined &&
-    Object.keys(items).length === 0
+    namedItems === null &&
+    namedItems === undefined &&
+    Object.keys(namedItems).length === 0
   ) {
     return (
       <div>
@@ -24,18 +28,18 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
     );
   }
 
-  return items.length !== 0 ? (
+  return namedItems.length !== 0 ? (
     <Container>
       <h6 className="text-center small-heading">Recently added study items</h6>
 
       <p className="heading-underline" />
-      {items !== null && items !== undefined && !loading ? (
+      {namedItems !== null && namedItems !== undefined && !loading ? (
         <ListGroup className="custom-list">
           {/* Shows a list of study items */}
 
-          {items.map(item =>
+          {namedItems.map(item =>
             item !== null ? (
-              <StudyItem key={item._id} item={item} items={items} />
+              <StudyItem key={item._id} item={item} />
             ) : (
               <Spinner />
             )
@@ -52,8 +56,8 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
   );
 };
 
-StudyList.propTypes = {
-  getItems: PropTypes.func.isRequired,
+ItemsByName.propTypes = {
+  getItemsByName: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired
 };
 
@@ -61,4 +65,4 @@ const mapStateToProps = state => ({
   item: state.item
 });
 
-export default connect(mapStateToProps, { getItems })(StudyList);
+export default connect(mapStateToProps, { getItemsByName })(ItemsByName);

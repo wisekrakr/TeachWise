@@ -31,7 +31,6 @@ const CommentForm = ({ itemId, addUserComment }) => {
           <Input
             type="text"
             name="title"
-            id="comment"
             placeholder="Add Comment Title..."
             onChange={onChange}
             required
@@ -39,7 +38,6 @@ const CommentForm = ({ itemId, addUserComment }) => {
           <Input
             type="textarea"
             name="comment"
-            id="comment"
             cols="30"
             rows="5"
             placeholder="Add your Comment..."

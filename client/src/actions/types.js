@@ -1,8 +1,11 @@
 // Item types
 export const GET_ITEMS = "GET_ITEMS";
+export const GET_ITEMS_BY_NAME = "GET_ITEMS_BY_NAME";
+export const GET_ITEMS_BY_FIELD = "GET_ITEMS_BY_FIELD";
 export const GET_ITEMS_USER = "GET_ITEMS_USER";
 export const GET_ITEM = "GET_ITEM";
 export const ADD_ITEM = "ADD_ITEM";
+export const UPDATE_ITEM = "UPDATE_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
@@ -28,6 +31,32 @@ export const DELETE_FIELD = "DELETE_FIELD";
 export const FIELD_ERROR = "FIELD_ERROR";
 export const LOADING_FIELDS = "LOADING_FIELDS";
 
+// Document types
+
+export const GET_DOCS = "GET_DOCS";
+export const GET_CHAPTERS = "GET_CHAPTERS";
+export const GET_DOC = "GET_DOC";
+export const GET_CHAPTER = "GET_CHAPTER";
+export const GET_DOCUMENTS_BY_CHAPTER = "GET_DOCUMENTS_BY_CHAPTER";
+export const GET_CHAPTERS_BY_ITEM = "GET_CHAPTERS_BY_ITEM";
+export const ADD_DOC = "ADD_DOC";
+export const ADD_CHAPTER = "ADD_CHAPTER";
+export const DELETE_DOC = "DELETE_DOC";
+export const DELETE_CHAPTER = "DELETE_CHAPTER";
+export const DOC_ERROR = "DOC_ERROR";
+export const CHAPTER_ERROR = "CHAPTER_ERROR";
+export const LOADING_DOCS = "LOADING_DOCS";
+export const LOADING_CHAPTERS = "LOADING_CHAPTERS";
+
+// Skill types
+
+export const GET_SKILLS = "GET_SKILLS";
+export const GET_SKILL = "GET_SKILL";
+export const ADD_SKILL = "ADD_SKILL";
+export const DELETE_SKILL = "DELETE_SKILL";
+export const SKILL_ERROR = "SKILL_ERROR";
+export const LOADING_SKILLS = "LOADING_SKILLS";
+
 // Auth Types
 
 export const USER_LOADING = "USER_LOADING";
@@ -38,13 +67,6 @@ export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
-// User Meta Types
-export const ADD_ITEM_COUNT = "ADD_ITEM_COUNT";
-export const DELETE_ITEM_COUNT = "DELETE_ITEM_COUNT";
-export const ADD_FIELD_COUNT = "ADD_FIELD_COUNT";
-export const DELETE_FIELD_COUNT = "DELETE_FIELD_COUNT";
-export const ADD_LOG_COUNT = "ADD_LOG_COUNT";
-export const DELETE_LOG_COUNT = "DELETE_LOG_COUNT";
 
 // Profile Types
 

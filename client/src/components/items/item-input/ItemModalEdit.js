@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   Modal,
   ModalHeader,
@@ -7,45 +9,49 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  Button
+  Input
 } from "reactstrap";
-import { connect } from "react-redux";
+import { addItem, getItem } from "../../../actions/ItemState";
 
-import { addItem, addUserItem } from "../../actions/ItemState";
-import { getFields } from "../../actions/FieldState";
-import StudyFieldModal from "../fields/StudyFieldModal";
-
-const ItemModal = ({
-  user,
+const ItemModalEdit = ({
+  item: { item, loading },
   addItem,
-  addUserItem,
-  getFields,
-  field: { fields, loading }
+  getItem,
+  history
 }) => {
   const initialState = {
-    modal: false,
-    item: {}
+    modal: false
   };
   const [state, setState] = useState(initialState);
-  const [item, setItem] = useState({});
+  const [newItem, setNewItem] = useState({
+    name: "",
+    difficulty: "",
+    material: "",
+    status: ""
+  });
 
   useEffect(() => {
-    getFields();
-  }, [getFields]);
+    getItem(item._id);
+
+    setNewItem({
+      name: loading || !item.name ? "" : item.name,
+      difficulty: loading || !item.difficulty ? "" : item.difficulty,
+      status: loading || !item.status ? "" : item.status,
+      material: loading || !item.material ? "" : item.material,
+      _id: item._id,
+      edited: true
+    });
+  }, [loading, getItem]);
+
+  const { name, difficulty, material, status } = newItem;
 
   const onChange = e => {
-    e.preventDefault();
-    setItem({
-      ...item,
-      [e.target.name]: e.target.value
-    });
+    setNewItem({ ...newItem, [e.target.name]: e.target.value });
   };
 
-  const onSubmit = () => {
-    setState({ item: item });
-    addItem(item);
-    addUserItem(user._id, item);
+  const onSubmit = e => {
+    e.preventDefault();
+    addItem(newItem, history, true);
 
     toggle();
   };
@@ -57,15 +63,15 @@ const ItemModal = ({
   };
 
   return (
-    <div className="modal-btn" onClick={toggle}>
-      Add Study Item
+    <div className="modal-btn" onClick={toggle} style={{ color: "inherit" }}>
+      Edit Study Item
       <Modal
         className="custom-modal"
         isOpen={state.modal}
         toggle={toggle}
         style={{ color: "#333" }}
       >
-        <ModalHeader toggle={toggle}>Add To Study List</ModalHeader>
+        <ModalHeader toggle={toggle}>Edit this item</ModalHeader>
         <ModalBody>
           <Form onSubmit={onSubmit}>
             <FormGroup>
@@ -73,38 +79,16 @@ const ItemModal = ({
               <Input
                 type="text"
                 name="name"
-                id="item"
                 placeholder="Add study item..."
+                value={name}
                 onChange={onChange}
               ></Input>
-              <Label for="item">Study Field*</Label>
-              <Input
-                type="select"
-                name="field_of_study"
-                id="item"
-                onChange={onChange}
-              >
-                <option>{""}</option>
-                {fields.map(field => {
-                  return <option key={field._id}>{field.name}</option>;
-                })}
-              </Input>
-              <span
-                style={{
-                  float: "right",
-                  padding: "0.5rem",
-                  fontSize: "15px"
-                }}
-              >
-                <StudyFieldModal />
-              </span>
-              <br />
               <Label for="item">Study Difficulty</Label>
               <Input
                 type="select"
                 name="difficulty"
-                id="item"
                 onChange={onChange}
+                value={difficulty}
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
@@ -115,12 +99,17 @@ const ItemModal = ({
               <Input
                 type="text"
                 name="material"
-                id="item"
-                placeholder="Add study materials, separated by comma's"
+                placeholder="Add study material..."
                 onChange={onChange}
+                value={material}
               ></Input>
               <Label for="item">What is the status of this study?</Label>
-              <Input type="select" name="status" id="item" onChange={onChange}>
+              <Input
+                type="select"
+                name="status"
+                onChange={onChange}
+                value={status}
+              >
                 <option value="Not Started">Not Started</option>
                 <option value="Started">Started</option>
                 <option value="Going Strong">Going Strong</option>
@@ -131,13 +120,12 @@ const ItemModal = ({
               <br />
               *required
               <br />
-              <Button
+              <Input
                 type="submit"
-                className="btn draw-border"
-                style={{ float: "right" }}
-              >
-                Add Item{" "}
-              </Button>
+                value="Add Item"
+                className="btn btn-dark"
+                style={{ marginTop: "2rem" }}
+              />
             </FormGroup>
           </Form>
         </ModalBody>
@@ -146,17 +134,16 @@ const ItemModal = ({
   );
 };
 
-ItemModal.propTypes = {
-  addUserItem: PropTypes.func.isRequired,
+ItemModalEdit.propTypes = {
   addItem: PropTypes.func.isRequired,
-  getFields: PropTypes.func.isRequired,
-  field: PropTypes.object.isRequired
+  getItem: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  field: state.field
+  item: state.item
 });
 
-export default connect(mapStateToProps, { addItem, getFields, addUserItem })(
-  ItemModal
+export default connect(mapStateToProps, { addItem, getItem })(
+  withRouter(ItemModalEdit)
 );

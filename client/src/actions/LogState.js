@@ -4,8 +4,6 @@ import {
   GET_LOG_ENTRY,
   ADD_LOG_ENTRY,
   DELETE_LOG_ENTRY,
-  ADD_LOG_COUNT,
-  DELETE_LOG_COUNT,
   LOG_ERROR,
   LOADING_LOGS
 } from "./types";
@@ -83,48 +81,6 @@ export const deleteLogEntry = id => async dispatch => {
     dispatch({
       type: LOG_ERROR,
       payload: { msg: err.response.msg, status: err.response.status }
-    });
-  }
-};
-
-// Add user log
-export const addUserLog = (userId, log) => async dispatch => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json"
-    }
-  };
-
-  try {
-    const res = await axios.post(
-      `/api/logs/user/${userId}/${log.name}`,
-      log,
-      config
-    );
-
-    dispatch({
-      type: ADD_LOG_COUNT,
-      payload: res.data
-    });
-    dispatch(setAlert("Log Added to User", "success"));
-  } catch (err) {
-    dispatch({
-      type: LOG_ERROR
-    });
-  }
-};
-
-// Delete user log
-export const deleteUserLog = (userId, logId) => async dispatch => {
-  try {
-    dispatch({
-      type: DELETE_LOG_COUNT,
-      payload: logId
-    });
-    await axios.delete(`/api/logs/user/${userId}/${logId}`);
-  } catch (err) {
-    dispatch({
-      type: LOG_ERROR
     });
   }
 };

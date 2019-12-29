@@ -1,21 +1,27 @@
-import React from "react";
-import { Link, Redirect } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import ItemModal from "../components/items/ItemModal";
+import ItemModal from "../components/items/item-input/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
 import StudyFieldModal from "../components/fields/StudyFieldModal";
 import Spinner from "../background/Spinner";
+import { getCurrentProfile } from "../actions/ProfileState";
 
 const SideBar = ({
+  getCurrentProfile,
   auth: { user, loading },
   logoutUser,
-  profile,
+  profile: { profile },
   deleteAccount
 }) => {
+  useEffect(() => {
+    getCurrentProfile();
+  }, [getCurrentProfile]);
+
   const onClick = e => {
     e.preventDefault();
     logoutUser();
@@ -27,7 +33,6 @@ const SideBar = ({
     e.preventDefault();
     deleteAccount();
     logoutUser();
-    return <Redirect to="/"></Redirect>;
   };
 
   return !loading ? (
@@ -58,10 +63,15 @@ const SideBar = ({
                       </Link>
                     )}
                   </li>
+
                   <li className="list-group-item pl-4">
-                    <Link to="/profile-edit" className="custom-link">
-                      Edit
-                    </Link>
+                    {profile !== null && profile !== undefined ? (
+                      <Link to="/profile-edit" className="custom-link">
+                        Edit
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                   </li>
                   <li className="list-group-item pl-4">
                     <button onClick={onDelete}>Delete Account</button>
@@ -69,31 +79,44 @@ const SideBar = ({
                 </ul>
               </li>
 
-              <li className="list-group-item pl-4">
-                <Link to="/api/profile" className="custom-link">
-                  Profiles
-                </Link>
-              </li>
-
-              <li className="list-group-item pl-4">
-                <button>Classmates</button>
-
-                <ul className="list-group flex-column d-inline-block sub-submenu">
+              {profile !== null && profile !== undefined ? (
+                (
                   <li className="list-group-item pl-4">
-                    <Link to="/api/profile/friends" className="custom-link">
-                      People
+                    <Link to="/api/profile" className="custom-link">
+                      Profiles
                     </Link>
                   </li>
+                ) && (
                   <li className="list-group-item pl-4">
-                    <Link to="/api/profile/groups" className="custom-link">
-                      Groups
-                    </Link>
+                    <button>Classmates</button>
+
+                    <ul className="list-group flex-column d-inline-block sub-submenu">
+                      <li className="list-group-item pl-4">
+                        <Link to="/api/profile/friends" className="custom-link">
+                          People
+                        </Link>
+                      </li>
+                      <li className="list-group-item pl-4">
+                        <Link to="/api/profile/groups" className="custom-link">
+                          Groups
+                        </Link>
+                      </li>
+                      <li className="list-group-item pl-4">
+                        <button>Social</button>
+                      </li>
+                      <li className="list-group-item pl-4">
+                        Create a profile first
+                      </li>
+                    </ul>
                   </li>
-                  <li className="list-group-item pl-4">
-                    <button>Social</button>
-                  </li>
-                </ul>
-              </li>
+                )
+              ) : (
+                <li className="list-group-item pl-4">
+                  <ul className="list-group flex-column d-inline-block sub-submenu">
+                    Create a profile first...
+                  </ul>
+                </li>
+              )}
             </ul>
           </li>
 
@@ -111,9 +134,13 @@ const SideBar = ({
                       My Study Items
                     </Link>
                   </li>
-                  <li className="list-group-item pl-4">
-                    <ItemModal user={user} />
-                  </li>
+                  {profile !== null && profile !== undefined ? (
+                    <li className="list-group-item pl-4">
+                      <ItemModal />
+                    </li>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </li>
 
@@ -126,9 +153,13 @@ const SideBar = ({
                       My Log Entries
                     </Link>
                   </li>
-                  <li className="list-group-item pl-4">
-                    <LogEntryModal user={user} />
-                  </li>
+                  {profile !== null && profile !== undefined ? (
+                    <li className="list-group-item pl-4">
+                      <LogEntryModal />
+                    </li>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </li>
 
@@ -141,24 +172,32 @@ const SideBar = ({
                       My Fields of Study
                     </Link>
                   </li>
-                  <li className="list-group-item pl-4">
-                    <StudyFieldModal user={user} />
-                  </li>
+                  {profile !== null && profile !== undefined ? (
+                    <li className="list-group-item pl-4">
+                      <StudyFieldModal />
+                    </li>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </li>
 
               <li className="list-group-item pl-4">
-                <button className="">Study Material</button>
+                <button className="">Skills</button>
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <li className="list-group-item pl-4">
                     <Link to="/api/materials" className="custom-link">
-                      My Study Material
+                      My Skills
                     </Link>
                   </li>
-                  <li className="list-group-item pl-4">
-                    <button>Add New Study Material</button>
-                  </li>
+                  {profile !== null && profile !== undefined ? (
+                    <li className="list-group-item pl-4">
+                      <button>Add New Skill</button>
+                    </li>
+                  ) : (
+                    ""
+                  )}
                 </ul>
               </li>
             </ul>
@@ -188,13 +227,15 @@ const SideBar = ({
           </li>
 
           <li className="list-group-item pl-3 py-2">
-            <button
+            <Link
               onClick={e => {
                 onClick(e);
               }}
+              to="/"
+              style={{ color: `rgb(202, 200, 200)` }}
             >
               <i className="fas fa-power-off" aria-hidden="true" />
-            </button>
+            </Link>
           </li>
         </ul>
       </div>
@@ -206,12 +247,19 @@ const SideBar = ({
 
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
-export default connect(mapStateToProps, { logoutUser, deleteAccount })(SideBar);
+export default connect(mapStateToProps, {
+  logoutUser,
+  deleteAccount,
+  getCurrentProfile
+})(SideBar);

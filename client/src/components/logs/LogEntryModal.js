@@ -65,7 +65,6 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
               <Input
                 type="text"
                 name="name"
-                id="logEntry"
                 placeholder="Add a log entry title..."
                 onChange={onChange}
               ></Input>
@@ -73,20 +72,19 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
               <Input
                 type="select"
                 name="topic"
-                id="logEntry"
                 onChange={onChange}
                 placeholder="Choose a study item"
               >
                 <option></option>
-                {/* {items.map(item => {
-                  return <option key={item._id}>{item.name}</option>;
-                })} */}
+                {!loading &&
+                  items.map(item => {
+                    return <option key={item._id}>{item.name}</option>;
+                  })}
               </Input>
               <Label for="logEntry">What are your thoughts?*</Label>
               <Input
                 type="textarea"
                 name="entry"
-                id="logEntry"
                 placeholder="Add your log entry here..."
                 onChange={onChange}
               ></Input>

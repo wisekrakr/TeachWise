@@ -6,18 +6,18 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { Button } from "reactstrap";
 
-import { deleteField, deleteUserField } from "../../actions/FieldState";
+import { deleteField } from "../../actions/FieldState";
 import { textTruncate } from "../../helpers/text";
 import Spinner from "../../background/Spinner";
 
 const StudyFieldItem = ({
   auth,
   deleteField,
-  field: { _id, user, name, number, date }
+
+  field: { _id, user, name, number }
 }) => {
   const onDelete = () => {
     deleteField(_id);
-    deleteUserField(user, _id);
   };
 
   const AltListItemStyle = styled.li`
@@ -50,14 +50,11 @@ const StudyFieldItem = ({
 StudyFieldItem.propTypes = {
   field: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  deleteField: PropTypes.func.isRequired,
-  deleteUserField: PropTypes.func.isRequired
+  deleteField: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { deleteField, deleteUserField })(
-  StudyFieldItem
-);
+export default connect(mapStateToProps, { deleteField })(StudyFieldItem);

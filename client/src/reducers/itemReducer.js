@@ -2,17 +2,22 @@ import {
   GET_ITEMS,
   GET_ITEM,
   ADD_ITEM,
+  UPDATE_ITEM,
   DELETE_ITEM,
   ITEM_ERROR,
   ADD_COMMENT,
   UPDATE_LIKE,
   DELETE_COMMENT,
   LOADING_ITEMS,
-  GET_ITEMS_USER
+  GET_ITEMS_USER,
+  GET_ITEMS_BY_NAME,
+  GET_ITEMS_BY_FIELD
 } from "../actions/types";
 
 const initialState = {
   items: [],
+  namedItems: [],
+  fieldItems: [],
   item: null,
   error: null,
   loading: false
@@ -21,13 +26,24 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
-    case GET_ITEMS_USER:
+    case UPDATE_ITEM:
       return {
         ...state,
         items: action.payload,
         loading: false
       };
-
+    case GET_ITEMS_BY_NAME:
+      return {
+        ...state,
+        namedItems: action.payload,
+        loading: false
+      };
+    case GET_ITEMS_BY_FIELD:
+      return {
+        ...state,
+        fieldItems: action.payload,
+        loading: false
+      };
     case GET_ITEM:
       return {
         ...state,

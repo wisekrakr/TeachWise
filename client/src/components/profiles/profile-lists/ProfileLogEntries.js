@@ -29,7 +29,7 @@ const ProfileLogEntries = ({ logs, user }) => {
       {logs !== null && user !== null ? (
         <ListGroup>
           {/* Shows a list of study items */}
-          <TransitionGroup className="custom-list">
+          <TransitionGroup>
             {logs.map(log => (
               <CSSTransition key={log._id} timeout={500} classNames="fade">
                 <LogEntry key={log._id} log={log} />

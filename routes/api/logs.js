@@ -104,15 +104,15 @@ router.post("/user/:id/:log_name", auth, async (req, res) => {
   }
 
   try {
-    const user = await User.findById(req.user.user.id).select("-password");
+    const profile = await Profile.findOne({ user: req.user.user.id });
 
     const log = await Log.findOne({ name: req.params.log_name });
 
-    user.metadata.log_count.unshift(log);
+    profile.metadata.log_count.unshift(log);
 
-    await user.save();
+    await profile.save();
 
-    res.json(user.metadata.log_count);
+    res.json(profile.metadata.log_count);
   } catch (err) {
     console.error(err.message + " in logs.js (POST) /user/:id/:log_name");
     res.status(500).send("Server Error");
@@ -124,20 +124,20 @@ router.post("/user/:id/:log_name", auth, async (req, res) => {
 // @access Private
 router.delete("/user/:id/:log_id", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.params.id);
+    const profile = await Profile.findOne({ user: req.params.id });
 
     // Pull out the log
-    user.metadata.log_count.filter(userLog => {
+    profile.metadata.log_count.filter(userLog => {
       if (userLog._id.toString() === req.params.log_id.toString()) {
-        const removeIndex = user.metadata.log_count
+        const removeIndex = profile.metadata.log_count
           .map(log => log.id)
           .indexOf(req.params.log_id);
 
-        user.metadata.log_count.splice(removeIndex, 1);
+        profile.metadata.log_count.splice(removeIndex, 1);
 
-        user.save();
+        profile.save();
 
-        res.json(user.metadata.log_count);
+        res.json(profile.metadata.log_count);
       } else {
         console.error("log not found in logs.js DELETE user/:id/:log_id");
         return res.status(404).json({ msg: "Log Entry does not exist" });

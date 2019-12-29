@@ -42,9 +42,7 @@ const ProfileItem = ({ profile }) => {
             <div>
               <div className="title">Studies</div>
               <i className="fas fa-book"></i>
-              <div className="value">
-                {profile.user.metadata.item_count.length}
-              </div>
+              <div className="value">{profile.metadata.item_count.length}</div>
             </div>
 
             <div>
