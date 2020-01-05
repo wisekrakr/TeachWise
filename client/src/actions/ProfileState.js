@@ -6,6 +6,7 @@ import {
   GET_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
+  UPDATE_FOLLOW,
   CLEAR_PROFILE,
   ACCOUNT_DELETED
 } from "./types";
@@ -150,6 +151,38 @@ export const deleteEducation = id => async dispatch => {
     dispatch({
       type: PROFILE_ERROR,
       payload: { msg: err.response.msg, status: err.response.status }
+    });
+  }
+};
+
+// Add Follow
+export const addFollow = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/follow/${id}`);
+
+    dispatch({
+      type: UPDATE_FOLLOW,
+      payload: { id, followers: res.data }
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
+};
+
+// Remove Follow
+export const removeFollow = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/unfollow/${id}`);
+
+    dispatch({
+      type: UPDATE_FOLLOW,
+      payload: { id, followers: res.data }
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
     });
   }
 };

@@ -9,12 +9,15 @@ import Spinner from "../../background/Spinner";
 const ProfileLeftInfo = ({
   auth,
   profile: {
-    location,
-    avatar,
-    website,
-    social,
-    bio,
-    user: { name, _id, email }
+    profile: {
+      location,
+      avatar,
+      website,
+      social,
+      connection,
+      bio,
+      user: { name, _id, email }
+    }
   },
   items,
   fields
@@ -30,7 +33,7 @@ const ProfileLeftInfo = ({
         <p className="info">{email}</p>
         <div className="stats row">
           <div className="stat col-xs-4">
-            <p className="number-stat">3,619</p>
+            <p className="number-stat">{connection.followers.length}</p>
             <p className="desc-stat">ClassMates</p>
           </div>
           <div className="stat col-xs-4">
@@ -94,7 +97,8 @@ ProfileLeftInfo.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps)(ProfileLeftInfo);

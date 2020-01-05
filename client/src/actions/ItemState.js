@@ -4,7 +4,6 @@ import {
   GET_ITEMS_USER,
   GET_ITEM,
   ADD_ITEM,
-  UPDATE_ITEM,
   DELETE_ITEM,
   ADD_COMMENT,
   DELETE_COMMENT,
@@ -218,58 +217,6 @@ export const removeLike = id => async dispatch => {
   } catch (err) {
     dispatch({
       type: ITEM_ERROR
-    });
-  }
-};
-
-// Add Document
-export const addDocument = (item, id, history) => async dispatch => {
-  try {
-    const config = {
-      headers: {
-        "Content-Type": "application/json"
-      }
-    };
-
-    const res = await axios.put(`/api/items/${id}/documents`, item, config);
-
-    dispatch({
-      type: UPDATE_ITEM,
-      payload: res.data
-    });
-
-    dispatch(setAlert("Document Added", "success"));
-
-    history.push(`/api/items/${id}`);
-  } catch (err) {
-    const errors = err.response.data.errors;
-
-    if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, "danger")));
-    }
-
-    dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.msg, status: err.response.status }
-    });
-  }
-};
-
-// Delete document
-export const deleteDocument = id => async dispatch => {
-  try {
-    const res = await axios.delete(`/api/items/:id/documents/${id}`);
-
-    dispatch({
-      type: UPDATE_ITEM,
-      payload: res.data
-    });
-
-    dispatch(setAlert("Document Removed", "success"));
-  } catch (err) {
-    dispatch({
-      type: ITEM_ERROR,
-      payload: { msg: err.response.msg, status: err.response.status }
     });
   }
 };

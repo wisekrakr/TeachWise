@@ -3,63 +3,37 @@ const { validationResult, check } = require("express-validator");
 
 const auth = require("../../middleware/auth");
 
+const Profile = require("../../models/Profile");
 const User = require("../../models/User");
-const Log = require("../../models/LogEntry");
 
-// @route GET api/logs
-// @desc  GET All Logs for a Log
+// @route GET api/profile/:user_id/followers
+// @desc  GET All followers from a user
 // @access Private
-router.get("/", auth, async (req, res) => {
+router.get("/profile/:user_id/followers", auth, async (req, res) => {
   try {
-    const logs = await Log.find().sort({ date: -1 });
-    res.json(logs);
+    const followers = await Profile.findById(req.params.id).sort({ date: -1 });
+    res.json(followers);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 });
 
-// @route GET /:id
-// @desc  GET One Log
-// @access Private
-router.get("/:id", auth, async (req, res) => {
-  try {
-    const log = await Log.findById(req.params.id);
-    res.json(log);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
-  }
-});
-
-// @route POST api/logs/
-// @desc  Create a Log
+// @route POST api/profile/:user_id/followers
+// @desc  Set a follower
 // @access Private
 router.post(
-  "/",
-  [
-    auth,
-    [
-      check("name", "Title is required")
-        .not()
-        .isEmpty(),
-      check("entry", "An entry is required")
-        .not()
-        .isEmpty()
-    ]
-  ],
+  "/profile/:user_id/followers/:follow_id",
+  [auth],
   async (req, res) => {
     try {
-      const newEntry = new Log({
-        name: req.body.name,
-        entry: req.body.entry,
-        topic: req.body.topic,
-        user: req.user.user.id
+      const follower = await Profile.findById(req.params.follow_id);
+
+      await Profile.findById(req.params.user_id).then(result => {
+        result.connection.followers.unshift(follower);
+
+        result.save();
       });
-
-      const log = await newEntry.save();
-
-      res.json(log);
     } catch (err) {
       console.error(err.message);
       res.status(500).send("Server Error");

@@ -5,11 +5,14 @@ import { Link } from "react-router-dom";
 import { Button, Collapse } from "reactstrap";
 
 import ChapterModal from "../documents/document-input/ChapterModal";
+import TestList from "../documents/document-lists/TestList";
 
 const StudyNav = ({ auth, item: { item } }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [chap, setChap] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+  const sloggle = () => setChap(!chap);
 
   return (
     <nav className="studypage-nav">
@@ -26,16 +29,32 @@ const StudyNav = ({ auth, item: { item } }) => {
               {Object.keys(item.documentation.chapters).length > 0 ? (
                 <li>
                   <Button>
-                    <Link to="/item-add-document">Add a Document</Link>
+                    <Link to="/item-add-document" style={{ color: "white" }}>
+                      Add a Document
+                    </Link>
                   </Button>
                 </li>
               ) : null}
             </ul>
           ) : null}
           <div>
-            <Button>
-              <Link to={`/api/chapters/${item._id}/chapters`}>Chapters</Link>
+            <Button onClick={sloggle}>
+              <Link
+                to={`/api/chapters/${item._id}/chapters`}
+                style={{ color: "white" }}
+              >
+                Chapters
+              </Link>
             </Button>
+            {/* <TestList /> */}
+
+            {/* <Collapse isOpen={chap}>
+              <ul>
+                {item.documentation.chapters.map(chapter => (
+                  <li key={chapter}>{chapter}</li>
+                ))}
+              </ul>
+            </Collapse> */}
           </div>
         </ul>
       </Collapse>

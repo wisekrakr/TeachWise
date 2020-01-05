@@ -1,5 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import classnames from "classnames";
 import {
@@ -8,11 +9,11 @@ import {
   TabPane,
   Nav,
   NavItem,
-  NavLink
+  NavLink,
+  Button
 } from "reactstrap";
 
 import { getProfileById } from "../actions/ProfileState";
-import ProfileMain from "../components/profiles/ProfileMain";
 import ProfileLeftInfo from "../components/profiles/ProfileLeftInfo";
 import ProfileRightInfo from "../components/profiles/ProfileRightInfo";
 import ProfileHeader from "../components/profiles/ProfileHeader";
@@ -42,7 +43,7 @@ const Profile = ({
 
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+  }, [getProfileById]);
 
   const getAllUserProducts = () => {
     items.map(item =>
@@ -127,7 +128,17 @@ const Profile = ({
       </Container>
     </Fragment>
   ) : (
-    <Spinner />
+    <div style={{ textAlign: "center" }}>
+      <Spinner />
+      <h2 className="medium-heading heading">
+        Have you made a profile yet? If not, press the button
+      </h2>
+      <Button className="btn draw-border">
+        <Link to="/profile-creation" className="custom-link">
+          Create Your Profile
+        </Link>
+      </Button>
+    </div>
   );
 };
 

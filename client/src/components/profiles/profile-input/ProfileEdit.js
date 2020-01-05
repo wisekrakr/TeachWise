@@ -19,15 +19,11 @@ import {
   faUser
 } from "@fortawesome/free-solid-svg-icons";
 
-import {
-  createProfile,
-  getCurrentProfile
-} from "../../../actions/ProfileState";
+import { createProfile } from "../../../actions/ProfileState";
 
 const ProfileEdit = ({
   profile: { profile, loading },
   createProfile,
-  getCurrentProfile,
   history
 }) => {
   const [newProfile, setNewProfile] = useState({
@@ -46,8 +42,6 @@ const ProfileEdit = ({
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   useEffect(() => {
-    // getCurrentProfile();
-
     setNewProfile({
       avatar: loading || !profile.avatar ? "" : profile.avatar,
       website: loading || !profile.website ? "" : profile.website,
@@ -60,7 +54,7 @@ const ProfileEdit = ({
       youtube: loading || !profile.social ? "" : profile.social.youtube,
       instagram: loading || !profile.social ? "" : profile.social.instagram
     });
-  }, [loading, getCurrentProfile]);
+  }, [loading]);
 
   const {
     avatar,
@@ -280,7 +274,7 @@ const ProfileEdit = ({
 
 ProfileEdit.propTypes = {
   createProfile: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
+
   profile: PropTypes.object.isRequired
 };
 
@@ -288,6 +282,6 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { createProfile, getCurrentProfile })(
+export default connect(mapStateToProps, { createProfile })(
   withRouter(ProfileEdit)
 );

@@ -1,68 +1,88 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+
 import Moment from "react-moment";
-import { Button } from "reactstrap";
+import { Button, Collapse } from "reactstrap";
 
 import {
   deleteChapter,
   deleteDoc,
-  getDocumentByChapter
+  getDocumentsByChapter
 } from "../../actions/DocumentState";
+import { textTruncate } from "../../helpers/text";
+
+import DocumentItem from "./DocumentItem";
+import Spinner from "../../background/Spinner";
 
 const ChapterItem = ({
   auth,
-  getDocumentByChapter,
   deleteChapter,
   deleteDoc,
-  document: { documents, loading },
-  chapter: { _id, user, title, description, date }
+  chapter: { _id, user, title, description, documents, date }
 }) => {
-  useEffect(() => {
-    getDocumentByChapter(_id);
-  }, [getDocumentByChapter]);
+  const [isOpen, setIsOpen] = useState(false);
 
-  const onDelete = () => {
+  const onClick = e => {
+    e.persist();
+
+    setIsOpen(!isOpen);
+  };
+
+  const onDelete = e => {
+    e.preventDefault();
     deleteChapter(_id);
 
     documents.filter(doc => {
-      console.log(doc);
       deleteDoc(doc._id);
     });
   };
 
-  return (
-    !loading &&
-    user === auth.user._id && (
-      <div className="custom-list list-group">
-        <div className="list-item" style={{ background: "transparant" }}>
-          <div>
-            <Moment format="YYYY-MM-DD HH:mm" className=" float-left m-3">
-              {date}
-            </Moment>
-          </div>
-
+  return auth.user !== null && _id !== undefined ? (
+    <div className="chapter">
+      <nav className="chapter-nav">
+        <Moment format="YYYY-MM-DD HH:mm" className=" float-left m-3">
+          {date}
+        </Moment>
+        {auth.user._id === user ? (
           <Button className="btn list-delete btn-sm" onClick={onDelete}>
             <i className="fas fa-times" />
           </Button>
+        ) : null}
 
-          {documents.map(doc => (
-            <div key={doc._id}>{doc.title}</div>
-          ))}
+        <div className="chapter-nav-item">
+          <Button value={_id} onClick={e => onClick(e)} className="nav-btn">
+            {title}
+          </Button>
+          <span className="desc">{textTruncate(description, 75)}</span>
         </div>
-      </div>
-    )
+
+        <Collapse isOpen={isOpen} className="chapter-collapse">
+          <ul className="chapter-list list-group">
+            {documents.map(doc => (
+              <ul key={doc._id}>
+                <li key={doc._id} className="chapter-list-item list-item">
+                  <DocumentItem key={doc._id} doc={doc} />
+                </li>
+              </ul>
+            ))}
+          </ul>
+        </Collapse>
+      </nav>
+    </div>
+  ) : (
+    <Spinner />
   );
 };
 
 ChapterItem.prototypes = {
-  document: PropTypes.object.isRequired,
   chapter: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
   deleteChapter: PropTypes.func.isRequired,
-  getDocumentByChapter: PropTypes.func.isRequired,
-  deleteDoc: PropTypes.func.isRequired
+  deleteDoc: PropTypes.func.isRequired,
+  getDocumentsByChapter: PropTypes.func.isRequired,
+  document: PropTypes.object.isRequired
 };
 const mapStateToProps = state => ({
   auth: state.auth,
@@ -72,5 +92,5 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   deleteChapter,
   deleteDoc,
-  getDocumentByChapter
+  getDocumentsByChapter
 })(ChapterItem);

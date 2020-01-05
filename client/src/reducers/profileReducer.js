@@ -3,6 +3,7 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
   UPDATE_PROFILE,
+  UPDATE_FOLLOW,
   GET_PROFILES
 } from "../actions/types";
 
@@ -39,6 +40,16 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profile: null,
+        loading: false
+      };
+    case UPDATE_FOLLOW:
+      return {
+        ...state,
+        profiles: state.profiles.map(profile =>
+          profile._id === action.payload.id
+            ? { ...profile.connection, followers: action.payload.followers }
+            : profile
+        ),
         loading: false
       };
     default:

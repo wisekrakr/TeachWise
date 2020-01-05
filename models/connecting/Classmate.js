@@ -2,26 +2,20 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // Create Log Entry Schema
-const ChapterSchema = new Schema({
+const ClassmateSchema = new Schema({
   user: {
     type: Schema.Types.ObjectId,
     ref: "users"
   },
-  item: {
+  profile: {
     type: Schema.Types.ObjectId,
-    ref: "items"
+    ref: "profile"
   },
-  documents: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "documents"
-    }
-  ],
-  title: {
+  name: {
     type: String,
     required: true
   },
-  description: {
+  friend_tier: {
     type: String,
     required: true
   },
@@ -31,4 +25,4 @@ const ChapterSchema = new Schema({
   }
 });
 
-module.exports = Chapter = mongoose.model("chapter", ChapterSchema);
+module.exports = Classmate = mongoose.model("classmate", ClassmateSchema);

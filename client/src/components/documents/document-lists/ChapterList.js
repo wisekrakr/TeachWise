@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { ListGroup, Container } from "reactstrap";
+import { ListGroup, Container, Button } from "reactstrap";
 
 import { getChaptersByItem } from "../../../actions/DocumentState";
 import ChapterItem from "../ChapterItem";
@@ -10,11 +10,13 @@ import Spinner from "../../../background/Spinner";
 const ChapterList = ({
   getChaptersByItem,
   item: { item },
-  document: { chapters, loading }
+  document: { chapters, loading },
+  match,
+  history
 }) => {
   useEffect(() => {
-    getChaptersByItem(item._id);
-  }, [getChaptersByItem]);
+    getChaptersByItem(match.params.id);
+  }, [getChaptersByItem, match.params.id]);
 
   if (
     chapters === null &&
@@ -24,18 +26,27 @@ const ChapterList = ({
     return <Spinner />;
   }
 
-  return !loading ? (
+  return !loading && item !== null ? (
     <Container>
       <h6 className="text-center small-heading">
         Chapter List for {item.name}
       </h6>
 
       <p className="heading-underline" />
-      <ListGroup className="custom-list">
+      <ListGroup className="chapter-list">
         {chapters.map(chapter => (
-          <ChapterItem key={chapter._id} chapter={chapter} />
+          <ChapterItem key={chapter._id} chapter={chapter} itemId={item._id} />
         ))}
       </ListGroup>
+      <Button
+        onClick={() => {
+          history.goBack();
+        }}
+        className="btn draw-border"
+        style={{ float: "left" }}
+      >
+        Go Back
+      </Button>
     </Container>
   ) : (
     <Spinner />

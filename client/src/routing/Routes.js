@@ -20,8 +20,10 @@ import ProfilePage from "../pages/ProfilePage";
 import ItemsByName from "../components/items/item-lists/ItemByNameList";
 import ItemsByField from "../components/items/item-lists/ItemByFieldList";
 import StudyFieldPage from "../pages/StudyFieldPage";
-import ItemAddDocument from "../components/items/item-input/ItemAddDocument";
+import DocumentAdd from "../components/documents/document-input/DocumentAdd";
 import ChapterList from "../components/documents/document-lists/ChapterList";
+import DocumentationPage from "../pages/DocumentationPage";
+import DocumentEdit from "../components/documents/document-input/DocumentEdit";
 
 const Routes = () => {
   return (
@@ -48,14 +50,11 @@ const Routes = () => {
         <PrivateRoute exact path="/api/logs" component={LogEntryList} />
         <PrivateRoute exact path="/api/fields" component={StudyFieldsList} />
         <PrivateRoute exact path="/api/items/:id" component={StudyPage} />
-        <PrivateRoute
-          exact
-          path="/item-add-document"
-          component={ItemAddDocument}
-        />
+        <PrivateRoute exact path="/item-add-document" component={DocumentAdd} />
         <PrivateRoute exact path="/api/logs/:id" component={LogEntryPage} />
         <PrivateRoute exact path="/api/profile/:id" component={ProfilePage} />
         <PrivateRoute exact path="/api/fields/:id" component={StudyFieldPage} />
+
         <PrivateRoute
           exact
           path="/api/items/name/:id"
@@ -70,6 +69,16 @@ const Routes = () => {
           exact
           path="/api/chapters/:id/chapters"
           component={ChapterList}
+        />
+        <PrivateRoute
+          exact
+          path="/api/documents/:id"
+          component={DocumentationPage}
+        />
+        <PrivateRoute
+          exact
+          path="/document-edit/:id"
+          component={DocumentEdit}
         />
       </Switch>
     </div>

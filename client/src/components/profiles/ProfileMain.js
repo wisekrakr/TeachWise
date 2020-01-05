@@ -9,11 +9,13 @@ import Spinner from "../../background/Spinner";
 const ProfileMain = ({
   auth,
   profile: {
-    location,
-    avatar,
-    website,
-    social,
-    user: { name, _id }
+    profile: {
+      location,
+      avatar,
+      website,
+      social,
+      user: { name, _id }
+    }
   },
   items,
   fields
@@ -121,7 +123,8 @@ ProfileMain.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps)(ProfileMain);

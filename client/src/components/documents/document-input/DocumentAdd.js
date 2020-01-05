@@ -6,7 +6,7 @@ import { Container, Form, Input, FormGroup, Button } from "reactstrap";
 
 import { addDocument, getChaptersByItem } from "../../../actions/DocumentState";
 
-const ItemAddDocument = ({
+const DocumentAdd = ({
   getChaptersByItem,
   addDocument,
   history,
@@ -22,9 +22,9 @@ const ItemAddDocument = ({
 
   useEffect(() => {
     getChaptersByItem(item._id);
-  }, [getChaptersByItem]);
+  }, [getChaptersByItem, item._id]);
 
-  const { chapter, title, info, description } = newDoc;
+  const { title, info, description } = newDoc;
 
   const onChange = e => {
     e.preventDefault();
@@ -129,7 +129,7 @@ const ItemAddDocument = ({
   );
 };
 
-ItemAddDocument.propTypes = {
+DocumentAdd.propTypes = {
   addDocument: PropTypes.func.isRequired,
   getChaptersByItem: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
@@ -142,5 +142,5 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps, { addDocument, getChaptersByItem })(
-  withRouter(ItemAddDocument)
+  withRouter(DocumentAdd)
 );

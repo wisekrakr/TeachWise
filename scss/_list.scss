@@ -85,3 +85,51 @@ ol.alt-list {
     }
   }
 }
+
+/*================ LISTS ===========*/
+
+.list-group {
+  text-decoration: none;
+}
+
+.list-item {
+  display: block;
+  color: setTextColor($primary-color);
+  margin: 1rem 0 0;
+}
+
+.log-list-item {
+  width: 460px;
+  background: linear-gradient(#929090, #fff);
+  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.list-delete {
+  background-color: $reddish !important;
+  border-radius: 2rem !important;
+  padding: 0 0.2rem 0 !important;
+  float: right !important;
+}
+
+.custom-list-item {
+  color: setTextColor($primary-color);
+}
+.custom-list-item:hover {
+  background: linear-gradient($hard-dark, $soft-dark);
+  border-radius: 5px;
+  padding: 1rem;
+  @include easeOut;
+}
+
+.chapter-list {
+  &:nth-child(odd) {
+    background: $light-orange;
+  }
+  &:nth-child(even) {
+    background: $orange-color;
+  }
+}

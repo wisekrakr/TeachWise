@@ -11,6 +11,8 @@
 @import "spinner";
 @import "profile";
 
+@import url("https://fonts.googleapis.com/css?family=PT+Sans+Narrow&display=swap");
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -19,7 +21,7 @@
 
 body {
   overflow-x: hidden;
-  font-family: "Roboto", sans-serif;
+  font-family: "PT Sans Narrow", sans-serif;
   background: rgba(darken($light-color, 6), 0.65);
   color: setTextColor($primary-color);
 }
@@ -310,6 +312,20 @@ a:hover {
   }
 }
 
+.container-studypage {
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+
+  .container-left {
+    padding-left: 1rem;
+  }
+  .container-right {
+    margin: auto;
+    padding: 0;
+    width: 100%;
+  }
+}
+
 .lead {
   border: none;
 }
@@ -381,45 +397,6 @@ h6.heading {
   @include easeOut;
 }
 
-/*================ LISTS ===========*/
-
-.list-group {
-  text-decoration: none;
-}
-
-.list-item {
-  display: block;
-  color: setTextColor($primary-color);
-  margin: 1rem 0 0;
-}
-
-.log-list-item {
-  width: 460px;
-  background: linear-gradient(#929090, #fff);
-  box-shadow: 0 8px 16px -8px rgba(0, 0, 0, 0.4);
-  border-radius: 6px;
-  overflow: hidden;
-  margin: auto;
-  margin-top: 1rem;
-}
-
-.list-delete {
-  background-color: $reddish;
-  border-radius: 2rem;
-  padding: 0 0.2rem 0;
-  float: right;
-}
-
-.custom-list-item {
-  color: setTextColor($primary-color);
-}
-.custom-list-item:hover {
-  background: linear-gradient($hard-dark, $soft-dark);
-  border-radius: 5px;
-  padding: 1rem;
-  @include easeOut;
-}
-
 /*================ ICONS ===========*/
 
 .fa-globe {
@@ -476,6 +453,59 @@ h6.heading {
       $light-color 50%,
       $hard-dark 100%
     );
+  }
+}
+
+// Documentation Page
+.doc-page {
+}
+
+// Chapter
+
+.chapter {
+  color: setTextColor($primary-color);
+  text-overflow: ellipsis;
+  .nav-btn {
+    margin-top: 0.4rem;
+    margin-right: 0.4rem;
+    background-color: $orange-color;
+
+    &:hover {
+      box-shadow: $bg-shadow;
+      background-color: rgba(darken($light-orange, 6), 0.65);
+    }
+    &:active {
+      box-shadow: $bg-shadow;
+      background-color: rgba(darken($soft-dark, 6), 0.65);
+    }
+  }
+
+  .desc {
+    margin: auto;
+    top: 50%;
+    vertical-align: middle;
+  }
+
+  &-list {
+    text-decoration: none;
+
+    &-item {
+      padding: 0.2rem;
+      color: rgba(lighten($hard-dark, 6), 0.75);
+
+      .document {
+        p {
+          @include easeOut;
+          &:hover {
+            cursor: pointer;
+            color: rgba(darken($orange-color, 6), 0.75);
+          }
+        }
+        span {
+          margin: 0.1rem 0.3rem;
+        }
+      }
+    }
   }
 }
 

@@ -5,7 +5,6 @@ export const GET_ITEMS_BY_FIELD = "GET_ITEMS_BY_FIELD";
 export const GET_ITEMS_USER = "GET_ITEMS_USER";
 export const GET_ITEM = "GET_ITEM";
 export const ADD_ITEM = "ADD_ITEM";
-export const UPDATE_ITEM = "UPDATE_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";
 export const ADD_COMMENT = "ADD_COMMENT";
 export const DELETE_COMMENT = "DELETE_COMMENT";
@@ -74,8 +73,16 @@ export const GET_PROFILE = "GET_PROFILE";
 export const GET_PROFILES = "GET_PROFILES";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
+export const UPDATE_FOLLOW = "UPDATE_FOLLOW";
 export const PROFILE_ERROR = "PROFILE_ERROR";
 export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
+
+// FOLLOWER types
+
+export const GET_FOLLOWERS = "GET_FOLLOWERS";
+export const ADD_FOLLOWER = "ADD_LOG_EADD_FOLLOWERNTRY";
+export const DELETE_FOLLOWER = "DELETE_FOLLOWER";
+export const FOLLOWER_ERROR = "FOLLOWER_ERROR";
 
 // Alert Types
 export const SET_ALERT = "SET_ALERT";

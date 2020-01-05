@@ -38,7 +38,6 @@ const Education = ({
           className="custom-header text-light font-weight-bolder "
           style={{ border: "none" }}
         >
-          {console.log(education)}
           {degree}
         </CardHeader>
 

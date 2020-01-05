@@ -24,6 +24,7 @@ const StudyItem = ({
     difficulty,
     status,
     user_comments,
+    documentation,
     date
   }
 }) => {
@@ -55,11 +56,8 @@ const StudyItem = ({
           <div className="name ">{username}</div>
 
           <div className="discuss ">
-            <Link
-              to={`/api/items/${_id}`}
-              style={{ color: "rgb(202, 200, 200)" }}
-            >
-              {user_comments.length} comments
+            <Link to={`/api/items/${_id}`} style={{ color: "white" }}>
+              Get Wise
             </Link>
           </div>
 
@@ -100,6 +98,24 @@ const StudyItem = ({
           <div className="coords">
             <span>Status:</span>
             <span>{status}</span>
+          </div>
+
+          <div className="stats">
+            <div>
+              <div className="title">Follows</div>
+              <i className="fas fa-users"></i>
+              {/* <div className="value">{item.followers}</div> */}
+            </div>
+            <div>
+              <div className="title">Chapters</div>
+              <i className="far fa-bookmark"></i>
+              <div className="value">{documentation.chapters.length}</div>
+            </div>
+            <div>
+              <div className="title">Documents</div>
+              <i className="far fa-file-alt"></i>
+              <div className="value">{documentation.documents.length}</div>
+            </div>
           </div>
 
           {!auth.loading && user === auth.user._id && (

@@ -35,6 +35,8 @@ router.get("/:id", auth, async (req, res) => {
       Chapter
     );
 
+    // console.log("get by :id in documents.js " + doc);
+
     res.json(doc);
   } catch (err) {
     console.error(err.message);
@@ -47,11 +49,9 @@ router.get("/:id", auth, async (req, res) => {
 // // @access Private
 router.get("/:chapter_id/documents", auth, async (req, res) => {
   try {
-    const docs = await Document.find({ chapter: req.params.chapter_id }).sort({
-      date: -1
-    });
+    const docs = await Document.find({ chapter: req.params.chapter_id });
 
-    // console.log("in documents.js get /:chapter_id " + req.params.chapter_id);
+    // console.log("in documents.js get /:chapter_id " + docs);
 
     res.json(docs);
   } catch (err) {
@@ -115,7 +115,7 @@ router.post(
           if (title) docFields.title = title;
           if (description) docFields.description = description;
           if (info) docFields.info = info;
-          if (chapter) docFields.chapter._id = chapter._id;
+          if (chapter) docFields.chapter = chapter;
 
           console.log("docfields " + docfield);
           doc = await Document.findOneAndUpdate(
@@ -124,6 +124,14 @@ router.post(
             { new: false, upsert: true }
           );
         }
+
+        await Chapter.findById(chapter).then(async cha => {
+          await Document.findById(doc._id).then(res => {
+            cha.documents.unshift(res);
+
+            cha.save();
+          });
+        });
       })
       .catch(err => {
         console.error(err.message);

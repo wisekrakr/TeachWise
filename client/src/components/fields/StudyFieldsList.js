@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Container } from "reactstrap";
@@ -30,24 +30,19 @@ const StudyFieldsList = ({ getFields, field: { fields, loading } }) => {
     }
   `;
 
-  return fields !== null &&
-    fields !== undefined &&
-    Object.keys(fields).length > 0 ? (
+  return !loading ? (
     <Container className="narrow">
       <h6 className="text-center small-heading">
         Recently added fields of study
       </h6>
 
       <p className="heading-underline" />
-      {fields !== null && fields !== undefined && !loading ? (
-        <AltListStyle className="alt-list">
-          {fields.map(field => (
-            <StudyFieldItem key={field._id} field={field} />
-          ))}
-        </AltListStyle>
-      ) : (
-        <Spinner />
-      )}
+
+      <AltListStyle className="alt-list">
+        {fields.map(field => (
+          <StudyFieldItem key={field._id} field={field} />
+        ))}
+      </AltListStyle>
     </Container>
   ) : (
     <Fragment>

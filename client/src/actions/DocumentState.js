@@ -36,7 +36,7 @@ export const getDocs = () => async dispatch => {
 };
 
 // // Get Items
-export const getDocumentByChapter = chapterId => async dispatch => {
+export const getDocumentsByChapter = chapterId => async dispatch => {
   try {
     const res = await axios.get(`/api/documents/${chapterId}/documents`);
 

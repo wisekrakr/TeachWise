@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
@@ -62,18 +62,10 @@ const StudyHeader = ({ auth, item: { item, loading } }) => {
             </Link>
           </div>
           <div className="right">
-            {item.user === auth.user._id ? (
-              <ListGroup className="flex-row ">
-                <Button className="btn draw-border mt-4">
-                  {" "}
-                  <ItemModalEdit />
-                </Button>
-              </ListGroup>
-            ) : null}
             <ListGroup className="flex-row ">
               <Link
                 to={`/api/items/name/${item.name}`}
-                className="btn draw-border ml-4 mt-4"
+                className="btn draw-border mt-4"
               >
                 More {textTruncate(item.name, 15)}
               </Link>
@@ -85,6 +77,14 @@ const StudyHeader = ({ auth, item: { item, loading } }) => {
                 More {textTruncate(item.field_of_study.name, 15)}
               </Link>
             </ListGroup>
+            {item.user === auth.user._id ? (
+              <ListGroup>
+                <Button className="btn draw-border mt-4">
+                  {" "}
+                  <ItemModalEdit />
+                </Button>
+              </ListGroup>
+            ) : null}
           </div>
           <hr className="my-2" />
           <div className="left">

@@ -5,6 +5,30 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
+  connection: {
+    following: [
+      {
+        profile: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "profile"
+        }
+      }
+    ],
+    followers: [
+      {
+        profile: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "profile"
+        }
+      }
+    ],
+    groups: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "classroom"
+      }
+    ]
+  },
   avatar: {
     type: String
   },

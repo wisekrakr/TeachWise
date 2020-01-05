@@ -244,4 +244,100 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
   }
 });
 
+// // @route    PUT api/profile/follow/:id
+// // @desc     Follow a profile
+// // @access   Private
+router.put("/follow/:id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id).then(result => {
+      if (
+        result.connection.followers.filter(
+          follow => follow.profile.toString() === req.user.user.id
+        ).length > 0
+      ) {
+        return res.status(400).json({ msg: "User already followed" });
+      }
+      result.connection.followers.unshift({ profile: req.user.user.id });
+
+      result.save();
+
+      Profile.findOne({ user: req.user.user.id }).then(result2 => {
+        if (result2._id !== req.user.user.id) {
+          result2.connection.following.unshift({ profile: req.params.id });
+
+          result2.save();
+
+          res.json(result2.connection.following);
+        }
+      });
+    });
+
+    await res.json(profile.connection.followers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+
+  // const profile = await Profile.findById(req.params.id);
+  // const myProfile = await Profile.findOne({ user: req.user.user.id });
+
+  // // Check if the item has already been liked
+  // if (
+  //   profile.connection.followers.filter(
+  //     follow => follow.profile.toString() === req.user.user.id
+  //   ).length > 0
+  // ) {
+  //   return res.status(400).json({ msg: "User already followed" });
+  // }
+
+  // profile.connection.followers.unshift({ profile: req.user.user.id });
+  // profile.connection.following.unshift({ profile: req.params.id });
+
+  // await profile.save();
+  // await myProfile.save();
+
+  // res.json(profile.connection.followers);
+});
+
+// // @route    PUT api/profile/unfollow/:id
+// // @desc     Unfollow a profile
+// // @access   Private
+router.put("/unfollow/:id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findById(req.params.id).then(result => {
+      if (
+        result.connection.followers.filter(
+          follow => follow.profile.toString() === req.user.user.id
+        ).length === 0
+      ) {
+        return res.status(400).json({ msg: "User is not yet followed" });
+      }
+      const removeIndex = result.connection.followers
+        .map(follow => follow.profile.toString())
+        .indexOf(req.params.id);
+
+      result.connection.followers.splice(removeIndex, 1);
+
+      result.save();
+
+      Profile.findOne({ user: req.user.user.id }).then(result2 => {
+        const removeIndex = result2.connection.following
+          .map(follow => follow.profile.toString())
+          .indexOf(req.params.id);
+
+        result2.connection.following.splice(removeIndex, 1);
+
+        result2.save();
+
+        res.json(result2.connection.following);
+      });
+    });
+
+    await res.json(profile.connection.followers);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;

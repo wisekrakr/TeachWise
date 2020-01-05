@@ -44,9 +44,12 @@ router.get("/:id", auth, async (req, res) => {
 // // @access Private
 router.get("/:item_id/chapters", auth, async (req, res) => {
   try {
-    const chapters = await Chapter.find({ item: req.params.item_id }).sort({
-      date: -1
-    });
+    const chapters = await Chapter.find({ item: req.params.item_id })
+      .populate("documents", ["user", "title", "description"], Document)
+      .populate("items", ["user", "name"], Item)
+      .sort({
+        date: 1
+      });
 
     // console.log("in chapters.js get /:item_id " + chapters);
 
@@ -87,6 +90,7 @@ router.post(
         const newEntry = new Chapter({
           user: user._id,
           item: result._id,
+          documents: [],
           title: req.body.title,
           description: req.body.description
         });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Container, Col, Row } from "reactstrap";
@@ -18,21 +18,25 @@ const StudyPage = ({ getItem, auth, item: { item }, match }) => {
   return item !== null &&
     item !== undefined &&
     Object.keys(item).length !== 0 ? (
-    <Fragment>
+    <div>
       <StudyHeader />
-      <StudyNav />
+      <div className="container-studypage">
+        <Container className="container-left">
+          <StudyNav />
+        </Container>
 
-      <Container>
-        <Row>
-          <Col>
-            <CommentForm itemId={item._id} />
-          </Col>
-          <Col>
-            <CommentList item={item} />
-          </Col>
-        </Row>
-      </Container>
-    </Fragment>
+        <Container className="container-right">
+          <Row>
+            <Col>
+              <CommentForm itemId={item._id} />
+            </Col>
+            <Col>
+              <CommentList item={item} />
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </div>
   ) : (
     <Spinner />
   );

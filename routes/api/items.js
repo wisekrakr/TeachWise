@@ -175,7 +175,7 @@ router.delete("/:id", auth, async (req, res) => {
       return res.status(401).json({ msg: "User not authorized" });
     }
 
-    await Chapter.find({ item: item_id }).then(async res => {
+    await Chapter.find({ item: req.params.id }).then(async res => {
       await Document.find({ chapter: res._id }).then(res2 => {
         res2.remove();
       });
@@ -327,11 +327,8 @@ router.put("/like/:id", auth, async (req, res) => {
   try {
     const item = await Item.findById(req.params.id);
 
-    item.likes.filter(like => {
-      console.log(like.user.toString() + " " + item.user);
-    });
-
     // Check if the item has already been liked
+
     if (
       item.likes.filter(like => like.user.toString() === req.user.user.id)
         .length > 0
@@ -339,7 +336,7 @@ router.put("/like/:id", auth, async (req, res) => {
       return res.status(400).json({ msg: "Item already liked" });
     }
 
-    item.likes.unshift({ user: item.user });
+    item.likes.unshift({ user: req.user.user.id });
 
     await item.save();
 

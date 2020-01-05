@@ -25,7 +25,6 @@ const initialState = {
 };
 
 export default (state = initialState, action) => {
-  console.log(state);
   switch (action.type) {
     case GET_DOCS:
     case GET_DOCUMENTS_BY_CHAPTER:

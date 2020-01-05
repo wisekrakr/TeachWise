@@ -6,7 +6,7 @@ import { Card, CardHeader } from "reactstrap";
 
 import Spinner from "../../background/Spinner";
 
-const ProfileItem = ({ profile }) => {
+const ProfileItem = ({ profile: { profile } }) => {
   return profile.user !== null && profile !== undefined ? (
     <Card className="card secondary">
       <div className="card-main">
@@ -63,4 +63,8 @@ ProfileItem.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-export default connect(null)(ProfileItem);
+const mapStateToProps = state => ({
+  profile: state.profile
+});
+
+export default connect(mapStateToProps)(ProfileItem);

@@ -2,7 +2,6 @@ import {
   GET_ITEMS,
   GET_ITEM,
   ADD_ITEM,
-  UPDATE_ITEM,
   DELETE_ITEM,
   ITEM_ERROR,
   ADD_COMMENT,
@@ -26,7 +25,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
-    case UPDATE_ITEM:
       return {
         ...state,
         items: action.payload,

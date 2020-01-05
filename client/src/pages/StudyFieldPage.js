@@ -2,17 +2,8 @@ import React, { useEffect, Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import Moment from "react-moment";
-import { Link } from "react-router-dom";
 
-import {
-  Container,
-  Badge,
-  Jumbotron,
-  ListGroup,
-  Col,
-  Row,
-  Button
-} from "reactstrap";
+import { Container, Jumbotron } from "reactstrap";
 
 import { getField } from "../actions/FieldState";
 import { textTruncate } from "../helpers/text";
