@@ -39,9 +39,8 @@ function App() {
           <HeaderNavbar />
 
           <Switch>
-            <Route exact path="/" component={Home}>
-              <Redirect to="/wise" />
-            </Route>
+            <Route exact path="/" component={Home} />
+
             <Route component={Routes} />
           </Switch>
         </Fragment>
