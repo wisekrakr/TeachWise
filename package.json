@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Study list built with the MERN stack",
   "main": "server.js",
+  "homepage": "https://wisekrakr.github.io/TeachWise",
   "scripts": {
     "sass": "node-sass -w scss/ -o client/src/css/ --recursive",
     "postinstall": "npm install --prefix client",
