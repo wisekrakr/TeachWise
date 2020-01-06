@@ -1,11 +1,16 @@
 import React, { Fragment, useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect
+} from "react-router-dom";
 
 import { Provider } from "react-redux";
 import cache from "./cache";
 
 import Routes from "./routing/Routes";
-import Index from "./pages/Index";
+import Home from "./pages/HomePage";
 import HeaderNavbar from "./layouts/HeaderNavbar";
 import ScrollToTop from "./background/ScrollToTop";
 
@@ -34,7 +39,9 @@ function App() {
           <HeaderNavbar />
 
           <Switch>
-            <Route exact path="/" component={Index} />
+            <Route exact path="/" component={Home}>
+              <Redirect to="/wise" />
+            </Route>
             <Route component={Routes} />
           </Switch>
         </Fragment>

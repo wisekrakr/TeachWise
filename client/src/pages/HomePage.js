@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Jumbotron, ListGroup } from "reactstrap";
 import { Link, Redirect } from "react-router-dom";
 
-const Index = ({ isAuthenticated }) => {
+const Home = ({ isAuthenticated }) => {
   if (isAuthenticated) {
     return <Redirect to="/dashboard" />;
   }
@@ -42,7 +42,7 @@ const Index = ({ isAuthenticated }) => {
   );
 };
 
-Index.propTypes = {
+Home.propTypes = {
   isAuthenticated: PropTypes.bool
 };
 
@@ -50,4 +50,4 @@ const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated
 });
 
-export default connect(mapStateToProps)(Index);
+export default connect(mapStateToProps)(Home);
