@@ -136,10 +136,9 @@ router.post(
           if (difficulty) itemFields.difficulty = difficulty;
           if (status) itemFields.status = status;
           if (material) {
-            itemFields.material =
-              material.length > 0
-                ? material.split(",").map(mat => mat.trim())
-                : material;
+            itemFields.material !== undefined
+              ? material.split(",").map(mat => mat.trim())
+              : material;
           }
 
           item = await Item.findOneAndUpdate(

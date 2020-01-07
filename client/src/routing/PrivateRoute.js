@@ -10,19 +10,13 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...rest}
-    render={props => {
-      if (!user) {
-        return (
-          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
-        );
-      }
-
-      if (!isAuthenticated && !loading) {
-        return <Redirect to={{ pathname: "/" }} />;
-      }
-
-      return <Component {...props} />;
-    }}
+    render={props =>
+      !isAuthenticated && !loading ? (
+        <Redirect to="/login" />
+      ) : (
+        <Component {...props} />
+      )
+    }
   />
 );
 

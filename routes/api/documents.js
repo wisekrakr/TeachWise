@@ -68,6 +68,9 @@ router.post(
   [
     auth,
     [
+      check("chapter", "Chapter is required")
+        .not()
+        .isEmpty(),
       check("title", "Title is required")
         .not()
         .isEmpty(),
@@ -117,7 +120,7 @@ router.post(
           if (info) docFields.info = info;
           if (chapter) docFields.chapter = chapter;
 
-          console.log("docfields " + docfield);
+          console.log("docfields " + docfields);
           doc = await Document.findOneAndUpdate(
             { _id: _id },
             { $set: docFields },
@@ -126,10 +129,11 @@ router.post(
         }
 
         await Chapter.findById(chapter).then(async cha => {
-          await Document.findById(doc._id).then(res => {
+          await Document.findById(doc._id).then(async res => {
+            console.log("chapter " + cha);
             cha.documents.unshift(res);
 
-            cha.save();
+            await cha.save();
           });
         });
       })
@@ -166,15 +170,17 @@ router.delete("/:id", auth, async (req, res) => {
     );
 
     await Item.findById(chapter.item).then(async result => {
-      await result.documentation.documents.filter(doc => {
+      await result.documentation.documents.filter(async doc => {
         if (doc.toString() === document._id.toString()) {
           const removeIndex = result.documentation.documents
             .map(d => d.id)
             .indexOf(req.params.id);
 
           result.documentation.documents.splice(removeIndex, 1);
+          chapter.documents.splice(removeIndex, 1);
 
-          result.save();
+          await result.save();
+          await chapter.save();
         }
       });
     });

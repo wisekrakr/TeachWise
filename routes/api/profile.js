@@ -106,10 +106,12 @@ router.post(
 // @access   Public
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", [
-      "name",
-      "metadata"
-    ]);
+    const profiles = await Profile.find().populate(
+      "user",
+      ["name", "metadata"],
+      User
+    );
+
     res.json(profiles);
   } catch (err) {
     console.error(err.message);
@@ -117,14 +119,16 @@ router.get("/", async (req, res) => {
   }
 });
 
-// @route    GET api/profile/user/:user_id
-// @desc     Get profile by user ID
+// @route    GET api/profile/:id
+// @desc     Get profile by ID
 // @access   Public
-router.get("/user/:user_id", async (req, res) => {
+router.get("/:user_id", async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.params.user_id
-    }).populate("user", ["name", "metadata", "email"]);
+    }).populate("user", ["name", "metadata", "email"], User);
+
+    // console.log(profile + " " + req.params.id);
 
     if (!profile) return res.status(400).json({ msg: "Profile not found" });
 
@@ -138,10 +142,10 @@ router.get("/user/:user_id", async (req, res) => {
   }
 });
 
-// // @route    DELETE api/profile
+// // @route    DELETE api/profile/:id
 // // @desc     Delete profile, user & items
 // // @access   Private
-router.delete("/", auth, async (req, res) => {
+router.delete("/:id", auth, async (req, res) => {
   try {
     // Remove user study fields
     await Field.deleteMany({ user: req.user.user.id });
@@ -261,15 +265,19 @@ router.put("/follow/:id", auth, async (req, res) => {
 
       result.save();
 
-      Profile.findOne({ user: req.user.user.id }).then(result2 => {
-        if (result2._id !== req.user.user.id) {
+      Profile.findOne({ user: req.user.user.id })
+        .then(result2 => {
+          console.log(result2);
           result2.connection.following.unshift({ profile: req.params.id });
 
           result2.save();
 
           res.json(result2.connection.following);
-        }
-      });
+        })
+        .catch(err => {
+          console.error(err.message);
+          res.status(500).send("Server Error");
+        });
     });
 
     await res.json(profile.connection.followers);

@@ -50,7 +50,7 @@ export const getProfiles = () => async dispatch => {
 // Get profile by ID
 export const getProfileById = userId => async dispatch => {
   try {
-    const res = await axios.get(`/api/profile/user/${userId}`);
+    const res = await axios.get(`/api/profile/${userId}`);
 
     dispatch({
       type: GET_PROFILE,
@@ -188,14 +188,14 @@ export const removeFollow = id => async dispatch => {
 };
 
 // Delete account & profile
-export const deleteAccount = () => async dispatch => {
+export const deleteAccount = id => async dispatch => {
   if (
     window.confirm(
       "Are you sure? This will delete everything and can NOT be undone!"
     )
   ) {
     try {
-      await axios.delete("/api/profile");
+      await axios.delete(`/api/profile/${id}`);
 
       dispatch({ type: CLEAR_PROFILE });
       dispatch({ type: ACCOUNT_DELETED });

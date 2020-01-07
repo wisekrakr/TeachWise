@@ -50,7 +50,11 @@ const Routes = () => {
         <PrivateRoute exact path="/api/logs" component={LogEntryList} />
         <PrivateRoute exact path="/api/fields" component={StudyFieldsList} />
         <PrivateRoute exact path="/api/items/:id" component={StudyPage} />
-        <PrivateRoute exact path="/item-add-document" component={DocumentAdd} />
+        <PrivateRoute
+          exact
+          path="/item-add-document/:id"
+          component={DocumentAdd}
+        />
         <PrivateRoute exact path="/api/logs/:id" component={LogEntryPage} />
         <PrivateRoute exact path="/api/profile/:id" component={ProfilePage} />
         <PrivateRoute exact path="/api/fields/:id" component={StudyFieldPage} />

@@ -9,10 +9,8 @@ import TestList from "../documents/document-lists/TestList";
 
 const StudyNav = ({ auth, item: { item } }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [chap, setChap] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
-  const sloggle = () => setChap(!chap);
 
   return (
     <nav className="studypage-nav">
@@ -29,7 +27,10 @@ const StudyNav = ({ auth, item: { item } }) => {
               {Object.keys(item.documentation.chapters).length > 0 ? (
                 <li>
                   <Button>
-                    <Link to="/item-add-document" style={{ color: "white" }}>
+                    <Link
+                      to={`/item-add-document/${item._id}`}
+                      style={{ color: "white" }}
+                    >
                       Add a Document
                     </Link>
                   </Button>
@@ -38,7 +39,7 @@ const StudyNav = ({ auth, item: { item } }) => {
             </ul>
           ) : null}
           <div>
-            <Button onClick={sloggle}>
+            <Button>
               <Link
                 to={`/api/chapters/${item._id}/chapters`}
                 style={{ color: "white" }}
@@ -47,14 +48,6 @@ const StudyNav = ({ auth, item: { item } }) => {
               </Link>
             </Button>
             {/* <TestList /> */}
-
-            {/* <Collapse isOpen={chap}>
-              <ul>
-                {item.documentation.chapters.map(chapter => (
-                  <li key={chapter}>{chapter}</li>
-                ))}
-              </ul>
-            </Collapse> */}
           </div>
         </ul>
       </Collapse>

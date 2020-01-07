@@ -23,7 +23,6 @@ const StudyItem = ({
     likes,
     difficulty,
     status,
-    user_comments,
     documentation,
     date
   }
@@ -53,7 +52,11 @@ const StudyItem = ({
 
       <div className="card-secondary">
         <div className="custom-card">
-          <div className="name ">{username}</div>
+          <div className="name ">
+            <Link to={`/api/profile/${user}`} style={{ color: "white" }}>
+              {username}
+            </Link>
+          </div>
 
           <div className="discuss ">
             <Link to={`/api/items/${_id}`} style={{ color: "white" }}>

@@ -6,8 +6,8 @@ import { Card, CardHeader } from "reactstrap";
 
 import Spinner from "../../background/Spinner";
 
-const ProfileItem = ({ profile: { profile } }) => {
-  return profile.user !== null && profile !== undefined ? (
+const ProfileItem = ({ profile }) => {
+  return profile !== undefined && profile !== null ? (
     <Card className="card secondary">
       <div className="card-main">
         <CardHeader
@@ -48,7 +48,7 @@ const ProfileItem = ({ profile: { profile } }) => {
             <div>
               <div className="title">Classmates</div>
               <i className="fas fa-users"></i>
-              <div className="value">123</div>
+              <div className="value">{profile.connection.followers.length}</div>
             </div>
           </div>
         </div>
@@ -59,12 +59,12 @@ const ProfileItem = ({ profile: { profile } }) => {
   );
 };
 
-ProfileItem.propTypes = {
-  profile: PropTypes.object.isRequired
-};
+// ProfileItem.propTypes = {
+//   profile: PropTypes.object.isRequired
+// };
 
-const mapStateToProps = state => ({
-  profile: state.profile
-});
+// const mapStateToProps = state => ({
+//   profile: state.profile
+// });
 
-export default connect(mapStateToProps)(ProfileItem);
+export default connect(null)(ProfileItem);

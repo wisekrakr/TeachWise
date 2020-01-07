@@ -22,7 +22,7 @@ import ProfileStudyFieldList from "../components/profiles/profile-lists/ProfileS
 import LogEntryList from "../components/logs/LogEntryList";
 import Spinner from "../background/Spinner";
 import { textTrimmer } from "../helpers/text";
-import SideBar from "../layouts/SideBar";
+import ProfileSideBar from "../layouts/ProfileSideBar";
 
 const Profile = ({
   getProfileById,
@@ -43,7 +43,7 @@ const Profile = ({
 
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById]);
+  }, [getProfileById, match.params.id]);
 
   const getAllUserProducts = () => {
     items.map(item =>
@@ -60,16 +60,16 @@ const Profile = ({
     if (activeTab !== tab) setActiveTab(tab);
   };
 
-  return profile !== null &&
-    profile !== undefined &&
-    user !== null &&
-    user !== undefined &&
-    !loading ? (
+  if (profile === null) {
+    return <Spinner />;
+  }
+
+  return profile.user._id === match.params.id && !loading ? (
     <Fragment>
-      <SideBar />
+      <ProfileSideBar profile={profile} />
       <Container className="container-new">
         <header>
-          <ProfileHeader />{" "}
+          <ProfileHeader profile={profile} />{" "}
         </header>
         <div className="row">
           <ProfileLeftInfo
@@ -78,7 +78,7 @@ const Profile = ({
             fields={userFields}
           />
 
-          <ProfileRightInfo />
+          <ProfileRightInfo profile={profile} />
         </div>
       </Container>
       <Container className="profile-tabs">

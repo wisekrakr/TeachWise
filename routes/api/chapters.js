@@ -39,7 +39,7 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
-// // @route GET api/chapters/:item_id
+// // @route GET api/chapters/:item_id/chapters
 // // @desc  GET All chapters from one item
 // // @access Private
 router.get("/:item_id/chapters", auth, async (req, res) => {

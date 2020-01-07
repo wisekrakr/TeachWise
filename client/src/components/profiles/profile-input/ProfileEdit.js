@@ -274,7 +274,6 @@ const ProfileEdit = ({
 
 ProfileEdit.propTypes = {
   createProfile: PropTypes.func.isRequired,
-
   profile: PropTypes.object.isRequired
 };
 

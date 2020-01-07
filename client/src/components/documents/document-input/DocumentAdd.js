@@ -10,8 +10,8 @@ const DocumentAdd = ({
   getChaptersByItem,
   addDocument,
   history,
-  item: { item, loading },
-  document: { chapters }
+  document: { chapters, loading },
+  match
 }) => {
   const [newDoc, setNewDoc] = useState({
     chapter: "",
@@ -21,8 +21,8 @@ const DocumentAdd = ({
   });
 
   useEffect(() => {
-    getChaptersByItem(item._id);
-  }, [getChaptersByItem, item._id]);
+    getChaptersByItem(match.params.id);
+  }, [getChaptersByItem, match.params.id]);
 
   const { title, info, description } = newDoc;
 
@@ -44,7 +44,7 @@ const DocumentAdd = ({
 
   const onSubmit = e => {
     e.preventDefault();
-    addDocument(newDoc, item._id, history);
+    addDocument(newDoc, match.params.id, history);
     history.goBack();
   };
 
@@ -132,12 +132,10 @@ const DocumentAdd = ({
 DocumentAdd.propTypes = {
   addDocument: PropTypes.func.isRequired,
   getChaptersByItem: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired,
   document: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  item: state.item,
   document: state.document
 });
 

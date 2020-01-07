@@ -2,7 +2,6 @@ import React, { Fragment, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { ListGroup, Container } from "reactstrap";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import { getProfiles } from "../../../actions/ProfileState";
 import ProfileItem from "../ProfileItem";
@@ -30,14 +29,9 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
       Object.keys(profiles).length > 0 &&
       !loading ? (
         <ListGroup>
-          {/* Shows a list of study items */}
-          <TransitionGroup className="log-list">
-            {profiles.map(profile => (
-              <CSSTransition key={profile._id} timeout={500} classNames="fade">
-                <ProfileItem key={profile._id} profile={profile} />
-              </CSSTransition>
-            ))}
-          </TransitionGroup>
+          {profiles.map(profile => (
+            <ProfileItem key={profile._id} profile={profile} />
+          ))}
         </ListGroup>
       ) : (
         <Spinner />

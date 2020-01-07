@@ -6,12 +6,7 @@ import { ListGroup, Button } from "reactstrap";
 
 import { addFollow, removeFollow } from "../../actions/ProfileState";
 
-const ProfileHeader = ({
-  auth,
-  profile: { profile },
-  addFollow,
-  removeFollow
-}) => {
+const ProfileHeader = ({ auth, profile, addFollow, removeFollow }) => {
   const toFollowOrNotToFollow = () => {
     if (
       profile.connection.followers.filter(
@@ -64,8 +59,7 @@ ProfileHeader.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { addFollow, removeFollow })(

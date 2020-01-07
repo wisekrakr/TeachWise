@@ -6,7 +6,7 @@ import Education from "./profile-extra/Education";
 import Spinner from "../../background/Spinner";
 import { textTrimmer } from "../../helpers/text";
 
-const ProfileRightInfo = ({ auth, profile: { profile } }) => {
+const ProfileRightInfo = ({ auth, profile }) => {
   return auth.user !== null ? (
     <Fragment>
       <div className="right col-lg-8">
@@ -49,8 +49,7 @@ ProfileRightInfo.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(ProfileRightInfo);

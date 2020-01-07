@@ -12,10 +12,9 @@ import Spinner from "../background/Spinner";
 import { getCurrentProfile } from "../actions/ProfileState";
 
 const SideBar = ({
-  getCurrentProfile,
   auth: { user, loading },
   logoutUser,
-  profile: { profile },
+  profile,
   deleteAccount
 }) => {
   useEffect(() => {
@@ -51,21 +50,6 @@ const SideBar = ({
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <li className="list-group-item pl-4">
                     {profile !== null && profile !== undefined ? (
-                      <Link
-                        to={`/profile/${profile.user._id}`}
-                        className="custom-link"
-                      >
-                        Home
-                      </Link>
-                    ) : (
-                      <Link to="/profile-creation" className="custom-link">
-                        Please Create Your Profile
-                      </Link>
-                    )}
-                  </li>
-
-                  <li className="list-group-item pl-4">
-                    {profile !== null && profile !== undefined ? (
                       <Link to="/profile-edit" className="custom-link">
                         Edit
                       </Link>
@@ -79,43 +63,32 @@ const SideBar = ({
                 </ul>
               </li>
 
-              {profile !== null && profile !== undefined ? (
-                <div>
-                  <li className="list-group-item pl-4">
-                    <Link to="/api/profile" className="custom-link">
-                      Profiles
-                    </Link>
-                  </li>
-                  <li className="list-group-item pl-4">
-                    <button>Classmates</button>
-
-                    <ul className="list-group flex-column d-inline-block sub-submenu">
-                      <li className="list-group-item pl-4">
-                        <Link to="/api/profile/friends" className="custom-link">
-                          People
-                        </Link>
-                      </li>
-                      <li className="list-group-item pl-4">
-                        <Link to="/api/profile/groups" className="custom-link">
-                          Groups
-                        </Link>
-                      </li>
-                      <li className="list-group-item pl-4">
-                        <button>Social</button>
-                      </li>
-                      <li className="list-group-item pl-4">
-                        Create a profile first
-                      </li>
-                    </ul>
-                  </li>
-                </div>
-              ) : (
+              <div>
                 <li className="list-group-item pl-4">
+                  <Link to="/api/profile" className="custom-link">
+                    Profiles
+                  </Link>
+                </li>
+                <li className="list-group-item pl-4">
+                  <button>Classmates</button>
+
                   <ul className="list-group flex-column d-inline-block sub-submenu">
-                    Create a profile first...
+                    <li className="list-group-item pl-4">
+                      <Link to="/api/profile/friends" className="custom-link">
+                        People
+                      </Link>
+                    </li>
+                    <li className="list-group-item pl-4">
+                      <Link to="/api/profile/groups" className="custom-link">
+                        Groups
+                      </Link>
+                    </li>
+                    <li className="list-group-item pl-4">
+                      <button>Social</button>
+                    </li>
                   </ul>
                 </li>
-              )}
+              </div>
             </ul>
           </li>
 
@@ -133,13 +106,10 @@ const SideBar = ({
                       My Study Items
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      <ItemModal />
-                    </li>
-                  ) : (
-                    ""
-                  )}
+
+                  <li className="list-group-item pl-4">
+                    <ItemModal />
+                  </li>
                 </ul>
               </li>
 
@@ -152,13 +122,10 @@ const SideBar = ({
                       My Log Entries
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      <LogEntryModal />
-                    </li>
-                  ) : (
-                    ""
-                  )}
+
+                  <li className="list-group-item pl-4">
+                    <LogEntryModal />
+                  </li>
                 </ul>
               </li>
 
@@ -171,13 +138,10 @@ const SideBar = ({
                       My Fields of Study
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      {/* <StudyFieldModal /> */}
-                    </li>
-                  ) : (
-                    ""
-                  )}
+
+                  <li className="list-group-item pl-4">
+                    {/* <StudyFieldModal /> */}
+                  </li>
                 </ul>
               </li>
 
@@ -190,13 +154,10 @@ const SideBar = ({
                       My Skills
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      <button>Add New Skill</button>
-                    </li>
-                  ) : (
-                    ""
-                  )}
+
+                  <li className="list-group-item pl-4">
+                    <button>Add New Skill</button>
+                  </li>
                 </ul>
               </li>
             </ul>
@@ -246,7 +207,6 @@ const SideBar = ({
 
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired
@@ -259,6 +219,5 @@ const mapStateToProps = state => ({
 
 export default connect(mapStateToProps, {
   logoutUser,
-  deleteAccount,
-  getCurrentProfile
+  deleteAccount
 })(SideBar);

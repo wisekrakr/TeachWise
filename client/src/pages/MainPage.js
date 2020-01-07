@@ -24,7 +24,7 @@ const Main = ({ auth: { user, loading } }) => {
 
       <div className="index-container">
         <StudyList />
-        <StudyFieldsList />
+        {/* <StudyFieldsList /> */}
       </div>
     </Fragment>
   );

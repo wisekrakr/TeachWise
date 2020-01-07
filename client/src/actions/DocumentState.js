@@ -176,7 +176,7 @@ export const addChapter = (chapter, itemId) => async dispatch => {
 export const deleteDoc = id => async dispatch => {
   try {
     await axios.delete(`/api/documents/${id}`);
-    console.log(id);
+
     dispatch({
       type: DELETE_DOC,
       payload: id
