@@ -14,6 +14,7 @@ import {
 } from "reactstrap";
 
 import { getProfileById } from "../actions/ProfileState";
+import { getItemsFromUser } from "../actions/ItemState";
 import ProfileLeftInfo from "../components/profiles/ProfileLeftInfo";
 import ProfileRightInfo from "../components/profiles/ProfileRightInfo";
 import ProfileHeader from "../components/profiles/ProfileHeader";
@@ -26,6 +27,7 @@ import ProfileSideBar from "../layouts/ProfileSideBar";
 
 const Profile = ({
   getProfileById,
+  getItemsFromUser,
   profile: { profile, loading },
   item: { items },
   field: { fields },
@@ -39,23 +41,20 @@ const Profile = ({
   };
   const [activeTab, setActiveTab] = useState(initialState);
 
-  let userItems = [];
   let userFields = [];
 
   useEffect(() => {
     getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+    getItemsFromUser(match.params.id);
+  }, [getProfileById, getItemsFromUser, match.params.id]);
 
-  const getAllUserProducts = () => {
-    items.map(item =>
-      item.user === match.params.id ? userItems.push(item) : (item = null)
-    );
-    fields.map(field =>
-      field.user === match.params.id ? userFields.push(field) : (field = null)
-    );
-  };
+  // const getAllUserProducts = () => {  //
+  //   fields.map(field =>
+  //     field.user === match.params.id ? userFields.push(field) : (field = null)
+  //   );
+  // };
 
-  getAllUserProducts();
+  // getAllUserProducts();
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -75,7 +74,7 @@ const Profile = ({
         <div className="row">
           <ProfileLeftInfo
             profile={profile}
-            items={userItems}
+            items={items}
             fields={userFields}
           />
 
@@ -119,10 +118,10 @@ const Profile = ({
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
-            <ProfileStudyList items={userItems} user={user} />
+            <ProfileStudyList items={items} user={profile.user} />
           </TabPane>
           <TabPane tabId="2">
-            <ProfileStudyFieldList fields={userFields} user={user} />
+            <ProfileStudyFieldList fields={userFields} user={profile.user} />
           </TabPane>
           <TabPane tabId="3">
             <LogEntryList />
@@ -147,6 +146,7 @@ const Profile = ({
 
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
+  getItemsFromUser: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
@@ -160,4 +160,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProfileById })(Profile);
+export default connect(mapStateToProps, { getProfileById, getItemsFromUser })(
+  Profile
+);

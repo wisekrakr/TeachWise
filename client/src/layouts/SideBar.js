@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -7,19 +7,13 @@ import ItemModal from "../components/items/item-input/ItemModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
 import Spinner from "../background/Spinner";
-import { getCurrentProfile } from "../actions/ProfileState";
 
 const SideBar = ({
-  getCurrentProfile,
   auth: { user, loading },
   logoutUser,
-  profile: { profile },
+  profile,
   deleteAccount
 }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, [getCurrentProfile]);
-
   const onClick = e => {
     e.preventDefault();
     logoutUser();
@@ -233,19 +227,15 @@ const SideBar = ({
 
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
-  getCurrentProfile: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired,
-  profile: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  profile: state.profile
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, {
   logoutUser,
-  deleteAccount,
-  getCurrentProfile
+  deleteAccount
 })(SideBar);

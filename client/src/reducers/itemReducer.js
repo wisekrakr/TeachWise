@@ -9,7 +9,9 @@ import {
   DELETE_COMMENT,
   LOADING_ITEMS,
   GET_ITEMS_BY_NAME,
-  GET_ITEMS_BY_FIELD
+  GET_ITEMS_BY_FIELD,
+  GET_ITEMS_CLASSMATES,
+  GET_ITEMS_USER
 } from "../actions/types";
 
 const initialState = {
@@ -24,6 +26,8 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
+    case GET_ITEMS_USER:
+    case GET_ITEMS_CLASSMATES:
       return {
         ...state,
         items: action.payload,

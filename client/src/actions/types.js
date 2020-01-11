@@ -3,6 +3,7 @@ export const GET_ITEMS = "GET_ITEMS";
 export const GET_ITEMS_BY_NAME = "GET_ITEMS_BY_NAME";
 export const GET_ITEMS_BY_FIELD = "GET_ITEMS_BY_FIELD";
 export const GET_ITEMS_USER = "GET_ITEMS_USER";
+export const GET_ITEMS_CLASSMATES = "GET_ITEMS_CLASSMATES";
 export const GET_ITEM = "GET_ITEM";
 export const ADD_ITEM = "ADD_ITEM";
 export const DELETE_ITEM = "DELETE_ITEM";

@@ -8,17 +8,19 @@ import TickerList from "../background/ticker/TickerList";
 import SideBar from "../layouts/SideBar";
 import StudyList from "../components/items/item-lists/ItemsFromClassmatesList";
 import Spinner from "../background/Spinner";
-import { getFollowing } from "../actions/ProfileState";
+import { getFollowing, getCurrentProfile } from "../actions/ProfileState";
 import ProfileItemSmall from "../components/profiles/ProfileItemSmall";
 
 const Main = ({
   auth: { user, loading },
   profile: { profile, profiles },
-  getFollowing
+  getFollowing,
+  getCurrentProfile
 }) => {
   useEffect(() => {
     getFollowing(user._id);
-  }, [getFollowing, user]);
+    getCurrentProfile();
+  }, [getFollowing, getCurrentProfile, user]);
 
   return (loading && user === null) || user === undefined ? (
     <Spinner />
@@ -30,7 +32,7 @@ const Main = ({
         </h3>
       </Jumbotron>
       <TickerList />
-      <SideBar />
+      <SideBar profile={profile} />
 
       <div className="index-container">
         <StudyList />
@@ -64,7 +66,8 @@ const Main = ({
 Main.propTypes = {
   auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  getFollowing: PropTypes.func.isRequired
+  getFollowing: PropTypes.func.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
@@ -72,4 +75,6 @@ const mapStateToProps = state => ({
   profile: state.profile
 });
 
-export default connect(mapStateToProps, { getFollowing })(Main);
+export default connect(mapStateToProps, { getFollowing, getCurrentProfile })(
+  Main
+);

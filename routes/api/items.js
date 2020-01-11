@@ -32,6 +32,7 @@ router.get("/user/:user_id", auth, async (req, res) => {
     const items = await Item.find({ user: req.params.user_id })
       .sort({ date: -1 })
       .populate("field_of_study", ["name"], Field);
+
     res.json(items);
   } catch (err) {
     console.error(err.message);

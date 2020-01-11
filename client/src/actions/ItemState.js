@@ -11,7 +11,8 @@ import {
   ITEM_ERROR,
   LOADING_ITEMS,
   GET_ITEMS_BY_FIELD,
-  GET_ITEMS_BY_NAME
+  GET_ITEMS_BY_NAME,
+  GET_ITEMS_CLASSMATES
 } from "./types";
 
 import { setAlert } from "./AlertState";
@@ -33,30 +34,13 @@ export const getItems = () => async dispatch => {
   }
 };
 
-// Get Items from user
-export const getMyItems = userId => async dispatch => {
-  setItemsLoading();
-  try {
-    const res = await axios.get(`/api/items/user/${userId}`);
-
-    dispatch({
-      type: GET_ITEMS,
-      payload: res.data
-    });
-  } catch (err) {
-    dispatch({
-      type: ITEM_ERROR
-    });
-  }
-};
-
 // Get Items from people you follow
 export const getItemsFromClassmates = userId => async dispatch => {
   setItemsLoading();
   try {
     const res = await axios.get(`/api/items/profile/${userId}`);
     dispatch({
-      type: GET_ITEMS,
+      type: GET_ITEMS_CLASSMATES,
       payload: res.data
     });
   } catch (err) {
