@@ -20,6 +20,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { createProfile } from "../../../actions/ProfileState";
+import { randomColor } from "../../../helpers/color";
 
 const ProfileCreation = ({
   createProfile,
@@ -60,6 +61,7 @@ const ProfileCreation = ({
 
   const onSubmit = e => {
     e.preventDefault();
+
     createProfile(newProfile, history, false);
 
     history.goBack();

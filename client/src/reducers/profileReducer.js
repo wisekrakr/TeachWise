@@ -4,6 +4,7 @@ import {
   CLEAR_PROFILE,
   UPDATE_PROFILE,
   UPDATE_FOLLOW,
+  UPDATE_FOLLOWING,
   GET_PROFILES
 } from "../actions/types";
 
@@ -48,6 +49,16 @@ export default (state = initialState, action) => {
         profiles: state.profiles.map(profile =>
           profile._id === action.payload.id
             ? { ...profile.connection, followers: action.payload.followers }
+            : profile
+        ),
+        loading: false
+      };
+    case UPDATE_FOLLOWING:
+      return {
+        ...state,
+        profiles: state.profiles.map(profile =>
+          profile._id === action.payload.id
+            ? { ...profile.connection, following: action.payload.following }
             : profile
         ),
         loading: false

@@ -4,37 +4,31 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { ListGroup, Container } from "reactstrap";
 import { connect } from "react-redux";
 
-import { getItems } from "../../../actions/ItemState";
+import { getItemsFromClassmates } from "../../../actions/ItemState";
 import StudyItem from "../StudyItem";
 import Spinner from "../../../background/Spinner";
 
-const StudyList = ({ getItems, item: { items, loading } }) => {
+const StudyList = ({
+  auth: { user },
+  getItemsFromClassmates,
+  item: { items, loading }
+}) => {
   useEffect(() => {
-    getItems();
-  }, [getItems]);
+    if (user !== null) {
+      getItemsFromClassmates(user._id);
+    }
+  }, [getItemsFromClassmates]);
 
-  if (
-    items === null &&
-    items === undefined &&
-    Object.keys(items).length === 0
-  ) {
-    return (
-      <div>
-        <p>Please add a study item....</p>
-      </div>
-    );
-  }
-
-  return items.length !== 0 ? (
+  return user !== null && !loading ? (
     <Container>
-      <h6 className="text-center small-heading">Recently added study items</h6>
+      <h6 className="text-center small-heading">
+        Recently added study items from classmates
+      </h6>
 
       <p className="heading-underline" />
-      {items !== null && items !== undefined && !loading ? (
+      {items !== null && items !== undefined ? (
         <ListGroup className="custom-list">
           <TransitionGroup className="item-list">
-            {/* Shows a list of study items */}
-
             {items.map(item =>
               item !== null ? (
                 <CSSTransition key={item._id} timeout={700} classNames="fade">
@@ -52,18 +46,20 @@ const StudyList = ({ getItems, item: { items, loading } }) => {
     </Container>
   ) : (
     <h6 className="x-small-heading">
-      Add a Study Item to show what you are studying
+      Follow someone and see what they are studying right here!
     </h6>
   );
 };
 
 StudyList.propTypes = {
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
+  getItemsFromClassmates: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  item: state.item
+  item: state.item,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getItems })(StudyList);
+export default connect(mapStateToProps, { getItemsFromClassmates })(StudyList);

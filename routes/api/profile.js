@@ -253,7 +253,7 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
 // // @access   Private
 router.put("/follow/:id", auth, async (req, res) => {
   try {
-    const profile = await Profile.findById(req.params.id).then(result => {
+    await Profile.findOne({ user: req.params.id }).then(async result => {
       if (
         result.connection.followers.filter(
           follow => follow.profile.toString() === req.user.user.id
@@ -263,48 +263,14 @@ router.put("/follow/:id", auth, async (req, res) => {
       }
       result.connection.followers.unshift({ profile: req.user.user.id });
 
-      result.save();
+      await result.save();
 
-      Profile.findOne({ user: req.user.user.id })
-        .then(result2 => {
-          console.log(result2);
-          result2.connection.following.unshift({ profile: req.params.id });
-
-          result2.save();
-
-          res.json(result2.connection.following);
-        })
-        .catch(err => {
-          console.error(err.message);
-          res.status(500).send("Server Error");
-        });
+      await res.json(result.connection.followers);
     });
-
-    await res.json(profile.connection.followers);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
-
-  // const profile = await Profile.findById(req.params.id);
-  // const myProfile = await Profile.findOne({ user: req.user.user.id });
-
-  // // Check if the item has already been liked
-  // if (
-  //   profile.connection.followers.filter(
-  //     follow => follow.profile.toString() === req.user.user.id
-  //   ).length > 0
-  // ) {
-  //   return res.status(400).json({ msg: "User already followed" });
-  // }
-
-  // profile.connection.followers.unshift({ profile: req.user.user.id });
-  // profile.connection.following.unshift({ profile: req.params.id });
-
-  // await profile.save();
-  // await myProfile.save();
-
-  // res.json(profile.connection.followers);
 });
 
 // // @route    PUT api/profile/unfollow/:id
@@ -312,7 +278,7 @@ router.put("/follow/:id", auth, async (req, res) => {
 // // @access   Private
 router.put("/unfollow/:id", auth, async (req, res) => {
   try {
-    const profile = await Profile.findById(req.params.id).then(result => {
+    await Profile.findOne({ user: req.params.id }).then(async result => {
       if (
         result.connection.followers.filter(
           follow => follow.profile.toString() === req.user.user.id
@@ -326,22 +292,78 @@ router.put("/unfollow/:id", auth, async (req, res) => {
 
       result.connection.followers.splice(removeIndex, 1);
 
-      result.save();
+      await result.save();
 
-      Profile.findOne({ user: req.user.user.id }).then(result2 => {
-        const removeIndex = result2.connection.following
-          .map(follow => follow.profile.toString())
-          .indexOf(req.params.id);
+      await res.json(result.connection.followers);
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
-        result2.connection.following.splice(removeIndex, 1);
+// // @route    PUT api/profile/following/:id
+// // @desc     Followed profile
+// // @access   Private
+router.put("/following/:id", auth, async (req, res) => {
+  try {
+    await Profile.findOne({ user: req.user.user.id }).then(async result => {
+      result.connection.following.unshift({ profile: req.params.id });
 
-        result2.save();
+      await result.save();
 
-        res.json(result2.connection.following);
+      await res.json(result.connection.following);
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// // @route    GET api/profile/following/:id
+// // @desc     Followed profile
+// // @access   Private
+router.get("/following/:user_id", auth, async (req, res) => {
+  try {
+    await Profile.findOne({ user: req.params.user_id }).then(async result => {
+      let follows = [];
+
+      result.connection.following.map(async follow => {
+        await Profile.findOne({ user: follow.profile })
+          .populate("user", ["name"], User)
+          .then(async followee => {
+            follows.unshift(followee);
+          });
+
+        for (let i = follows.length - 1; i > 0; i--) {
+          if (i === 1) {
+            await res.json(follows);
+          }
+        }
       });
     });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
 
-    await res.json(profile.connection.followers);
+// // @route    PUT api/profile/unfollowing/:id
+// // @desc     Unfollowed profile
+// // @access   Private
+router.put("/unfollowing/:id", auth, async (req, res) => {
+  try {
+    await Profile.findOne({ user: req.user.user.id }).then(async result => {
+      const removeIndex = result.connection.following
+        .map(follow => follow.profile.toString())
+        .indexOf(req.params.id);
+
+      result.connection.following.splice(removeIndex, 1);
+
+      await result.save();
+
+      await res.json(result.connection.following);
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

@@ -111,6 +111,14 @@ router.post(
 
             result.save();
           });
+
+          await Chapter.findById(chapter).then(async cha => {
+            await Document.findById(doc._id).then(async res => {
+              cha.documents.unshift(res);
+
+              await cha.save();
+            });
+          });
         } else {
           // Build document object
           const docFields = {};
@@ -120,22 +128,12 @@ router.post(
           if (info) docFields.info = info;
           if (chapter) docFields.chapter = chapter;
 
-          console.log("docfields " + docfields);
           doc = await Document.findOneAndUpdate(
             { _id: _id },
             { $set: docFields },
             { new: false, upsert: true }
           );
         }
-
-        await Chapter.findById(chapter).then(async cha => {
-          await Document.findById(doc._id).then(async res => {
-            console.log("chapter " + cha);
-            cha.documents.unshift(res);
-
-            await cha.save();
-          });
-        });
       })
       .catch(err => {
         console.error(err.message);

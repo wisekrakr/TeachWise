@@ -1,10 +1,5 @@
 import React, { Fragment, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Redirect
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
 import { Provider } from "react-redux";
 import cache from "./cache";
@@ -13,6 +8,7 @@ import Routes from "./routing/Routes";
 import Home from "./pages/HomePage";
 import HeaderNavbar from "./layouts/HeaderNavbar";
 import ScrollToTop from "./background/ScrollToTop";
+import Footer from "./layouts/Footer";
 
 import { loadUser } from "./actions/AuthState";
 import setAuthToken from "./helpers/setAuthToken";
@@ -43,6 +39,7 @@ function App() {
 
             <Route component={Routes} />
           </Switch>
+          <Footer />
         </Fragment>
       </Router>
     </Provider>

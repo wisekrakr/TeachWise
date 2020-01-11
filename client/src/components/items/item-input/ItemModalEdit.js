@@ -50,10 +50,11 @@ const ItemModalEdit = ({
   };
 
   const onSubmit = e => {
-    e.preventDefault();
     addItem(newItem, history, true);
 
     toggle();
+
+    history.push(`/api/items/${item._id}`);
   };
 
   const toggle = () => {

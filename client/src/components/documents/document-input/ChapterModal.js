@@ -31,6 +31,7 @@ const ChapterModal = ({ addChapter, item: { item } }) => {
   };
 
   const onSubmit = e => {
+    e.persist();
     setState({ chapter: chapter });
     addChapter(chapter, item._id);
   };

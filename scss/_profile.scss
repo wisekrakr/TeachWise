@@ -190,3 +190,26 @@
     max-width: 100%;
   }
 }
+
+// Small Profile Item
+.small-follow {
+  .follow-img {
+    display: block;
+    margin-top: 0.4rem;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+    border: solid 3px $soft-dark;
+  }
+
+  &-profile-view {
+    margin: 0.3rem 1rem 1rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

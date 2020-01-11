@@ -33,6 +33,39 @@ export const getItems = () => async dispatch => {
   }
 };
 
+// Get Items from user
+export const getMyItems = userId => async dispatch => {
+  setItemsLoading();
+  try {
+    const res = await axios.get(`/api/items/${userId}`);
+
+    dispatch({
+      type: GET_ITEMS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR
+    });
+  }
+};
+
+// Get Items from people you follow
+export const getItemsFromClassmates = userId => async dispatch => {
+  setItemsLoading();
+  try {
+    const res = await axios.get(`/api/items/profile/${userId}`);
+    dispatch({
+      type: GET_ITEMS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR
+    });
+  }
+};
+
 // Get Items By Field name
 export const getItemsByField = fieldId => async dispatch => {
   setItemsLoading();
@@ -116,7 +149,7 @@ export const addItem = (item, history, edit = false) => async dispatch => {
     });
 
     if (!edit) {
-      history.push(`/dashboard`);
+      history.push(`/api/items/${item._id}`);
       dispatch(setAlert("Study Item Created", "success"));
     } else {
       dispatch(setAlert("Study Item Edited", "success"));

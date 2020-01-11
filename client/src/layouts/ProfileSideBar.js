@@ -34,7 +34,7 @@ const SideBar = ({
     logoutUser();
   };
 
-  return !loading ? (
+  return !loading && user !== null ? (
     <div data-component="sidebar">
       <div className="sidebar">
         <ul className="list-group flex-column d-inline-block first-menu">
@@ -74,7 +74,10 @@ const SideBar = ({
 
                   <ul className="list-group flex-column d-inline-block sub-submenu">
                     <li className="list-group-item pl-4">
-                      <Link to="/api/profile/friends" className="custom-link">
+                      <Link
+                        to={`/api/profile/${user._id}/follows`}
+                        className="custom-link"
+                      >
                         People
                       </Link>
                     </li>

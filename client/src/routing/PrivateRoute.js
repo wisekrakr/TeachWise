@@ -10,13 +10,17 @@ const PrivateRoute = ({
 }) => (
   <Route
     {...rest}
-    render={props =>
-      !isAuthenticated && !loading ? (
-        <Redirect to="/login" />
-      ) : (
-        <Component {...props} />
-      )
-    }
+    render={props => {
+      if (!isAuthenticated && !loading) {
+        // not logged in so redirect to login page with the return url
+        return (
+          <Redirect to={{ pathname: "/", state: { from: props.location } }} />
+        );
+      }
+
+      // authorised so return component
+      return <Component {...props} />;
+    }}
   />
 );
 
@@ -25,8 +29,7 @@ PrivateRoute.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth,
-  user: state.user
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(PrivateRoute);

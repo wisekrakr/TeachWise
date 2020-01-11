@@ -1,11 +1,10 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Container, Button } from "reactstrap";
+import { Container } from "reactstrap";
 import { connect } from "react-redux";
 
 import StudyFieldItem from "../../fields/StudyFieldItem";
 import { textTrimmer } from "../../../helpers/text";
-import StudyFieldModal from "../../fields/StudyFieldModal";
 import Spinner from "../../../background/Spinner";
 
 const ProfileStudyFieldList = ({ fields, user }) => {
@@ -22,7 +21,7 @@ const ProfileStudyFieldList = ({ fields, user }) => {
   }
 
   return fields.length !== 0 ? (
-    <Container className="narrow">
+    <Container>
       <h6 className="text-center small-heading">
         {textTrimmer(user.name)}s Fields of Study
       </h6>
@@ -42,11 +41,8 @@ const ProfileStudyFieldList = ({ fields, user }) => {
     <Fragment>
       <div className="narrow">
         <h6 className="x-small-heading">
-          Add a Field of Study to show in what kinds of field you study...
+          Here will be all the fields you study in...
         </h6>
-        <Button className="btn draw-border">
-          <StudyFieldModal user={user} />
-        </Button>
       </div>
     </Fragment>
   );

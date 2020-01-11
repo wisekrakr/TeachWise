@@ -6,6 +6,7 @@ import authReducer from "./authReducer";
 import alertReducer from "./alertReducer";
 import profileReducer from "./profileReducer";
 import documentReducer from "./documentReducer";
+import followerReducer from "./followerReducer";
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   log: logReducer,
   field: fieldReducer,
   profile: profileReducer,
-  document: documentReducer
+  document: documentReducer,
+  follower: followerReducer
 });

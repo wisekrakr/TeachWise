@@ -30,7 +30,8 @@ const Profile = ({
   item: { items },
   field: { fields },
   auth: { user },
-  match
+  match,
+  history
 }) => {
   const initialState = {
     activeTab: 1,
@@ -69,7 +70,7 @@ const Profile = ({
       <ProfileSideBar profile={profile} />
       <Container className="container-new">
         <header>
-          <ProfileHeader profile={profile} />{" "}
+          <ProfileHeader profile={profile} history={history} />{" "}
         </header>
         <div className="row">
           <ProfileLeftInfo
@@ -103,16 +104,18 @@ const Profile = ({
               {textTrimmer(profile.user.name)}s Fields of Study
             </NavLink>
           </NavItem>
-          <NavItem className="profile-nav-item">
-            <NavLink
-              className={classnames({ active: activeTab === "3" })}
-              onClick={() => {
-                toggle("3");
-              }}
-            >
-              {textTrimmer(profile.user.name)}s Log Entries
-            </NavLink>
-          </NavItem>
+          {user._id === profile.user ? (
+            <NavItem className="profile-nav-item">
+              <NavLink
+                className={classnames({ active: activeTab === "3" })}
+                onClick={() => {
+                  toggle("3");
+                }}
+              >
+                {textTrimmer(profile.user.name)}s Log Entries
+              </NavLink>
+            </NavItem>
+          ) : null}
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">

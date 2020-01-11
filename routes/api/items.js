@@ -24,6 +24,69 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route GET api/items/:user_id
+// @desc  GET All Items from a user
+// @access Private
+router.get("/:user_id", auth, async (req, res) => {
+  try {
+    const items = await Item.find({ user: req.params.user_id })
+      .sort({ date: -1 })
+      .populate("field_of_study", ["name"], Field);
+    res.json(items);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+// @route GET api/items/profile/:user_id
+// @desc  GET All Items from people the user follows
+// @access Private
+router.get("/profile/:user_id", auth, async (req, res) => {
+  try {
+    let itemsFromFriends = [];
+
+    await Profile.findOne({ user: req.params.user_id }).then(async result => {
+      result.connection.following.filter(async follow => {
+        await Profile.findOne({ user: follow.profile }).then(async followee => {
+          followee.metadata.item_count.filter(async item => {
+            await Item.findById(item)
+              .sort({ date: -1 })
+              .populate(
+                "item",
+                [
+                  "_id",
+                  "user",
+                  "username",
+                  "name",
+                  "field_of_study",
+                  "likes",
+                  "difficulty",
+                  "status",
+                  "documentation",
+                  "date"
+                ],
+                Item
+              )
+              .populate("field_of_study", ["name"], Field)
+              .then(async i => {
+                await itemsFromFriends.unshift(i);
+              });
+            for (let i = itemsFromFriends.length - 1; i > 0; i--) {
+              if (i === 1) {
+                await res.json(itemsFromFriends);
+              }
+            }
+          });
+        });
+      });
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route GET api/items/name/:item_name
 // @desc  GET All Items with a specific name
 // @access Private

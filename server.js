@@ -19,7 +19,7 @@ app.use("/api/items", require("./routes/api/items"));
 app.use("/api/logs", require("./routes/api/logs"));
 app.use("/api/documents", require("./routes/api/documents"));
 app.use("/api/chapters", require("./routes/api/chapters"));
-app.use("/api/skills", require("./routes/api/skills"));
+app.use("/api/followers", require("./routes/api/followers"));
 
 // Serve a static assets if in production
 if (process.env.NODE_ENV === "production") {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { addLogEntry } from "../../actions/LogState";
-import { getItems } from "../../actions/ItemState";
+import { getMyItems } from "../../actions/ItemState";
 
 import {
   Modal,
@@ -15,7 +15,12 @@ import {
   Button
 } from "reactstrap";
 
-const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
+const LogEntryModal = ({
+  auth: { user },
+  addLogEntry,
+  getMyItems,
+  item: { items, loading }
+}) => {
   const initialState = {
     modal: false,
     log: {}
@@ -24,8 +29,8 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
   const [logEntry, setLogEntry] = useState({});
 
   useEffect(() => {
-    getItems();
-  }, [getItems]);
+    getMyItems(user._id);
+  }, [getMyItems]);
 
   const onChange = e => {
     e.preventDefault();
@@ -108,14 +113,16 @@ const LogEntryModal = ({ addLogEntry, getItems, item: { items, loading } }) => {
 
 LogEntryModal.propTypes = {
   addLogEntry: PropTypes.func.isRequired,
-  getItems: PropTypes.func.isRequired,
-  item: PropTypes.object.isRequired
+  getMyItems: PropTypes.func.isRequired,
+  item: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  item: state.item
+  item: state.item,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { addLogEntry, getItems })(
+export default connect(mapStateToProps, { addLogEntry, getMyItems })(
   LogEntryModal
 );

@@ -7,6 +7,7 @@ import {
   PROFILE_ERROR,
   UPDATE_PROFILE,
   UPDATE_FOLLOW,
+  UPDATE_FOLLOWING,
   CLEAR_PROFILE,
   ACCOUNT_DELETED
 } from "./types";
@@ -164,6 +165,7 @@ export const addFollow = id => async dispatch => {
       type: UPDATE_FOLLOW,
       payload: { id, followers: res.data }
     });
+    dispatch(setAlert("Following", "success"));
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR
@@ -179,6 +181,55 @@ export const removeFollow = id => async dispatch => {
     dispatch({
       type: UPDATE_FOLLOW,
       payload: { id, followers: res.data }
+    });
+    dispatch(setAlert("Unfollow", "success"));
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
+};
+
+// Add Following
+export const addFollowing = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/following/${id}`);
+
+    dispatch({
+      type: UPDATE_FOLLOWING,
+      payload: { id, following: res.data }
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
+};
+
+// Get Following from user
+export const getFollowing = userId => async dispatch => {
+  try {
+    const res = await axios.get(`/api/profile/following/${userId}`);
+
+    dispatch({
+      type: GET_PROFILES,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR
+    });
+  }
+};
+
+// Remove Following
+export const removeFollowing = id => async dispatch => {
+  try {
+    const res = await axios.put(`/api/profile/unfollowing/${id}`);
+
+    dispatch({
+      type: UPDATE_FOLLOWING,
+      payload: { id, following: res.data }
     });
   } catch (err) {
     dispatch({

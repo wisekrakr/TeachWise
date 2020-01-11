@@ -5,9 +5,29 @@ const ProfileSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "user"
   },
-  // name: {
-  //   type: String,
-  //   required: true
+  // connecting: {
+  //   following: [
+  //     {
+  //       profile: {
+  //         type: mongoose.Schema.Types.ObjectId,
+  //         ref: "follower"
+  //       }
+  //     }
+  //   ],
+  //   followers: [
+  //     {
+  //       profile: {
+  //         type: mongoose.Schema.Types.ObjectId,
+  //         ref: "follower"
+  //       }
+  //     }
+  //   ],
+  //   groups: [
+  //     {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "classroom"
+  //     }
+  //   ]
   // },
   connection: {
     following: [

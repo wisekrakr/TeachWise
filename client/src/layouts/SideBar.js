@@ -4,10 +4,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
 import ItemModal from "../components/items/item-input/ItemModal";
-import LogEntryModal from "../components/logs/LogEntryModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
-import StudyFieldModal from "../components/fields/StudyFieldModal";
 import Spinner from "../background/Spinner";
 import { getCurrentProfile } from "../actions/ProfileState";
 
@@ -35,7 +33,7 @@ const SideBar = ({
     logoutUser();
   };
 
-  return !loading ? (
+  return !loading && user !== null ? (
     <div data-component="sidebar">
       <div className="sidebar">
         <ul className="list-group flex-column d-inline-block first-menu">
@@ -91,7 +89,10 @@ const SideBar = ({
 
                     <ul className="list-group flex-column d-inline-block sub-submenu">
                       <li className="list-group-item pl-4">
-                        <Link to="/api/profile/friends" className="custom-link">
+                        <Link
+                          to={`/api/profile/${user._id}/follows`}
+                          className="custom-link"
+                        >
                           People
                         </Link>
                       </li>
@@ -152,13 +153,6 @@ const SideBar = ({
                       My Log Entries
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      <LogEntryModal />
-                    </li>
-                  ) : (
-                    ""
-                  )}
                 </ul>
               </li>
 
@@ -171,13 +165,6 @@ const SideBar = ({
                       My Fields of Study
                     </Link>
                   </li>
-                  {profile !== null && profile !== undefined ? (
-                    <li className="list-group-item pl-4">
-                      {/* <StudyFieldModal /> */}
-                    </li>
-                  ) : (
-                    ""
-                  )}
                 </ul>
               </li>
 

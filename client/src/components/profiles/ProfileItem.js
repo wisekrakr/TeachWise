@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Card, CardHeader } from "reactstrap";
 
@@ -58,13 +57,5 @@ const ProfileItem = ({ profile }) => {
     <Spinner />
   );
 };
-
-// ProfileItem.propTypes = {
-//   profile: PropTypes.object.isRequired
-// };
-
-// const mapStateToProps = state => ({
-//   profile: state.profile
-// });
 
 export default connect(null)(ProfileItem);

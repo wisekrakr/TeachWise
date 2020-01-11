@@ -10,6 +10,7 @@ import { getItem } from "../actions/ItemState";
 import Spinner from "../background/Spinner";
 
 const DocumentationPage = ({
+  auth,
   getDoc,
   document: { document, loading },
   item: { item },
@@ -53,9 +54,11 @@ const DocumentationPage = ({
           >
             Go Back
           </Button>
-          <Link to={`/document-edit/${item._id}`} className="btn draw-border">
-            Edit Document
-          </Link>
+          {document.user === auth.user._id ? (
+            <Link to={`/document-edit/${item._id}`} className="btn draw-border">
+              Edit Document
+            </Link>
+          ) : null}
         </Container>
       </Jumbotron>
       <Container className="mx-md-auto">
@@ -81,12 +84,14 @@ DocumentationPage.propTypes = {
   getDoc: PropTypes.func.isRequired,
   getItem: PropTypes.func.isRequired,
   document: PropTypes.object.isRequired,
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   document: state.document,
-  item: state.item
+  item: state.item,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps, { getDoc, getItem })(DocumentationPage);

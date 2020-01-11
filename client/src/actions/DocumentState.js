@@ -165,6 +165,7 @@ export const addChapter = (chapter, itemId) => async dispatch => {
       type: ADD_CHAPTER,
       payload: res.data
     });
+    dispatch(setAlert("Chapter Created", "success"));
   } catch (err) {
     dispatch({
       type: CHAPTER_ERROR
