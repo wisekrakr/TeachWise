@@ -15,6 +15,7 @@ const ProfileItemSmall = ({ profile }) => {
           className="follow-img "
           src={profile.avatar}
           title={profile.user.name}
+          alt=""
         />
       </Link>
     </div>

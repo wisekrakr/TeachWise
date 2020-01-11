@@ -35,7 +35,7 @@ const DocumentEdit = ({
       info: loading || !document.info ? "" : document.info,
       description: loading || !document.description ? "" : document.description
     });
-  }, [getChaptersByItem, getDoc, loading]);
+  }, [getChaptersByItem, loading, document, match.params.id]);
 
   const { title, info, description } = newDoc;
 

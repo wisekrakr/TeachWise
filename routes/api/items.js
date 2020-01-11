@@ -12,7 +12,7 @@ const Field = require("../../models/FIeld");
 // @route GET api/items
 // @desc  GET All Items
 // @access Private
-router.get("/", auth, async (req, res) => {
+router.get("/all", auth, async (req, res) => {
   try {
     const items = await Item.find()
       .sort({ date: -1 })
@@ -24,10 +24,10 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route GET api/items/:user_id
+// @route GET api/items/user/:user_id
 // @desc  GET All Items from a user
 // @access Private
-router.get("/:user_id", auth, async (req, res) => {
+router.get("/user/:user_id", auth, async (req, res) => {
   try {
     const items = await Item.find({ user: req.params.user_id })
       .sort({ date: -1 })

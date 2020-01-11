@@ -23,7 +23,7 @@ export const loadUser = () => async dispatch => {
   }
 
   try {
-    const res = await axios.get("/api/auth");
+    const res = await axios.get("/api/auth/auth");
 
     dispatch({
       type: USER_LOADED,
@@ -80,7 +80,7 @@ export const loginUser = (email, password) => async dispatch => {
   const body = JSON.stringify({ email, password });
 
   try {
-    const res = await axios.post("/api/auth", body, config);
+    const res = await axios.post("/api/auth/auth", body, config);
 
     dispatch({
       type: LOGIN_SUCCESS,

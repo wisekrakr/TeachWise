@@ -14,26 +14,15 @@ const ItemsByField = ({
 }) => {
   useEffect(() => {
     getItemsByField(match.params.id);
-  }, []);
+  }, [getItemsByField, match.params.id]);
 
   return !loading ? (
     <Container>
       <h6 className="text-center small-heading">Study Items in this Field </h6>
-
       <p className="heading-underline" />
-
       <ListGroup className="custom-list">
-        {/* Shows a list of study items */}
-
-        {fieldItems.map(
-          item => (
-            console.log(item),
-            item !== null ? (
-              <StudyItem key={item._id} item={item} />
-            ) : (
-              <Spinner />
-            )
-          )
+        {fieldItems.map(item =>
+          item !== null ? <StudyItem key={item._id} item={item} /> : <Spinner />
         )}
       </ListGroup>
     </Container>

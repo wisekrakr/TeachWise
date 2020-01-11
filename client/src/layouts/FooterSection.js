@@ -2,20 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem
-} from "reactstrap";
+import { Container } from "reactstrap";
 
-const Footer = ({ auth: { isAuthenticated, loading } }) => {
+const FooterSection = ({ auth: { isAuthenticated, loading } }) => {
   return isAuthenticated && !loading ? (
     <footer id="footer" className="footer-1">
       <div className="main-footer widgets-dark typo-light">
-        <div className="container">
+        <Container className="container">
           <div className="row">
             <div className="col-xs-12 col-sm-6 col-md-3">
               <div className="widget subscribe no-box">
@@ -101,7 +94,7 @@ const Footer = ({ auth: { isAuthenticated, loading } }) => {
               </div>
             </div>
           </div>
-        </div>
+        </Container>
       </div>
 
       <div className="footer-copyright">
@@ -117,7 +110,7 @@ const Footer = ({ auth: { isAuthenticated, loading } }) => {
   ) : null;
 };
 
-Footer.propTypes = {
+FooterSection.propTypes = {
   auth: PropTypes.object.isRequired
 };
 
@@ -125,4 +118,4 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps)(Footer);
+export default connect(mapStateToProps)(FooterSection);

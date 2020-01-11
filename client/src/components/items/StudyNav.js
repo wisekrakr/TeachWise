@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { Button, Collapse } from "reactstrap";
 
 import ChapterModal from "../documents/document-input/ChapterModal";
-import TestList from "../documents/document-lists/TestList";
 
 const StudyNav = ({ auth, item: { item } }) => {
   const [isOpen, setIsOpen] = useState(false);

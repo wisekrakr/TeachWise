@@ -41,7 +41,7 @@ const ItemModalEdit = ({
       _id: item._id,
       edited: true
     });
-  }, [loading, getItem]);
+  }, [loading, getItem, item]);
 
   const { name, difficulty, material, status } = newItem;
 

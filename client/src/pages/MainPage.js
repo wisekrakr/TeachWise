@@ -6,11 +6,10 @@ import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import TickerList from "../background/ticker/TickerList";
 import SideBar from "../layouts/SideBar";
-import StudyList from "../components/items/item-lists/StudyList";
+import StudyList from "../components/items/item-lists/ItemsFromClassmatesList";
 import Spinner from "../background/Spinner";
 import { getFollowing } from "../actions/ProfileState";
 import ProfileItemSmall from "../components/profiles/ProfileItemSmall";
-import ProfileFollowListSmall from "../components/profiles/profile-lists/ProfileFollowListSmall";
 
 const Main = ({
   auth: { user, loading },
@@ -19,7 +18,7 @@ const Main = ({
 }) => {
   useEffect(() => {
     getFollowing(user._id);
-  }, [getFollowing]);
+  }, [getFollowing, user]);
 
   return (loading && user === null) || user === undefined ? (
     <Spinner />

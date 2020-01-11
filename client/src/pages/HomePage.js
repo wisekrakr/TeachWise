@@ -15,7 +15,9 @@ const Home = ({ isAuthenticated }) => {
         <div className="font-weight-lighter" style={{ textAlign: "bottom" }}>
           *use Google Chrome for the best experience
         </div>
-        <h1 className="large-heading">Mental Acquisitiveness</h1>
+        <h1 className="large-heading">
+          World's Interconnective Study Experience
+        </h1>
         <h3 className="lead text-center">Your Personal Path To Knowledge</h3>
         <ListGroup
           style={{

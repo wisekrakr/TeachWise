@@ -9,7 +9,7 @@ import ProfileCreation from "../components/profiles/profile-input/ProfileCreatio
 import ProfileEdit from "../components/profiles/profile-input/ProfileEdit";
 import ProfileAddEducation from "../components/profiles/profile-input/ProfileAddEducation";
 import AlertPopUp from "../layouts/AlertPopUp";
-import StudyList from "../components/items/item-lists/StudyList";
+import ItemsFromClassmatesList from "../components/items/item-lists/ItemsFromClassmatesList";
 import LogEntryList from "../components/logs/LogEntryList";
 import StudyFieldsList from "../components/fields/StudyFieldsList";
 import StudyPage from "../pages/StudyPage";
@@ -25,7 +25,6 @@ import ChapterList from "../components/documents/document-lists/ChapterList";
 import DocumentationPage from "../pages/DocumentationPage";
 import DocumentEdit from "../components/documents/document-input/DocumentEdit";
 import ProfileFollowList from "../components/profiles/profile-lists/ProfileFollowList";
-import ProfileFollowListSmall from "../components/profiles/profile-lists/ProfileFollowListSmall";
 
 const Routes = () => {
   return (
@@ -51,7 +50,7 @@ const Routes = () => {
         <PrivateRoute
           exact
           path="/api/items/profile/:id"
-          component={StudyList}
+          component={ItemsFromClassmatesList}
         />
         <PrivateRoute exact path="/api/logs" component={LogEntryList} />
         <PrivateRoute exact path="/api/fields" component={StudyFieldsList} />

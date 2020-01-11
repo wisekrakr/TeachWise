@@ -20,7 +20,7 @@ const DocumentationPage = ({
   useEffect(() => {
     getDoc(match.params.id);
     getItem(item._id);
-  }, [getDoc, getItem, match.params.id]);
+  }, [getDoc, item._id, match.params.id]);
 
   if (loading) {
     return <Spinner />;

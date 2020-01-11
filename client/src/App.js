@@ -8,7 +8,7 @@ import Routes from "./routing/Routes";
 import Home from "./pages/HomePage";
 import HeaderNavbar from "./layouts/HeaderNavbar";
 import ScrollToTop from "./background/ScrollToTop";
-import Footer from "./layouts/Footer";
+import FooterSection from "./layouts/FooterSection";
 
 import { loadUser } from "./actions/AuthState";
 import setAuthToken from "./helpers/setAuthToken";
@@ -39,7 +39,7 @@ function App() {
 
             <Route component={Routes} />
           </Switch>
-          <Footer />
+          <FooterSection />
         </Fragment>
       </Router>
     </Provider>

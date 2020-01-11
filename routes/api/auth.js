@@ -7,10 +7,10 @@ const { validationResult, check } = require("express-validator");
 const auth = require("../../middleware/auth");
 const User = require("../../models/User");
 
-// @route     GET api/auth
+// @route     GET api/auth/auth
 // @desc      Get user data
 // @access    Private
-router.get("/", auth, async (req, res) => {
+router.get("/auth", auth, async (req, res) => {
   try {
     const user = await User.findById(req.user.user.id).select("-password");
 
@@ -21,11 +21,11 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-// @route     POST api/auth
+// @route     POST api/auth/auth
 // @desc      Authenticate the user
 // @access    Public
 router.post(
-  "/",
+  "/auth",
   [
     check("email", "Please include a valid email").isEmail(),
     check("password", "Password is required").exists()
@@ -67,7 +67,7 @@ router.post(
         { expiresIn: 360000 },
         (err, token) => {
           if (err) throw err;
-          res.json({ token });
+          res.json({ token, user });
         }
       );
     } catch (err) {

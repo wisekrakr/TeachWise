@@ -8,7 +8,6 @@ import {
   UPDATE_LIKE,
   DELETE_COMMENT,
   LOADING_ITEMS,
-  GET_ITEMS_USER,
   GET_ITEMS_BY_NAME,
   GET_ITEMS_BY_FIELD
 } from "../actions/types";

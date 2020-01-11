@@ -37,13 +37,13 @@ export default (state = initialState, action) => {
         ),
         loading: false
       };
-    case ADD_FOLLOWER:
+    case ADD_FOLLOWING:
       return {
         ...state,
         following: [action.payload, ...state.following],
         loading: false
       };
-    case DELETE_FOLLOWER:
+    case DELETE_FOLLOWING:
       return {
         ...state,
         following: state.following.filter(

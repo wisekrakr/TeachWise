@@ -15,7 +15,7 @@ const TickerList = ({
     if (user !== null) {
       getItemsFromClassmates(user._id);
     }
-  }, [getItemsFromClassmates]);
+  }, [getItemsFromClassmates, user]);
 
   return (
     user !== null && (

@@ -1,5 +1,5 @@
-import React, { useEffect, useState, Fragment } from "react";
-import { withRouter, Redirect } from "react-router-dom";
+import React, { useState, Fragment } from "react";
+import { withRouter } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -20,7 +20,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import { createProfile } from "../../../actions/ProfileState";
-import { randomColor } from "../../../helpers/color";
 
 const ProfileCreation = ({
   createProfile,
@@ -40,7 +39,7 @@ const ProfileCreation = ({
     youtube: "",
     instagram: ""
   });
-  const [newSkill, setNewSkill] = useState({});
+  // const [newSkill, setNewSkill] = useState({});
   const [displaySocialInputs, toggleSocialInputs] = useState(false);
   const {
     avatar,

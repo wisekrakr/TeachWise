@@ -7,7 +7,6 @@ import ItemModal from "../components/items/item-input/ItemModal";
 import LogEntryModal from "../components/logs/LogEntryModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
-import StudyFieldModal from "../components/fields/StudyFieldModal";
 import Spinner from "../background/Spinner";
 import { getCurrentProfile } from "../actions/ProfileState";
 
@@ -19,7 +18,7 @@ const SideBar = ({
 }) => {
   useEffect(() => {
     getCurrentProfile();
-  }, [getCurrentProfile]);
+  }, []);
 
   const onClick = e => {
     e.preventDefault();

@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
 
 import Moment from "react-moment";
 import { Button, Collapse } from "reactstrap";
@@ -35,7 +34,7 @@ const ChapterItem = ({
     deleteChapter(_id);
 
     documents.filter(doc => {
-      deleteDoc(doc._id);
+      return deleteDoc(doc._id);
     });
   };
 

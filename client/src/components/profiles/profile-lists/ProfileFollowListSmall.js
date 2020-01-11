@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { ListGroup, Container, Button } from "reactstrap";
+import { ListGroup, Container } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import { getFollowing } from "../../../actions/ProfileState";
@@ -15,7 +15,7 @@ const ProfileFollowListSmall = ({
 }) => {
   useEffect(() => {
     getFollowing(user._id);
-  }, [getFollowing]);
+  }, [getFollowing, user._id]);
 
   return !loading && user !== null ? (
     <Container>

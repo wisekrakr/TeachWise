@@ -1,7 +1,5 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Button, ListGroup } from "reactstrap";
 import { connect } from "react-redux";
 
 import Spinner from "../../background/Spinner";
@@ -26,7 +24,7 @@ const ProfileLeftInfo = ({
     <Fragment>
       <div className="left col-lg-4 m-auto">
         <div className="photo-left">
-          <img className="photo" src={avatar} />
+          <img className="photo" src={avatar} alt="" />
         </div>
         <h4 className="name">{name}</h4>
         <p className="info">{location}</p>

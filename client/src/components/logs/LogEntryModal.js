@@ -30,7 +30,7 @@ const LogEntryModal = ({
 
   useEffect(() => {
     getMyItems(user._id);
-  }, [getMyItems]);
+  }, [getMyItems, user._id]);
 
   const onChange = e => {
     e.preventDefault();

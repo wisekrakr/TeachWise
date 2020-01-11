@@ -13,7 +13,10 @@ import {
 
 import { logoutUser } from "../actions/AuthState";
 
-const HeaderNavbar = ({ auth: { isAuthenticated, loading }, logoutUser }) => {
+const HeaderNavbar = ({
+  auth: { isAuthenticated, loading, user },
+  logoutUser
+}) => {
   const [state, setState] = useState({});
 
   const toggle = () => {

@@ -20,7 +20,7 @@ import { setAlert } from "./AlertState";
 export const getItems = () => async dispatch => {
   setItemsLoading();
   try {
-    const res = await axios.get("/api/items");
+    const res = await axios.get("/api/items/all");
 
     dispatch({
       type: GET_ITEMS,
@@ -37,7 +37,7 @@ export const getItems = () => async dispatch => {
 export const getMyItems = userId => async dispatch => {
   setItemsLoading();
   try {
-    const res = await axios.get(`/api/items/${userId}`);
+    const res = await axios.get(`/api/items/user/${userId}`);
 
     dispatch({
       type: GET_ITEMS,
@@ -102,9 +102,10 @@ export const getItemsByName = itemName => async dispatch => {
 
 // // Get Items
 export const getItemsFromUser = userId => async dispatch => {
+  setItemsLoading();
   try {
     const res = await axios.get(`/api/items/user/${userId}`);
-    console.log(res);
+
     dispatch({
       type: GET_ITEMS_USER,
       payload: res.data
@@ -118,6 +119,7 @@ export const getItemsFromUser = userId => async dispatch => {
 
 // Get Item
 export const getItem = id => async dispatch => {
+  setItemsLoading();
   try {
     const res = await axios.get(`/api/items/${id}`);
 

@@ -8,7 +8,7 @@ import { getItemsFromClassmates } from "../../../actions/ItemState";
 import StudyItem from "../StudyItem";
 import Spinner from "../../../background/Spinner";
 
-const StudyList = ({
+const ItemsFromClassmatesList = ({
   auth: { user },
   getItemsFromClassmates,
   item: { items, loading }
@@ -17,7 +17,7 @@ const StudyList = ({
     if (user !== null) {
       getItemsFromClassmates(user._id);
     }
-  }, [getItemsFromClassmates]);
+  }, [getItemsFromClassmates, user]);
 
   return user !== null && !loading ? (
     <Container>
@@ -51,7 +51,7 @@ const StudyList = ({
   );
 };
 
-StudyList.propTypes = {
+ItemsFromClassmatesList.propTypes = {
   getItemsFromClassmates: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired
@@ -62,4 +62,6 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getItemsFromClassmates })(StudyList);
+export default connect(mapStateToProps, { getItemsFromClassmates })(
+  ItemsFromClassmatesList
+);
