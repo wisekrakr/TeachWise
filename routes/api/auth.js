@@ -16,7 +16,7 @@ router.get("/auth", auth, async (req, res) => {
 
     res.json(user);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in auth.js (GET) /auth");
     res.status(500).send("Server Error");
   }
 });
@@ -71,7 +71,7 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message + " in auth.js (POST) /auth");
       res.status(500).send("Server error");
     }
   }

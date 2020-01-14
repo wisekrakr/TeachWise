@@ -42,8 +42,8 @@ const HeaderNavbar = ({
             </Link>
           </NavItem>
           <NavItem>
-            <Link to="/api/items" className="a-link">
-              <i className="fas fa-book" /> Study Items
+            <Link to={`/api/items/me/${user._id}`} className="a-link">
+              <i className="fas fa-book" /> My Study Items
             </Link>
           </NavItem>
           <NavItem>

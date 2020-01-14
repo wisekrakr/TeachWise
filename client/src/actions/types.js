@@ -26,6 +26,7 @@ export const GET_LOG_ENTRY = "GET_LOG_ENTRY";
 
 export const GET_FIELDS = "GET_FIELDS";
 export const GET_FIELD = "GET_FIELD";
+export const GET_FIELDS_USER = "GET_FIELDS_USER";
 export const ADD_FIELD = "ADD_FIELD";
 export const DELETE_FIELD = "DELETE_FIELD";
 export const FIELD_ERROR = "FIELD_ERROR";
@@ -72,6 +73,7 @@ export const REGISTER_FAIL = "REGISTER_FAIL";
 
 export const GET_PROFILE = "GET_PROFILE";
 export const GET_PROFILES = "GET_PROFILES";
+export const GET_FOLLOWED_PROFILES = "GET_FOLLOWED_PROFILES";
 export const UPDATE_PROFILE = "UPDATE_PROFILE";
 export const CLEAR_PROFILE = "CLEAR_PROFILE";
 export const UPDATE_FOLLOW = "UPDATE_FOLLOW";

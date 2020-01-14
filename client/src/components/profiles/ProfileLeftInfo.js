@@ -17,8 +17,8 @@ const ProfileLeftInfo = ({
       user: { name, _id, email }
     }
   },
-  items,
-  fields
+  item: { user_items },
+  field: { user_fields }
 }) => {
   return auth.user !== null ? (
     <Fragment>
@@ -35,17 +35,19 @@ const ProfileLeftInfo = ({
             <p className="desc-stat">ClassMates</p>
           </div>
           <div className="stat col-xs-4">
-            <p className="number-stat">{items ? items.length : "No Items "}</p>
+            <p className="number-stat">
+              {user_items ? user_items.length : "No Items "}
+            </p>
             <p className="desc-stat">Study Items</p>
           </div>
           <div className="stat col-xs-4">
             <p className="number-stat">
-              {fields ? fields.length : "No Fields "}
+              {user_fields ? user_fields.length : "No Fields "}
             </p>
             <p className="desc-stat">Fields of Study </p>
           </div>
         </div>
-        <p className="desc">{bio}</p>
+
         <div className="social">
           {website && (
             <a href={website} target="_blank" rel="noopener noreferrer">
@@ -91,12 +93,16 @@ const ProfileLeftInfo = ({
 
 ProfileLeftInfo.propTypes = {
   profile: PropTypes.object.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
+  field: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  profile: state.profile
+  profile: state.profile,
+  item: state.item,
+  field: state.field
 });
 
 export default connect(mapStateToProps)(ProfileLeftInfo);

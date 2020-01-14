@@ -8,18 +8,13 @@ import LogEntryModal from "../components/logs/LogEntryModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
 import Spinner from "../background/Spinner";
-import { getCurrentProfile } from "../actions/ProfileState";
 
-const SideBar = ({
+const ProfileSideBar = ({
   auth: { user, loading },
   logoutUser,
-  profile,
+  profile: { profile },
   deleteAccount
 }) => {
-  useEffect(() => {
-    getCurrentProfile();
-  }, []);
-
   const onClick = e => {
     e.preventDefault();
     logoutUser();
@@ -48,7 +43,7 @@ const SideBar = ({
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <li className="list-group-item pl-4">
-                    {profile !== null && profile !== undefined ? (
+                    {profile.user._id === user._id ? (
                       <Link to="/profile-edit" className="custom-link">
                         Edit
                       </Link>
@@ -56,9 +51,11 @@ const SideBar = ({
                       ""
                     )}
                   </li>
-                  <li className="list-group-item pl-4">
-                    <button onClick={onDelete}>Delete Account</button>
-                  </li>
+                  {profile.user._id === user._id ? (
+                    <li className="list-group-item pl-4">
+                      <button onClick={onDelete}>Delete Account</button>
+                    </li>
+                  ) : null}
                 </ul>
               </li>
 
@@ -104,7 +101,10 @@ const SideBar = ({
 
                 <ul className="list-group flex-column d-inline-block sub-submenu">
                   <li className="list-group-item pl-4">
-                    <Link to="/api/items" className="custom-link">
+                    <Link
+                      to={`/api/items/user/${user._id}`}
+                      className="custom-link"
+                    >
                       My Study Items
                     </Link>
                   </li>
@@ -207,7 +207,7 @@ const SideBar = ({
   );
 };
 
-SideBar.propTypes = {
+ProfileSideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
@@ -222,4 +222,4 @@ const mapStateToProps = state => ({
 export default connect(mapStateToProps, {
   logoutUser,
   deleteAccount
-})(SideBar);
+})(ProfileSideBar);

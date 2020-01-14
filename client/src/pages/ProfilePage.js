@@ -15,6 +15,7 @@ import {
 
 import { getProfileById } from "../actions/ProfileState";
 import { getItemsFromUser } from "../actions/ItemState";
+import { getFieldsFromUserStudies } from "../actions/FieldState";
 import ProfileLeftInfo from "../components/profiles/ProfileLeftInfo";
 import ProfileRightInfo from "../components/profiles/ProfileRightInfo";
 import ProfileHeader from "../components/profiles/ProfileHeader";
@@ -28,9 +29,10 @@ import ProfileSideBar from "../layouts/ProfileSideBar";
 const Profile = ({
   getProfileById,
   getItemsFromUser,
+  getFieldsFromUserStudies,
   profile: { profile, loading },
-  item: { items },
-  field: { fields },
+  item: { user_items },
+  field: { user_fields },
   auth: { user },
   match,
   history
@@ -41,20 +43,16 @@ const Profile = ({
   };
   const [activeTab, setActiveTab] = useState(initialState);
 
-  let userFields = [];
-
   useEffect(() => {
     getProfileById(match.params.id);
     getItemsFromUser(match.params.id);
-  }, [getProfileById, getItemsFromUser, match.params.id]);
-
-  // const getAllUserProducts = () => {  //
-  //   fields.map(field =>
-  //     field.user === match.params.id ? userFields.push(field) : (field = null)
-  //   );
-  // };
-
-  // getAllUserProducts();
+    getFieldsFromUserStudies(match.params.id);
+  }, [
+    getProfileById,
+    getItemsFromUser,
+    getFieldsFromUserStudies,
+    match.params.id
+  ]);
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -66,19 +64,15 @@ const Profile = ({
 
   return profile.user._id === match.params.id && !loading ? (
     <Fragment>
-      <ProfileSideBar profile={profile} />
+      <ProfileSideBar />
       <Container className="container-new">
         <header>
-          <ProfileHeader profile={profile} history={history} />{" "}
+          <ProfileHeader history={history} />{" "}
         </header>
         <div className="row">
-          <ProfileLeftInfo
-            profile={profile}
-            items={items}
-            fields={userFields}
-          />
+          <ProfileLeftInfo />
 
-          <ProfileRightInfo profile={profile} />
+          <ProfileRightInfo />
         </div>
       </Container>
       <Container className="profile-tabs">
@@ -103,7 +97,7 @@ const Profile = ({
               {textTrimmer(profile.user.name)}s Fields of Study
             </NavLink>
           </NavItem>
-          {user._id === profile.user ? (
+          {user._id === profile.user._id ? (
             <NavItem className="profile-nav-item">
               <NavLink
                 className={classnames({ active: activeTab === "3" })}
@@ -118,10 +112,10 @@ const Profile = ({
         </Nav>
         <TabContent activeTab={activeTab}>
           <TabPane tabId="1">
-            <ProfileStudyList items={items} user={profile.user} />
+            <ProfileStudyList />
           </TabPane>
           <TabPane tabId="2">
-            <ProfileStudyFieldList fields={userFields} user={profile.user} />
+            <ProfileStudyFieldList />
           </TabPane>
           <TabPane tabId="3">
             <LogEntryList />
@@ -147,6 +141,7 @@ const Profile = ({
 Profile.propTypes = {
   getProfileById: PropTypes.func.isRequired,
   getItemsFromUser: PropTypes.func.isRequired,
+  getFieldsFromUserStudies: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
   item: PropTypes.object.isRequired,
   field: PropTypes.object.isRequired,
@@ -160,6 +155,8 @@ const mapStateToProps = state => ({
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getProfileById, getItemsFromUser })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  getProfileById,
+  getItemsFromUser,
+  getFieldsFromUserStudies
+})(Profile);

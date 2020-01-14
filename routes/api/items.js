@@ -24,6 +24,22 @@ router.get("/all", auth, async (req, res) => {
   }
 });
 
+// @route GET api/items/me/:my_id
+// @desc  GET All Items from current user
+// @access Private
+router.get("/me/:my_id", auth, async (req, res) => {
+  try {
+    const items = await Item.find({ user: req.params.my_id })
+      .sort({ date: -1 })
+      .populate("field_of_study", ["name"], Field);
+
+    res.json(items);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route GET api/items/user/:user_id
 // @desc  GET All Items from a user
 // @access Private
@@ -46,11 +62,24 @@ router.get("/user/:user_id", auth, async (req, res) => {
 router.get("/profile/:user_id", auth, async (req, res) => {
   try {
     let itemsFromFriends = [];
+    let followeeItemCount = [];
+    // Get User profile
 
-    await Profile.findOne({ user: req.params.user_id }).then(async result => {
-      result.connection.following.filter(async follow => {
+    if (Object.keys(req.params).length > 0) {
+      const profile = await Profile.findOne({ user: req.params.user_id });
+
+      if (profile === null) {
+        return res.status(400).json({ msg: "No profile" });
+      }
+
+      // Filter through the people this profiles follows
+      profile.connection.following.filter(async follow => {
+        // Get the profile of the person this user follows
         await Profile.findOne({ user: follow.profile }).then(async followee => {
+          followeeItemCount.push(followee.metadata.item_count.length);
+          // Filter through every item of this person
           followee.metadata.item_count.filter(async item => {
+            // Get the study item
             await Item.findById(item)
               .sort({ date: -1 })
               .populate(
@@ -70,18 +99,18 @@ router.get("/profile/:user_id", auth, async (req, res) => {
                 Item
               )
               .populate("field_of_study", ["name"], Field)
+              // Put all the different items in one array
               .then(async i => {
                 await itemsFromFriends.unshift(i);
               });
-            for (let i = itemsFromFriends.length - 1; i > 0; i--) {
-              if (i === 1) {
-                await res.json(itemsFromFriends);
-              }
+
+            if (followeeItemCount.length === itemsFromFriends.length) {
+              await res.json(itemsFromFriends);
             }
           });
         });
       });
-    });
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -93,13 +122,13 @@ router.get("/profile/:user_id", auth, async (req, res) => {
 // @access Private
 router.get("/name/:item_name", auth, async (req, res) => {
   try {
-    const namedItems = await Item.find({ name: req.params.item_name })
+    const named_items = await Item.find({ name: req.params.item_name })
       .sort({
         date: -1
       })
       .populate("field_of_study", ["name"], Field);
 
-    res.json(namedItems);
+    res.json(named_items);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -111,15 +140,15 @@ router.get("/name/:item_name", auth, async (req, res) => {
 // @access Private
 router.get("/field/:field_id", auth, async (req, res) => {
   try {
-    const fieldItems = await Item.find({
+    const field_items = await Item.find({
       field_of_study: { _id: req.params.field_id }
     })
       .sort({
         date: -1
       })
       .populate("field_of_study", ["name"], Field);
-    // console.log(fieldItems);
-    res.json(fieldItems);
+    // console.log(field_items);
+    res.json(field_items);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");

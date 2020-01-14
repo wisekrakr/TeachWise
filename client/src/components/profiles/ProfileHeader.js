@@ -12,8 +12,8 @@ import {
 } from "../../actions/ProfileState";
 
 const ProfileHeader = ({
-  auth,
-  profile,
+  auth: { user },
+  profile: { profile },
   addFollow,
   removeFollow,
   addFollowing,
@@ -23,6 +23,7 @@ const ProfileHeader = ({
     return window.parent.location.reload();
   }
   const onFollow = () => {
+    console.log(profile.user._id);
     addFollow(profile.user._id);
     addFollowing(profile.user._id);
     refreshPage();
@@ -36,7 +37,7 @@ const ProfileHeader = ({
   const toFollowOrNotToFollow = () => {
     if (
       profile.connection.followers.filter(
-        follow => follow.profile.toString() === auth.user._id
+        follow => follow.profile.toString() === user._id
       ).length === 0
     ) {
       return (
@@ -55,7 +56,7 @@ const ProfileHeader = ({
 
   return (
     <div className="header-buttons">
-      {auth.user._id === profile.user._id ? (
+      {user._id === profile.user._id ? (
         <ListGroup className=" m-auto">
           <Link to="/profile-edit" className="btn draw-border">
             Edit your profile
@@ -81,7 +82,8 @@ ProfileHeader.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, {

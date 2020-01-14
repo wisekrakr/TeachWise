@@ -23,7 +23,6 @@ import { createProfile } from "../../../actions/ProfileState";
 
 const ProfileCreation = ({
   createProfile,
-  profile: { profile, loading },
   // skill: { allSkills },
   history
 }) => {
@@ -258,12 +257,9 @@ const ProfileCreation = ({
 };
 
 ProfileCreation.propTypes = {
-  createProfile: PropTypes.func.isRequired,
-  profile: PropTypes.object.isRequired
+  createProfile: PropTypes.func.isRequired
 };
-const mapStateToProps = state => ({
-  profile: state.profile
-});
-export default connect(mapStateToProps, {
+
+export default connect(null, {
   createProfile
 })(withRouter(ProfileCreation));

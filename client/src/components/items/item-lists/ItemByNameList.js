@@ -10,16 +10,16 @@ import Spinner from "../../../background/Spinner";
 const ItemsByName = ({
   match,
   getItemsByName,
-  item: { namedItems, loading }
+  item: { named_items, loading }
 }) => {
   useEffect(() => {
     getItemsByName(match.params.id);
   }, [getItemsByName, match.params.id]);
 
   if (
-    namedItems === null &&
-    namedItems === undefined &&
-    Object.keys(namedItems).length === 0
+    named_items === null &&
+    named_items === undefined &&
+    Object.keys(named_items).length === 0
   ) {
     return (
       <div>
@@ -28,16 +28,16 @@ const ItemsByName = ({
     );
   }
 
-  return namedItems.length !== 0 ? (
+  return named_items.length !== 0 ? (
     <Container>
       <h6 className="text-center small-heading">Recently added study items</h6>
 
       <p className="heading-underline" />
-      {namedItems !== null && namedItems !== undefined && !loading ? (
+      {named_items !== null && named_items !== undefined && !loading ? (
         <ListGroup className="custom-list">
           {/* Shows a list of study items */}
 
-          {namedItems.map(item =>
+          {named_items.map(item =>
             item !== null ? (
               <StudyItem key={item._id} item={item} />
             ) : (

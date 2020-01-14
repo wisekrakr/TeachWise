@@ -25,6 +25,7 @@ import ChapterList from "../components/documents/document-lists/ChapterList";
 import DocumentationPage from "../pages/DocumentationPage";
 import DocumentEdit from "../components/documents/document-input/DocumentEdit";
 import ProfileFollowList from "../components/profiles/profile-lists/ProfileFollowList";
+import MyStudyItemList from "../components/items/item-lists/MyStudyItemList";
 
 const Routes = () => {
   return (
@@ -59,7 +60,11 @@ const Routes = () => {
           path="/api/profile/:id/follows"
           component={ProfileFollowList}
         />
-
+        <PrivateRoute
+          exact
+          path="/api/items/me/:id"
+          component={MyStudyItemList}
+        />
         <PrivateRoute exact path="/api/items/:id" component={StudyPage} />
         <PrivateRoute
           exact

@@ -17,7 +17,7 @@ import {
 
 import { setAlert } from "./AlertState";
 
-// Get Items
+// Get all Items
 export const getItems = () => async dispatch => {
   setItemsLoading();
   try {
@@ -84,7 +84,24 @@ export const getItemsByName = itemName => async dispatch => {
   }
 };
 
-// // Get Items
+// // Get Items from current user
+export const getMyItems = myId => async dispatch => {
+  setItemsLoading();
+  try {
+    const res = await axios.get(`/api/items/me/${myId}`);
+
+    dispatch({
+      type: GET_ITEMS,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: ITEM_ERROR
+    });
+  }
+};
+
+// // Get Items from a user
 export const getItemsFromUser = userId => async dispatch => {
   setItemsLoading();
   try {

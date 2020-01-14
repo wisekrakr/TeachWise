@@ -4,18 +4,18 @@ import { connect } from "react-redux";
 import { ListGroup, Container } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import { getFollowing } from "../../../actions/ProfileState";
+import { getFollowedProfiles } from "../../../actions/ProfileState";
 import Spinner from "../../../background/Spinner";
 import ProfileItemSmall from "../ProfileItemSmall";
 
 const ProfileFollowListSmall = ({
   auth: { user },
-  getFollowing,
-  profile: { profile, profiles, loading }
+  getFollowedProfiles,
+  profile: { profile, followed_profiles, loading }
 }) => {
-  useEffect(() => {
-    getFollowing(user._id);
-  }, [getFollowing, user._id]);
+  // useEffect(() => {
+  //   getFollowedProfiles(user._id);
+  // }, [getFollowedProfiles, user._id]);
 
   return !loading && user !== null ? (
     <Container>
@@ -25,7 +25,7 @@ const ProfileFollowListSmall = ({
       {profile !== null && profile !== undefined ? (
         <ListGroup>
           <TransitionGroup className="small-friends-list">
-            {profiles.map(follow => (
+            {followed_profiles.map(follow => (
               <CSSTransition key={follow._id} timeout={500} classNames="fade">
                 <ProfileItemSmall key={follow._id} profile={follow} />
               </CSSTransition>
@@ -44,13 +44,13 @@ const ProfileFollowListSmall = ({
 ProfileFollowListSmall.prototypes = {
   profile: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  getFollowing: PropTypes.func.isRequired
+  getFollowedProfiles: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
   profile: state.profile,
   auth: state.auth
 });
 
-export default connect(mapStateToProps, { getFollowing })(
+export default connect(mapStateToProps, { getFollowedProfiles })(
   ProfileFollowListSmall
 );

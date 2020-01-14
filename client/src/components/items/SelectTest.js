@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { getFields } from "../../actions/FieldState";
 
 const SelectTest = ({ getFields, field: { fields, loading } }) => {
-  const fieldItems = [];
+  const field_items = [];
   const [field, setField] = useState({});
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const SelectTest = ({ getFields, field: { fields, loading } }) => {
 
   const fieldGetter = () => {
     fields.map(field => {
-      fieldItems.push(field.name.toString());
+      field_items.push(field.name.toString());
     });
   };
   fieldGetter();

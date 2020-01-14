@@ -134,7 +134,7 @@ router.get("/:user_id", async (req, res) => {
 
     res.json(profile);
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (GET) /:user_id");
     if (err.kind == "ObjectId") {
       return res.status(400).json({ msg: "Profile not found" });
     }
@@ -160,7 +160,7 @@ router.delete("/:id", auth, async (req, res) => {
 
     res.json({ msg: "User deleted" });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (DELETE) /:id");
     res.status(500).send("Server Error");
   }
 });
@@ -223,7 +223,7 @@ router.put(
 
       res.json(profile);
     } catch (err) {
-      console.error(err.message);
+      console.error(err.message + " in profile.js (PUT) /education");
       res.status(500).send("Server Error");
     }
   }
@@ -243,7 +243,7 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
       return res.status(200).json(foundProfile);
     }
   } catch (error) {
-    console.error(error);
+    console.error(error + " in profile.js (DELETE) /education");
     return res.status(500).json({ msg: "Server error" });
   }
 });
@@ -268,7 +268,7 @@ router.put("/follow/:id", auth, async (req, res) => {
       await res.json(result.connection.followers);
     });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (PUT) /follow/:id");
     res.status(500).send("Server Error");
   }
 });
@@ -297,7 +297,7 @@ router.put("/unfollow/:id", auth, async (req, res) => {
       await res.json(result.connection.followers);
     });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (PUT) /unfollow/:id");
     res.status(500).send("Server Error");
   }
 });
@@ -315,7 +315,7 @@ router.put("/following/:id", auth, async (req, res) => {
       await res.json(result.connection.following);
     });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (PUT) /following/:id");
     res.status(500).send("Server Error");
   }
 });
@@ -325,25 +325,30 @@ router.put("/following/:id", auth, async (req, res) => {
 // // @access   Private
 router.get("/following/:user_id", auth, async (req, res) => {
   try {
-    await Profile.findOne({ user: req.params.user_id }).then(async result => {
-      let follows = [];
+    const profile = await Profile.findOne({ user: req.params.user_id });
 
-      result.connection.following.map(async follow => {
-        await Profile.findOne({ user: follow.profile })
-          .populate("user", ["name"], User)
-          .then(async followee => {
-            follows.unshift(followee);
-          });
+    let friends = [];
 
-        for (let i = follows.length - 1; i > 0; i--) {
-          if (i === 1) {
-            await res.json(follows);
-          }
-        }
-      });
+    if (profile === null) {
+      return res.status(400).json({ msg: "No profile" });
+    }
+
+    // Map through all the profiles the user is following
+    profile.connection.following.map(async friend => {
+      // Get that profile from a friend
+      await Profile.findOne({ user: friend.profile })
+        .populate("user", ["name"], User)
+        // Put that profile into a new array
+        .then(async followee => {
+          await friends.unshift(followee);
+        });
+
+      if (profile.connection.following.length === friends.length) {
+        await res.json(friends);
+      }
     });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (GET) /following/:user_id");
     res.status(500).send("Server Error");
   }
 });
@@ -365,7 +370,7 @@ router.put("/unfollowing/:id", auth, async (req, res) => {
       await res.json(result.connection.following);
     });
   } catch (err) {
-    console.error(err.message);
+    console.error(err.message + " in profile.js (PUT) /unfollowing/:id");
     res.status(500).send("Server Error");
   }
 });

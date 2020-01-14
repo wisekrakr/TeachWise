@@ -5,6 +5,7 @@ import {
   ADD_FIELD,
   DELETE_FIELD,
   LOADING_FIELDS,
+  GET_FIELDS_USER,
   FIELD_ERROR
 } from "./types";
 import { setAlert } from "./AlertState";
@@ -40,6 +41,23 @@ export const getField = id => async dispatch => {
     dispatch({
       type: FIELD_ERROR,
       payload: { msg: err.response.msg, status: err.response.status }
+    });
+  }
+};
+
+// // Get fields the user has items in
+export const getFieldsFromUserStudies = userId => async dispatch => {
+  setFieldsLoading();
+  try {
+    const res = await axios.get(`/api/fields/user/${userId}`);
+
+    dispatch({
+      type: GET_FIELDS_USER,
+      payload: res.data
+    });
+  } catch (err) {
+    dispatch({
+      type: FIELD_ERROR
     });
   }
 };

@@ -16,8 +16,10 @@ import {
 
 const initialState = {
   items: [],
-  namedItems: [],
-  fieldItems: [],
+  named_items: [],
+  field_items: [],
+  user_items: [],
+  classmates_items: [],
   item: null,
   error: null,
   loading: false
@@ -26,23 +28,33 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case GET_ITEMS:
-    case GET_ITEMS_USER:
-    case GET_ITEMS_CLASSMATES:
       return {
         ...state,
         items: action.payload,
         loading: false
       };
+    case GET_ITEMS_USER:
+      return {
+        ...state,
+        user_items: action.payload,
+        loading: false
+      };
+    case GET_ITEMS_CLASSMATES:
+      return {
+        ...state,
+        classmates_items: action.payload,
+        loading: false
+      };
     case GET_ITEMS_BY_NAME:
       return {
         ...state,
-        namedItems: action.payload,
+        named_items: action.payload,
         loading: false
       };
     case GET_ITEMS_BY_FIELD:
       return {
         ...state,
-        fieldItems: action.payload,
+        field_items: action.payload,
         loading: false
       };
     case GET_ITEM:

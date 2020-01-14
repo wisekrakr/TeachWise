@@ -10,7 +10,7 @@ import Spinner from "../../../background/Spinner";
 const ItemsByField = ({
   match,
   getItemsByField,
-  item: { fieldItems, loading }
+  item: { field_items, loading }
 }) => {
   useEffect(() => {
     getItemsByField(match.params.id);
@@ -21,7 +21,7 @@ const ItemsByField = ({
       <h6 className="text-center small-heading">Study Items in this Field </h6>
       <p className="heading-underline" />
       <ListGroup className="custom-list">
-        {fieldItems.map(item =>
+        {field_items.map(item =>
           item !== null ? <StudyItem key={item._id} item={item} /> : <Spinner />
         )}
       </ListGroup>

@@ -4,19 +4,20 @@ import { connect } from "react-redux";
 import { ListGroup, Container } from "reactstrap";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import { getFollowing } from "../../../actions/ProfileState";
+import { getFollowedProfiles } from "../../../actions/ProfileState";
 import ProfileItem from "../ProfileItem";
 import Spinner from "../../../background/Spinner";
 
 const ProfileFollowList = ({
-  getFollowing,
-  profile: { profile, profiles, loading }
+  auth: { user },
+  getFollowedProfiles,
+  profile: { profile, followed_profiles, loading }
 }) => {
   useEffect(() => {
-    if (profile !== null) {
-      getFollowing(profile.user._id);
+    if (user !== null && user !== undefined) {
+      getFollowedProfiles(user._id);
     }
-  }, [getFollowing, profile]);
+  }, [getFollowedProfiles, profile, user]);
 
   return !loading ? (
     <Container>
@@ -26,7 +27,7 @@ const ProfileFollowList = ({
       {profile !== null && profile !== undefined ? (
         <ListGroup>
           <TransitionGroup className="">
-            {profiles.map(follow => (
+            {followed_profiles.map(follow => (
               <CSSTransition key={follow._id} timeout={500} classNames="fade">
                 <ProfileItem key={follow._id} profile={follow} />
               </CSSTransition>
@@ -43,11 +44,15 @@ const ProfileFollowList = ({
 };
 
 ProfileFollowList.prototypes = {
+  auth: PropTypes.object.isRequired,
   profile: PropTypes.object.isRequired,
-  getFollowing: PropTypes.func.isRequired
+  getFollowedProfiles: PropTypes.func.isRequired
 };
 const mapStateToProps = state => ({
-  profile: state.profile
+  profile: state.profile,
+  auth: state.auth
 });
 
-export default connect(mapStateToProps, { getFollowing })(ProfileFollowList);
+export default connect(mapStateToProps, { getFollowedProfiles })(
+  ProfileFollowList
+);

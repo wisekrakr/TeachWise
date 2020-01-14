@@ -7,23 +7,23 @@ import TickerItem from "./TickerItem";
 import Spinner from "../Spinner";
 
 const TickerList = ({
-  auth: { user },
+  auth: { user, loading },
   getItemsFromClassmates,
-  item: { items, loading }
+  item: { classmates_items }
 }) => {
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && user !== undefined) {
       getItemsFromClassmates(user._id);
     }
   }, [getItemsFromClassmates, user]);
 
   return (
-    user !== null && (
+    !loading && (
       <div>
         <div className="ticker-wrap">
           <div className="ticker">
-            {items !== null && !loading ? (
-              items.map(item =>
+            {classmates_items !== null && classmates_items !== undefined ? (
+              classmates_items.map(item =>
                 item !== null ? <TickerItem key={item._id} item={item} /> : ""
               )
             ) : (

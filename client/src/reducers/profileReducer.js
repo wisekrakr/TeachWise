@@ -5,12 +5,14 @@ import {
   UPDATE_PROFILE,
   UPDATE_FOLLOW,
   UPDATE_FOLLOWING,
-  GET_PROFILES
+  GET_PROFILES,
+  GET_FOLLOWED_PROFILES
 } from "../actions/types";
 
 const initialState = {
   profile: null,
   profiles: [],
+  followed_profiles: [],
   loading: true,
   error: {}
 };
@@ -28,6 +30,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         profiles: action.payload,
+        loading: false
+      };
+    case GET_FOLLOWED_PROFILES:
+      return {
+        ...state,
+        followed_profiles: action.payload,
         loading: false
       };
     case PROFILE_ERROR:

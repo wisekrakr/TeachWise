@@ -45,6 +45,55 @@ router.get("/:id", auth, async (req, res) => {
   }
 });
 
+// @route GET api/fields/user/:user_id
+// @desc  GET All fields of study a user studies in
+// @access Private
+router.get("/user/:user_id", auth, async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.params.user_id });
+
+    let fieldArray = [];
+
+    profile.metadata.item_count.map(async item => {
+      await Item.findById(item._id).then(async result => {
+        await fieldArray.unshift(result.field_of_study);
+      });
+      let newFieldArray = [];
+      fieldArray.map(async field => {
+        await Field.findById(field)
+          .sort({ name: 1 })
+          .then(async result => {
+            await newFieldArray.unshift(result);
+          });
+
+        if (fieldArray.length === newFieldArray.length) {
+          await res.json(newFieldArray);
+        }
+      });
+    });
+
+    if (profile.field_count !== undefined) {
+      await Item.find({ user: profile.user._id })
+        .sort({ name: 1 })
+        .then(async items => {
+          items.map(async item => {
+            await Field.findById(item.field_of_study._id).then(async result => {
+              await fieldArray.unshift(result);
+            });
+          });
+          for (let i = fieldArray - 1; i > 0; i--) {
+            if (i === 1) {
+              await res.json(fieldArray);
+            }
+          }
+        });
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
 // @route POST api/fields
 // @desc  Create a field of study
 // @access Public

@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-import ItemModal from "../components/items/item-input/ItemModal";
 import { deleteAccount } from "../actions/ProfileState";
 import { logoutUser } from "../actions/AuthState";
+import ItemModal from "../components/items/item-input/ItemModal";
 import Spinner from "../background/Spinner";
+import LogEntryModal from "../components/logs/LogEntryModal";
 
 const SideBar = ({
   auth: { user, loading },
   logoutUser,
-  profile,
+  profile: { profile },
   deleteAccount
 }) => {
   const onClick = e => {
@@ -134,7 +135,7 @@ const SideBar = ({
                     </li>
                   ) : (
                     ""
-                  )}
+                  )}{" "}
                 </ul>
               </li>
 
@@ -146,6 +147,9 @@ const SideBar = ({
                     <Link to="/api/logs" className="custom-link">
                       My Log Entries
                     </Link>
+                  </li>
+                  <li className="list-group-item pl-4">
+                    <LogEntryModal />
                   </li>
                 </ul>
               </li>
@@ -228,11 +232,13 @@ const SideBar = ({
 SideBar.propTypes = {
   logoutUser: PropTypes.func.isRequired,
   deleteAccount: PropTypes.func.isRequired,
-  auth: PropTypes.object.isRequired
+  auth: PropTypes.object.isRequired,
+  profile: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  auth: state.auth
+  auth: state.auth,
+  profile: state.profile
 });
 
 export default connect(mapStateToProps, {

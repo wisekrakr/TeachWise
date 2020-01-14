@@ -7,29 +7,20 @@ import StudyFieldItem from "../../fields/StudyFieldItem";
 import { textTrimmer } from "../../../helpers/text";
 import Spinner from "../../../background/Spinner";
 
-const ProfileStudyFieldList = ({ fields, user }) => {
-  if (
-    fields === null &&
-    fields === undefined &&
-    Object.keys(fields).length === 0
-  ) {
-    return (
-      <div>
-        <p>Please add a field of study....</p>
-      </div>
-    );
-  }
-
-  return fields.length !== 0 ? (
+const ProfileStudyFieldList = ({
+  field: { user_fields, loading },
+  auth: { user }
+}) => {
+  return !loading ? (
     <Container>
       <h6 className="text-center small-heading">
         {textTrimmer(user.name)}s Fields of Study
       </h6>
 
       <p className="heading-underline" />
-      {fields !== null && user !== null ? (
+      {user_fields !== null && user !== null ? (
         <ol className="alt-list">
-          {fields.map(field => (
+          {user_fields.map(field => (
             <StudyFieldItem key={field._id} field={field} />
           ))}
         </ol>
@@ -49,11 +40,13 @@ const ProfileStudyFieldList = ({ fields, user }) => {
 };
 
 ProfileStudyFieldList.propTypes = {
-  field: PropTypes.object.isRequired
+  field: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
-  field: state.field
+  field: state.field,
+  auth: state.auth
 });
 
 export default connect(mapStateToProps)(ProfileStudyFieldList);

@@ -4,6 +4,7 @@ import { setAlert } from "./AlertState";
 import {
   GET_PROFILE,
   GET_PROFILES,
+  GET_FOLLOWED_PROFILES,
   PROFILE_ERROR,
   UPDATE_PROFILE,
   UPDATE_FOLLOW,
@@ -207,12 +208,12 @@ export const addFollowing = id => async dispatch => {
 };
 
 // Get Following from user
-export const getFollowing = userId => async dispatch => {
+export const getFollowedProfiles = userId => async dispatch => {
   try {
     const res = await axios.get(`/api/profile/following/${userId}`);
 
     dispatch({
-      type: GET_PROFILES,
+      type: GET_FOLLOWED_PROFILES,
       payload: res.data
     });
   } catch (err) {

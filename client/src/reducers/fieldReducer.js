@@ -1,6 +1,7 @@
 import {
   GET_FIELDS,
   GET_FIELD,
+  GET_FIELDS_USER,
   FIELD_ERROR,
   ADD_FIELD,
   DELETE_FIELD,
@@ -10,6 +11,7 @@ import {
 const initialState = {
   fields: [],
   field: null,
+  user_fields: [],
   error: null,
   loading: false
 };
@@ -20,6 +22,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         fields: action.payload,
+        loading: false
+      };
+    case GET_FIELDS_USER:
+      return {
+        ...state,
+        user_fields: action.payload,
         loading: false
       };
     case GET_FIELD:
